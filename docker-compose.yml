@@ -1,0 +1,12 @@
+version: "3"
+services:
+  influxable:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app/
+    environment:
+      - TZ=Europe/Paris
+    ports:
+      - "8000:8000"
