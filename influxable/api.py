@@ -1,0 +1,2 @@
+class InfluxDBApi:
+    pass
