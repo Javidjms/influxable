@@ -1,0 +1,2 @@
+class InfluxDBRequest:
+    pass
