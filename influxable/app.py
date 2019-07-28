@@ -1,0 +1,2 @@
+class Influxable:
+    pass
