@@ -1,2 +1,9 @@
+from .helpers.decorators import Singleton
+from .connection import Connection
+
+
+@Singleton
 class Influxable:
-    pass
+    def __init__(self):
+        self.connection = Connection()
+    
