@@ -14,3 +14,10 @@ class InfluxDBApi:
         url = '/debug/vars'
         res = request.get(url=url)
         return res.json()
+
+    @staticmethod
+    def ping(request, verbose=False):
+        url = '/ping'
+        params = {'verbose': verbose}
+        res = request.get(url=url, params=json.dumps(params))
+        return res.content or True
