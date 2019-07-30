@@ -3,9 +3,10 @@ from urllib.parse import urljoin
 
 
 class InfluxDBRequest(requests.Session):
-    def __init__(self, base_url):
+    def __init__(self, base_url, database_name):
         super().__init__()
         self.base_url = base_url
+        self.database_name = database_name
 
     def request(self, method, url, **kwargs):
         return super().request(method, urljoin(self.base_url, url), **kwargs)
