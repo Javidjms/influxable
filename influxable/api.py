@@ -18,3 +18,23 @@ class InfluxDBApi:
         params = {'verbose': verbose}
         res = request.get(url=url, params=params)
         return res.content or True
+
+    @staticmethod
+    def execute_query(
+        request,
+        query,
+        method='get',
+        chunked=False,
+        epoch='ns',
+        pretty=False,
+    ):
+        url = '/query'
+        params = {
+            'db': request.database_name,
+            'q': query,
+            'epoch': epoch,
+            'chunked': chunked,
+            'pretty': pretty,
+        }
+        res = request.request(method, url, params=params)
+        return res.json()
