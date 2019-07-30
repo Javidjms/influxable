@@ -1,12 +1,9 @@
-import json
-
-
 class InfluxDBApi:
     @staticmethod
     def get_debug_requests(request, seconds=10):
         url = '/debug/requests'
         params = {'seconds': seconds}
-        res = request.get(url=url, params=json.dumps(params))
+        res = request.get(url=url, params=params)
         return res.json()
 
     @staticmethod
@@ -19,5 +16,5 @@ class InfluxDBApi:
     def ping(request, verbose=False):
         url = '/ping'
         params = {'verbose': verbose}
-        res = request.get(url=url, params=json.dumps(params))
+        res = request.get(url=url, params=params)
         return res.content or True
