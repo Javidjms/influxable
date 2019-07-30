@@ -38,3 +38,21 @@ class InfluxDBApi:
         }
         res = request.request(method, url, params=params)
         return res.json()
+
+    @staticmethod
+    def write_points(
+        request,
+        points,
+        precision='ns',
+        consistency='all',
+        retention_policy_name='DEFAULT',
+    ):
+        url = '/write'
+        params = {
+            'db': request.database_name,
+            'precision': precision,
+            'consistency': consistency,
+            'retention_policy_name': retention_policy_name,
+        }
+        res = request.post(url, params=params, data=points)
+        return res.text
