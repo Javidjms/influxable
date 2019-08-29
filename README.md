@@ -1,2 +1,2 @@
 # influxable
-[In Development] Python ODM for InfluxDB
+[In Development] A lightweight python ORM / ODM for InfluxDB
