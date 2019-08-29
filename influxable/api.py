@@ -17,7 +17,7 @@ class InfluxDBApi:
         url = '/ping'
         params = {'verbose': verbose}
         res = request.get(url=url, params=params)
-        return res.content or True
+        return res.text or True
 
     @staticmethod
     def execute_query(
