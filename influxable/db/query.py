@@ -1,0 +1,2 @@
+class RawQuery:
+    pass
