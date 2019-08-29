@@ -5,3 +5,7 @@ class InfluxDBAdmin:
     @staticmethod
     def show_databases():
         return RawQuery('SHOW DATABASES').execute()
+
+    @staticmethod
+    def show_measurements():
+        return RawQuery('SHOW MEASUREMENTS').execute()
