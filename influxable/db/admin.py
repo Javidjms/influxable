@@ -1,2 +1,7 @@
+from .query import RawQuery
+
+
 class InfluxDBAdmin:
-    pass
+    @staticmethod
+    def show_databases():
+        return RawQuery('SHOW DATABASES').execute()
