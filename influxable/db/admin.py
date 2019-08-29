@@ -15,5 +15,9 @@ class InfluxDBAdmin:
         return RawQuery('SHOW QUERIES').execute()
 
     @staticmethod
+    def show_stats():
+        return RawQuery('SHOW STATS').execute()
+
+    @staticmethod
     def show_users():
         return RawQuery('SHOW USERS').execute()
