@@ -20,4 +20,8 @@ class RawQuery:
 
 
 class Query(RawQuery):
-    pass
+    def __init__(self):
+        self.initial_query = '{select_clause} {from_clause} LIMIT 5'
+        self.from_clause = 'FROM {measurements}'
+        self.select_clause = 'SELECT {fields}'
+        self.selected_fields = '*'
