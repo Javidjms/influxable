@@ -27,7 +27,8 @@ class Query(RawQuery):
         self.selected_fields = '*'
 
     def from_measurements(self, *measurements):
-        self.selected_measurements = ', '.join(measurements)
+        quoted_measurements = ['"{}"'.format(m) for m in measurements]
+        self.selected_measurements = ', '.join(quoted_measurements)
         return self
 
     def select(self, *fields):
