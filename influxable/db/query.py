@@ -25,3 +25,7 @@ class Query(RawQuery):
         self.from_clause = 'FROM {measurements}'
         self.select_clause = 'SELECT {fields}'
         self.selected_fields = '*'
+
+    def from_measurements(self, *measurements):
+        self.selected_measurements = ', '.join(measurements)
+        return self
