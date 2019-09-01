@@ -17,3 +17,7 @@ class RawQuery:
     def _resolve(self, *args, **kwargs):
         instance = Influxable.get_instance()
         return instance.execute_query(query=self.str_query, method='post')
+
+
+class Query(RawQuery):
+    pass
