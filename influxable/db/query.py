@@ -42,4 +42,9 @@ class Query(RawQuery):
             select_clause=select_clause,
             from_clause=from_clause,
         )
+        return prepared_query
+
+    def execute(self):
+        prepared_query = self._prepare_query()
         self.str_query = prepared_query
+        return super().execute()
