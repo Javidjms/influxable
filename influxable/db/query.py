@@ -29,3 +29,7 @@ class Query(RawQuery):
     def from_measurements(self, *measurements):
         self.selected_measurements = ', '.join(measurements)
         return self
+
+    def select(self, *fields):
+        self.selected_fields = ', '.join(fields)
+        return self
