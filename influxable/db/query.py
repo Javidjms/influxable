@@ -25,6 +25,7 @@ class Query(RawQuery):
         self.from_clause = 'FROM {measurements}'
         self.select_clause = 'SELECT {fields}'
         self.selected_fields = '*'
+        self.selected_measurements = 'default'
 
     def from_measurements(self, *measurements):
         quoted_measurements = ['"{}"'.format(m) for m in measurements]
@@ -36,7 +37,6 @@ class Query(RawQuery):
         return self
 
     def _prepare_query(self):
-        # TODO self.selected_measurements checking
         select_clause = self.select_clause.format(fields=self.selected_fields)
         from_clause = self.from_clause.format(measurements=self.selected_measurements)
         prepared_query = self.initial_query.format(
