@@ -28,6 +28,30 @@ INVERTED_OPERATORS = {
     WhereOperator.NE: WhereOperator.EQ,
 }
 
+
 class Field:
     pass
+    def __init__(self, field_name):
+        self.field_name = field_name
+
+    def __lt__(self, value):
+        return Criteria(self, value, WhereOperator.LT)
+
+    def __le__(self, value):
+        return Criteria(self, value, WhereOperator.LTE)
+
+    def __eq__(self, value):
+        return Criteria(self, value, WhereOperator.EQ)
+
+    def __ne__(self, value):
+        return Criteria(self, value, WhereOperator.NE)
+
+    def __ge__(self, value):
+        return Criteria(self, value, WhereOperator.GTE)
+
+    def __gt__(self, value):
+        return Criteria(self, value, WhereOperator.GT)
+
+    def __str__(self):
+        return self.field_name
 
