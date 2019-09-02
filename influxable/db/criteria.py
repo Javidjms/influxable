@@ -8,3 +8,13 @@ class WhereOperator(Enum):
     GTE = 'gte'
     EQ = 'eq'
     NE = 'ne'
+
+
+EVALUATED_OPERATORS = {
+    WhereOperator.LT: '<',
+    WhereOperator.LTE: '<=',
+    WhereOperator.GT: '>',
+    WhereOperator.GTE: '>=',
+    WhereOperator.EQ: '=',
+    WhereOperator.NE: '!=',
+}
