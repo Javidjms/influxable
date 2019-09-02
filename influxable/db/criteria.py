@@ -60,3 +60,12 @@ class Criteria:
         self.left_operand = left_operand
         self.right_operand = right_operand
         self.operator = operator
+
+    def __invert__(self):
+        inverted_operator = INVERTED_OPERATORS[self.operator]
+        return Criteria(
+            self.left_operand,
+            self.right_operand,
+            inverted_operator,
+        )
+
