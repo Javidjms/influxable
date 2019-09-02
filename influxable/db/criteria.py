@@ -69,3 +69,5 @@ class Criteria:
             inverted_operator,
         )
 
+    def __or__(self, criteria):
+        return DisjunctionCriteria(self, criteria)
