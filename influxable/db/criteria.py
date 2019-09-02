@@ -95,3 +95,8 @@ class DisjunctionCriteria:
 
     def __or__(self, criteria):
         return DisjunctionCriteria(self, criteria)
+
+    def evaluate(self):
+        left_criteria = '({}'.format(self.left_criteria.evaluate())
+        right_criteria = '{})'.format(self.right_criteria.evaluate())
+        return ' OR '.join([left_criteria, right_criteria])
