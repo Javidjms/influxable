@@ -71,3 +71,19 @@ class Criteria:
 
     def __or__(self, criteria):
         return DisjunctionCriteria(self, criteria)
+
+    def evaluate(self):
+        left_operand = '"{}"'.format(self.left_operand)
+        operator = EVALUATED_OPERATORS[self.operator]
+        right_operand = self.right_operand
+        if isinstance(right_operand, str):
+            right_operand = '\'{}\''.format(self.right_operand)
+        return '{} {} {}'.format(left_operand, operator, right_operand)
+
+    def __str__(self):
+        return 'CRITERIA: {} {} {}'.format(
+            self.left_operand,
+            EVALUATED_OPERATORS[self.operator],
+            self.right_operand,
+        )
+
