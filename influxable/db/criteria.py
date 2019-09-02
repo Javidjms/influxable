@@ -18,3 +18,12 @@ EVALUATED_OPERATORS = {
     WhereOperator.EQ: '=',
     WhereOperator.NE: '!=',
 }
+
+INVERTED_OPERATORS = {
+    WhereOperator.LT: WhereOperator.GTE,
+    WhereOperator.LTE: WhereOperator.GT,
+    WhereOperator.GT: WhereOperator.LTE,
+    WhereOperator.GTE: WhereOperator.LT,
+    WhereOperator.EQ: WhereOperator.NE,
+    WhereOperator.NE: WhereOperator.EQ,
+}
