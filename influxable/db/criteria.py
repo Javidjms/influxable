@@ -54,3 +54,9 @@ class Field:
     def __str__(self):
         return self.field_name
 
+
+class Criteria:
+    def __init__(self, left_operand, right_operand, operator):
+        self.left_operand = left_operand
+        self.right_operand = right_operand
+        self.operator = operator
