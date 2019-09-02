@@ -92,3 +92,6 @@ class DisjunctionCriteria:
     def __init__(self, left_criteria, right_criteria):
         self.left_criteria = left_criteria
         self.right_criteria = right_criteria
+
+    def __or__(self, criteria):
+        return DisjunctionCriteria(self, criteria)
