@@ -30,7 +30,6 @@ INVERTED_OPERATORS = {
 
 
 class Field:
-    pass
     def __init__(self, field_name):
         self.field_name = field_name
 
