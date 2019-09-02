@@ -27,3 +27,7 @@ INVERTED_OPERATORS = {
     WhereOperator.EQ: WhereOperator.NE,
     WhereOperator.NE: WhereOperator.EQ,
 }
+
+class Field:
+    pass
+
