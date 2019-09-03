@@ -30,6 +30,7 @@ class Query(RawQuery):
         self.selected_measurements = 'default'
         self.limit_value = None
         self.slimit_value = None
+        self.offset_value = None
 
     def from_measurements(self, *measurements):
         quoted_measurements = ['"{}"'.format(m) for m in measurements]
@@ -52,6 +53,10 @@ class Query(RawQuery):
         self.slimit_value = value
         return self
 
+    def offset(self, value):
+        self.offset_value = value
+        return self
+
     def _prepare_query(self):
         select_clause = self.select_clause.format(fields=self.selected_fields)
         from_clause = self.from_clause.format(measurements=self.selected_measurements)
@@ -67,6 +72,9 @@ class Query(RawQuery):
         if self.limit_value:
             self.limit_clause = ' LIMIT {}'.format(self.limit_value)
             prepared_query += self.limit_clause
+        if self.offset_value:
+            self.offset_clause = ' OFFSET {}'.format(self.offset_value)
+            prepared_query += self.offset_clause
         if self.slimit_value:
             self.slimit_clause = ' SLIMIT {}'.format(self.slimit_value)
             prepared_query += self.slimit_clause
