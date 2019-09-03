@@ -21,13 +21,14 @@ class RawQuery:
 
 class Query(RawQuery):
     def __init__(self):
-        self.initial_query = '{select_clause} {from_clause}' # TODO Remove limit
+        self.initial_query = '{select_clause} {from_clause}'
         self.from_clause = 'FROM {measurements}'
         self.select_clause = 'SELECT {fields}'
         self.where_clause = ' WHERE {criteria}'
         self.selected_fields = '*'
         self.selected_criteria = []
         self.selected_measurements = 'default'
+        self.limit_value = None
 
     def from_measurements(self, *measurements):
         quoted_measurements = ['"{}"'.format(m) for m in measurements]
@@ -42,6 +43,9 @@ class Query(RawQuery):
         self.selected_criteria = list(criteria)
         return self
 
+    def limit(self, value):
+        self.limit_value = value
+        return self
     def _prepare_query(self):
         select_clause = self.select_clause.format(fields=self.selected_fields)
         from_clause = self.from_clause.format(measurements=self.selected_measurements)
@@ -54,7 +58,9 @@ class Query(RawQuery):
             eval_criteria = ' AND '.join(criteria)
             self.where_clause = self.where_clause.format(criteria=eval_criteria)
             prepared_query += self.where_clause
-        prepared_query += ' LIMIT 10'
+        if self.limit_value:
+            self.limit_clause = ' LIMIT {}'.format(self.limit_value)
+            prepared_query += self.limit_clause
         print('prepared_query', prepared_query)
         return prepared_query
 
