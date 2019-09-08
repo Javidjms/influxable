@@ -1,4 +1,5 @@
 from functools import lru_cache
+from .function import aggregations
 from .. import Influxable
 
 
@@ -65,6 +66,33 @@ class Query(RawQuery):
     def soffset(self, value):
         self.soffset_value = value
         return self
+
+    def count(self, value='*'):
+        return self.select(aggregations.Count(value))
+
+    def distinct(self, value='*'):
+        return self.select(aggregations.Distinct(value))
+
+    def integral(self, value='*'):
+        return self.select(aggregations.Integral(value))
+
+    def mean(self, value='*'):
+        return self.select(aggregations.Mean(value))
+
+    def median(self, value='*'):
+        return self.select(aggregations.Median(value))
+
+    def mode(self, value='*'):
+        return self.select(aggregations.Mode(value))
+
+    def spread(self, value='*'):
+        return self.select(aggregations.Spread(value))
+
+    def std_dev(self, value='*'):
+        return self.select(aggregations.StdDev(value))
+
+    def sum(self, value='*'):
+        return self.select(aggregations.Sum(value))
 
     def _prepare_query(self):
         select_clause = self.select_clause.format(fields=self.selected_fields)
