@@ -39,7 +39,11 @@ class Query(RawQuery):
         return self
 
     def select(self, *fields):
-        self.selected_fields = ', '.join(fields)
+        evaluated_fields = []
+        for f in fields:
+            evaluated_field = f.evaluate() if hasattr(f, 'evaluate') else f
+            evaluated_fields.append(evaluated_field)
+        self.selected_fields = ', '.join(evaluated_fields)
         return self
 
     def where(self, *criteria):
