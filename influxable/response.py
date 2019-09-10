@@ -7,4 +7,9 @@ class InfluxDBResponse:
         return self._raw_json
 
 class InfluxDBResponseSerie:
-    pass
+    def __init__(self, json_serie):
+        self._raw_json_serie = json_serie
+
+    @property
+    def raw(self):
+        return self._raw_json_serie
