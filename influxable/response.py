@@ -5,4 +5,6 @@ class InfluxDBResponse:
     @property
     def raw(self):
         return self._raw_json
+
+class InfluxDBResponseSerie:
     pass
