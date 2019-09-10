@@ -1,0 +1,2 @@
+class InfluxDBResponse:
+    pass
