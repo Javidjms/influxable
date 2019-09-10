@@ -4,4 +4,9 @@ class DefaultSerializer:
 
     def convert(self):
         return self.response
+
+
+class JsonSerializer(DefaultSerializer):
+    pass
+
     pass
