@@ -3,7 +3,7 @@ import itertools
 import pandas as pd
 
 
-class DefaultSerializer:
+class BaseSerializer:
     def __init__(self, response):
         self.response = response
 
@@ -11,12 +11,12 @@ class DefaultSerializer:
         return self.response
 
 
-class JsonSerializer(DefaultSerializer):
+class JsonSerializer(BaseSerializer):
     def convert(self):
         return json.dumps(self.response.raw)
 
 
-class FormattedSerieSerializer(DefaultSerializer):
+class FormattedSerieSerializer(BaseSerializer):
     def convert(self):
         formatted_series = []
         series = self.response.series
@@ -39,7 +39,7 @@ class FlatFormattedSerieSerializer(FormattedSerieSerializer):
         return []
 
 
-class FlatSimpleResultSerializer(DefaultSerializer):
+class FlatSimpleResultSerializer(BaseSerializer):
     def convert(self):
         serie = self.response.main_serie
         values = serie.values
@@ -47,7 +47,7 @@ class FlatSimpleResultSerializer(DefaultSerializer):
         return flatten_serie
 
 
-class PandasSerializer(DefaultSerializer):
+class PandasSerializer(BaseSerializer):
     def convert(self):
         serie = self.response.main_serie
         columns = serie.columns
@@ -56,3 +56,5 @@ class PandasSerializer(DefaultSerializer):
         return df
 
 
+# class MeasurementSerializer(BaseSerializer):
+#     pass
