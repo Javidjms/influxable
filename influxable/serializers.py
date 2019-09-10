@@ -26,3 +26,12 @@ class FormattedSerieSerializer(DefaultSerializer):
         return formatted_series
 
 
+class FlatFormattedSerieSerializer(FormattedSerieSerializer):
+    def convert(self):
+        formatted_series = super().convert()
+        if len(formatted_series) == 1:
+            main_serie = formatted_series[0]
+            flat_main_serie = list(main_serie.values())[0]
+            return flat_main_serie
+        return []
+
