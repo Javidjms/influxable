@@ -31,7 +31,7 @@ class InfluxDBResponseSerie:
 
     @property
     def name(self):
-        return self._raw_json_serie["name"]
+        return self._raw_json_serie.get("name", "default")
 
     @property
     def values(self):
