@@ -7,6 +7,13 @@ class InfluxDBResponse:
         return self._raw_json
 
     @property
+    def main_serie(self):
+        series = self.series
+        if len(series):
+            return series[0]
+        return None
+
+    @property
     def series(self):
         if 'results' in self.raw:
             results = self.raw['results']
