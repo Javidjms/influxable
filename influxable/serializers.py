@@ -1,5 +1,8 @@
 import json
 import itertools
+import pandas as pd
+
+
 class DefaultSerializer:
     def __init__(self, response):
         self.response = response
@@ -42,5 +45,14 @@ class FlatSimpleResultSerializer(DefaultSerializer):
         values = serie.values
         flatten_serie = list(itertools.chain(*values))
         return flatten_serie
+
+
+class PandasSerializer(DefaultSerializer):
+    def convert(self):
+        serie = self.response.main_serie
+        columns = serie.columns
+        values = serie.values
+        df = pd.DataFrame(values, columns=columns)
+        return df
 
 
