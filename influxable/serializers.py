@@ -35,3 +35,12 @@ class FlatFormattedSerieSerializer(FormattedSerieSerializer):
             return flat_main_serie
         return []
 
+
+class FlatSimpleResultSerializer(DefaultSerializer):
+    def convert(self):
+        serie = self.response.main_serie
+        values = serie.values
+        flatten_serie = list(itertools.chain(*values))
+        return flatten_serie
+
+
