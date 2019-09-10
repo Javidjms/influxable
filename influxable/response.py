@@ -14,7 +14,7 @@ class InfluxDBResponse:
                 result = results[0]
                 if 'series' in result:
                     return [InfluxDBResponseSerie(s) for s in result['series']]
-        return None
+        return []
 
 
 class InfluxDBResponseSerie:
