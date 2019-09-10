@@ -1,4 +1,5 @@
 import json
+import itertools
 class DefaultSerializer:
     def __init__(self, response):
         self.response = response
@@ -12,6 +13,16 @@ class JsonSerializer(DefaultSerializer):
         return json.dumps(self.response.raw)
 
 
-    pass
+class FormattedSerieSerializer(DefaultSerializer):
+    def convert(self):
+        formatted_series = []
+        series = self.response.series
+        for serie in series:
+            name = serie.name
+            columns = serie.columns
+            values = serie.values
+            formatted_values = [dict(zip(columns, v)) for v in values]
+            formatted_series.append({name: formatted_values})
+        return formatted_series
 
-    pass
+
