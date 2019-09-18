@@ -214,3 +214,9 @@ class TimestampFieldAttribute(BaseAttribute):
         timestamp = D(value)
         return self.convert_to_precision(timestamp, self.precision)
 
+    def validate(self, value):
+        super(TimestampFieldAttribute, self).validate(value)
+        if self.precision not in TIMESTAMP_CONVERT_RATIO:
+            raise ValueError('precision must be one of [ns,u,ms,s,m,h]')
+
+
