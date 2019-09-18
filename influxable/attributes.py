@@ -175,3 +175,7 @@ class BooleanFieldAttribute(GenericFieldAttribute):
         return bool(value)
 
 
+class TagFieldAttribute(BaseAttribute):
+    pass
+
+
