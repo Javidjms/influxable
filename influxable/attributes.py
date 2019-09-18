@@ -18,3 +18,6 @@ TIMESTAMP_CONVERT_RATIO = {
     TimestampPrecision.NANOSECONDS: 1 * 1000 * 1000 * 1000,
     TimestampPrecision.SECONDS: 1,
 }
+
+class BaseAttribute:
+    pass
