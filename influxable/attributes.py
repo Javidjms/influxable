@@ -74,3 +74,7 @@ class BaseAttribute:
                 self._value = value
         self.clean(value)
 
+    def validate(self, value):
+        if value is None and self.default is None and not self.is_nullable:
+            raise ValueError('This field cannot be nullable')
+
