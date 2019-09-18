@@ -136,3 +136,9 @@ class Query(RawQuery):
         formatted_result = self.format(result, parser_class, **kwargs)
         return formatted_result
 
+
+class BulkInsertQuery(RawQuery):
+    @lru_cache(maxsize=None)
+    def _resolve(self, *args, **kwargs):
+        instance = Influxable.get_instance()
+        return instance.write_points(points=self.str_query)
