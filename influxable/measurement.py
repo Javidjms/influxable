@@ -100,3 +100,9 @@ class Measurement(object, metaclass=MeasurementMeta):
             if key not in kwargs:
                 raise AttributeError('The field {} is not defined'.format(key))
 
+    def clone_attributes(self):
+        attributes = self.get_attributes()
+        for attr in attributes:
+            cloned_attribute = attr.clone()
+            setattr(self, attr.ext_attribute_name, cloned_attribute)
+
