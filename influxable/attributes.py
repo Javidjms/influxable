@@ -123,3 +123,6 @@ class FloatFieldAttribute(IntegerFieldAttribute):
         str_value = str(value)
         return str_value
 
+    def to_python(self, value):
+        return D(value)
+
