@@ -25,3 +25,4 @@ class BaseAttribute:
         self._value = None
         self.raw_value = None
         self.attribute_name = kwargs.get('name', None)
+        self.default = kwargs.get('default', None)
