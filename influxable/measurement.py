@@ -78,8 +78,25 @@ class Measurement(object, metaclass=MeasurementMeta):
     measurement_name = 'default'
 
     def __init__(self, **kwargs):
-        self.check_fields(**kwargs)
+        self.check_attribute_values(**kwargs)
         self.clone_attributes()
         for key, value in kwargs.items():
             setattr(self, key, value)
+
+    def check_attribute_values(self, **kwargs):
+        def filter_required_attributes(x):
+            return not x.default and not x.is_nullable
+
+        attributes = self.get_attributes()
+        required_attributes = list(filter(
+            filter_required_attributes,
+            attributes,
+        ))
+        required_attributes_names = [
+            r.attribute_name
+            for r in required_attributes
+        ]
+        for key in required_attributes_names:
+            if key not in kwargs:
+                raise AttributeError('The field {} is not defined'.format(key))
 
