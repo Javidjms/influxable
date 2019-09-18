@@ -106,16 +106,16 @@ class Query(RawQuery):
             eval_criteria = ' AND '.join(criteria)
             self.where_clause = self.where_clause.format(criteria=eval_criteria)
             prepared_query += self.where_clause
-        if self.limit_value:
+        if self.limit_value is not None:
             self.limit_clause = ' LIMIT {}'.format(self.limit_value)
             prepared_query += self.limit_clause
-        if self.offset_value:
+        if self.offset_value is not None:
             self.offset_clause = ' OFFSET {}'.format(self.offset_value)
             prepared_query += self.offset_clause
-        if self.slimit_value:
+        if self.slimit_value is not None:
             self.slimit_clause = ' SLIMIT {}'.format(self.slimit_value)
             prepared_query += self.slimit_clause
-        if self.soffset_value:
+        if self.soffset_value is not None:
             self.soffset_clause = ' SOFFSET {}'.format(self.soffset_value)
             prepared_query += self.soffset_clause
         print('prepared_query', prepared_query)
