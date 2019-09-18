@@ -90,3 +90,4 @@ class GenericFieldAttribute(BaseAttribute):
 class IntegerFieldAttribute(GenericFieldAttribute):
     def __init__(self, **kwargs):
         super(IntegerFieldAttribute, self).__init__(**kwargs)
+        self.min_value = kwargs.get('min_value', None)
