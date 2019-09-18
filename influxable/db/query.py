@@ -1,5 +1,7 @@
 from functools import lru_cache
 from .function import aggregations
+from ..response import InfluxDBResponse
+from ..serializers import BaseSerializer
 from .. import Influxable
 
 
@@ -125,3 +127,12 @@ class Query(RawQuery):
         prepared_query = self._prepare_query()
         self.str_query = prepared_query
         return super().execute()
+
+    def format(self, result, parser_class=BaseSerializer, **kwargs):
+        return parser_class(result, **kwargs).convert()
+
+    def evaluate(self, parser_class=BaseSerializer, **kwargs):
+        result = InfluxDBResponse(self.execute())
+        formatted_result = self.format(result, parser_class, **kwargs)
+        return formatted_result
+
