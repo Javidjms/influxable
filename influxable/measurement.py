@@ -31,6 +31,11 @@ class MeasurementMeta(type):
             return MeasurementQuery().from_measurements(cls.measurement_name)
         return get_query
 
+    def _get_attribute_names(cls):
+        attributes = cls._get_attributes()
+        attribute_names = [attr.attribute_name for attr in attributes]
+        return attribute_names
+
     def _get_attributes(cls):
         def filter_func(x):
             return isinstance(x, BaseAttribute)
