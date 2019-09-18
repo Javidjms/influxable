@@ -42,3 +42,6 @@ class BaseAttribute:
             instance.set_internal_value(self._value)
         return instance
 
+    def get_internal_value(self):
+        return self._value
+
