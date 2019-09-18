@@ -45,3 +45,7 @@ class BaseAttribute:
     def get_internal_value(self):
         return self._value
 
+    def get_prep_value(self):
+        prep_value = self.to_influx(self._value)
+        return prep_value
+
