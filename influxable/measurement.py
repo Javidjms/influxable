@@ -113,6 +113,13 @@ class Measurement(object, metaclass=MeasurementMeta):
             dict_values[attr.attribute_name] = getattr(self, attr.attribute_name)
         return dict_values
 
+    def get_attributes(self):
+        def filter_func(x):
+            return isinstance(x, BaseAttribute)
+        variables = self.__dict__.values()
+        attributes = list(filter(filter_func, variables))
+        return attributes
+
 
     def items(self):
         return self.dict().items()
