@@ -73,3 +73,7 @@ class MeasurementMeta(type):
             setattr(cls, attribute_name, prop)
 
 
+class Measurement(object, metaclass=MeasurementMeta):
+    parser_class = MeasurementPointSerializer
+    measurement_name = 'default'
+
