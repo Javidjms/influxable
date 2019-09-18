@@ -1,3 +1,5 @@
+from .attributes import BaseAttribute, GenericFieldAttribute, \
+    TagFieldAttribute, TimestampFieldAttribute
 from .db.query import Query, BulkInsertQuery
 from .response import InfluxDBResponse
 from .serializers import MeasurementPointSerializer
@@ -28,4 +30,11 @@ class MeasurementMeta(type):
                     return formatted_result
             return MeasurementQuery().from_measurements(cls.measurement_name)
         return get_query
+
+    def _get_attributes(cls):
+        def filter_func(x):
+            return isinstance(x, BaseAttribute)
+        variables = cls.__dict__.values()
+        attributes = list(filter(filter_func, variables))
+        return attributes
 
