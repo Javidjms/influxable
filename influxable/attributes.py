@@ -240,3 +240,6 @@ class DateTimeFieldAttribute(TimestampFieldAttribute):
         str_value = str(nanoseconds)
         return "{}".format(str_value)
 
+    def to_python(self, value):
+        datetime = arrow.get(value).datetime
+        return datetime
