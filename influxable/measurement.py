@@ -106,3 +106,14 @@ class Measurement(object, metaclass=MeasurementMeta):
             cloned_attribute = attr.clone()
             setattr(self, attr.ext_attribute_name, cloned_attribute)
 
+    def dict(self):
+        dict_values = {}
+        attributes = self.get_attributes()
+        for attr in attributes:
+            dict_values[attr.attribute_name] = getattr(self, attr.attribute_name)
+        return dict_values
+
+
+    def items(self):
+        return self.dict().items()
+
