@@ -43,3 +43,16 @@ class InfluxDBSerieResponse:
     @property
     def values(self):
         return self._raw_json_serie["values"]
+
+
+class InfluxDBErrorResponse:
+    def __init__(self, raw_json):
+        self._raw_json = raw_json
+
+    @property
+    def raw(self):
+        return self._raw_json
+
+    @property
+    def error(self):
+        return self.raw['error']
