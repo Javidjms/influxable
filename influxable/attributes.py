@@ -182,3 +182,4 @@ class TagFieldAttribute(BaseAttribute):
 class TimestampFieldAttribute(BaseAttribute):
     def __init__(self, **kwargs):
         super(TimestampFieldAttribute, self).__init__(**kwargs)
+        self.auto_now = kwargs.get('auto_now', True)
