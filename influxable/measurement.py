@@ -9,7 +9,7 @@ class MeasurementMeta(type):
     def __init__(cls, name, *args, **kwargs):
         super(MeasurementMeta, cls).__init__(name, *args, **kwargs)
         attribute_names = cls._get_attribute_names()
-        cls._extend_fields(attribute_names)
+        cls._extend_attributes(attribute_names)
 
         get_query = cls._factory_get_query()
         setattr(cls, 'get_query', get_query)
@@ -50,7 +50,7 @@ class MeasurementMeta(type):
         timestamp_attributes = list(filter(filter_func, attributes))
         return timestamp_attributes
 
-    def _extend_fields(cls, attribute_names):
+    def _extend_attributes(cls, attribute_names):
         def generate_getter_and_setter(attr_name):
             def getx(self):
                 attribute_field = getattr(self, attr_name)
