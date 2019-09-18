@@ -177,3 +177,7 @@ class Measurement(object, metaclass=MeasurementMeta):
     def items(self):
         return self.dict().items()
 
+    @staticmethod
+    def bulk_save(points):
+        str_points = '\n'.join([point.get_prep_value() for point in points])
+        return BulkInsertQuery(str_points).execute()
