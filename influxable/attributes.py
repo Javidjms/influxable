@@ -83,3 +83,7 @@ class BaseAttribute:
         return self.get_internal_value()
 
 
+class GenericFieldAttribute(BaseAttribute):
+    pass
+
+
