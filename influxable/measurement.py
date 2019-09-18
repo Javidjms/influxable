@@ -77,3 +77,9 @@ class Measurement(object, metaclass=MeasurementMeta):
     parser_class = MeasurementPointSerializer
     measurement_name = 'default'
 
+    def __init__(self, **kwargs):
+        self.check_fields(**kwargs)
+        self.clone_attributes()
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+
