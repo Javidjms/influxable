@@ -138,3 +138,5 @@ class StringFieldAttribute(GenericFieldAttribute):
     def __init__(self, **kwargs):
         super(StringFieldAttribute, self).__init__(**kwargs)
         self.choices = kwargs.get('choices', None)
+        self.max_length = kwargs.get('max_length', None)
+
