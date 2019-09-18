@@ -19,5 +19,8 @@ TIMESTAMP_CONVERT_RATIO = {
     TimestampPrecision.SECONDS: 1,
 }
 
+
 class BaseAttribute:
-    pass
+    def __init__(self, **kwargs):
+        self._value = None
+        self.raw_value = None
