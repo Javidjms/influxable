@@ -43,3 +43,10 @@ class MeasurementMeta(type):
         attributes = list(filter(filter_func, variables))
         return attributes
 
+    def _get_timestamp_attributes(cls):
+        def filter_func(x):
+            return isinstance(x, TimestampFieldAttribute)
+        attributes = cls._get_attributes()
+        timestamp_attributes = list(filter(filter_func, attributes))
+        return timestamp_attributes
+
