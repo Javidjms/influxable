@@ -24,3 +24,4 @@ class BaseAttribute:
     def __init__(self, **kwargs):
         self._value = None
         self.raw_value = None
+        self.attribute_name = kwargs.get('name', None)
