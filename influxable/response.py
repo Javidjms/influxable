@@ -20,11 +20,11 @@ class InfluxDBResponse:
             if len(results):
                 result = results[0]
                 if 'series' in result:
-                    return [InfluxDBResponseSerie(s) for s in result['series']]
+                    return [InfluxDBSerieResponse(s) for s in result['series']]
         return []
 
 
-class InfluxDBResponseSerie:
+class InfluxDBSerieResponse:
     def __init__(self, json_serie):
         self._raw_json_serie = json_serie
 
