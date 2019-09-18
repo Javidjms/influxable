@@ -134,3 +134,6 @@ class FloatFieldAttribute(IntegerFieldAttribute):
             raise ValueError('max_nb_decimals must be positive')
 
 
+class StringFieldAttribute(GenericFieldAttribute):
+    def __init__(self, **kwargs):
+        super(StringFieldAttribute, self).__init__(**kwargs)
