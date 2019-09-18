@@ -130,6 +130,13 @@ class Measurement(object, metaclass=MeasurementMeta):
         attribute_names = [attr.ext_attribute_name for attr in attributes]
         return attribute_names
 
+    def get_timestamp_attributes(self):
+        def filter_func(x):
+            return isinstance(x, TimestampFieldAttribute)
+        attributes = self.get_attributes()
+        timestamp_attributes = list(filter(filter_func, attributes))
+        return timestamp_attributes
+
 
     def items(self):
         return self.dict().items()
