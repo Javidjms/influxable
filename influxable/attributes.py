@@ -49,3 +49,7 @@ class BaseAttribute:
         prep_value = self.to_influx(self._value)
         return prep_value
 
+    @property
+    def name(self):
+        return self.attribute_name
+
