@@ -210,3 +210,7 @@ class TimestampFieldAttribute(BaseAttribute):
         str_value = str(timestamp)
         return "{}".format(str_value)
 
+    def to_python(self, value):
+        timestamp = D(value)
+        return self.convert_to_precision(timestamp, self.precision)
+
