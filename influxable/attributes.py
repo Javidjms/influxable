@@ -29,3 +29,9 @@ class BaseAttribute:
         self.enforce_cast = kwargs.get('enforce_cast', True)
         self.is_nullable = kwargs.get('is_nullable', True)
 
+    def clean(self, value):
+        if value is None and self.default is not None:
+            self._value = self.default
+        elif value is None:
+            self._value = None
+
