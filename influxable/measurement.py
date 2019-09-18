@@ -7,3 +7,7 @@ class MeasurementMeta(type):
         get_query = cls._factory_get_query()
         setattr(cls, 'get_query', get_query)
 
+    def __call__(cls, *args, **kwargs):
+        instance = type.__call__(cls, *args, **kwargs)
+        return instance
+
