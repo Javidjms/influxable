@@ -137,6 +137,42 @@ class Measurement(object, metaclass=MeasurementMeta):
         timestamp_attributes = list(filter(filter_func, attributes))
         return timestamp_attributes
 
+    def get_prep_value(self):
+        def factory_filter_func(cls):
+            def filter_func(attr):
+                return isinstance(attr, cls)
+            return filter_func
+
+        attributes = self.get_attributes()
+        field_attributes = list(filter(
+            factory_filter_func(GenericFieldAttribute),
+            attributes,
+        ))
+        tag_attributes = list(filter(
+            factory_filter_func(TagFieldAttribute),
+            attributes,
+        ))
+        timestamp_attributes = list(filter(
+            factory_filter_func(TimestampFieldAttribute),
+            attributes,
+        ))
+
+        prep_value_groups = []
+        attributes_groups = [field_attributes, tag_attributes, timestamp_attributes]
+        for attr_group in attributes_groups:
+            prep_value_group = []
+            for attr in attr_group:
+                attr_prep_value = attr.get_prep_value()
+                attr_name = attr.name or attr.attribute_name
+                prep_value = '{}={}'.format(attr_name, attr_prep_value)
+                prep_value_group.append(prep_value)
+            str_prep_value_group = ','.join(prep_value_group)
+            prep_value_groups.append(str_prep_value_group)
+
+        prep_value_groups[0] = ','.join([self.measurement_name] + [prep_value_groups[0]])
+        final_prep_value = ' '.join(prep_value_groups)
+        print('final_prep_value', final_prep_value)
+        return final_prep_value
 
     def items(self):
         return self.dict().items()
