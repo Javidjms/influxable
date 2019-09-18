@@ -108,3 +108,6 @@ class IntegerFieldAttribute(GenericFieldAttribute):
             raise ValueError('The value must be lower than the max_value')
 
 
+class FloatFieldAttribute(IntegerFieldAttribute):
+    def __init__(self, **kwargs):
+        super(FloatFieldAttribute, self).__init__(**kwargs)
