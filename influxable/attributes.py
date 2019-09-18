@@ -112,3 +112,10 @@ class FloatFieldAttribute(IntegerFieldAttribute):
     def __init__(self, **kwargs):
         super(FloatFieldAttribute, self).__init__(**kwargs)
         self.max_nb_decimals = kwargs.get('max_nb_decimals', None)
+
+    def clean(self, value):
+        super(FloatFieldAttribute, self).clean(value)
+        if self.max_nb_decimals is not None:
+            precision = '.' + '0' * (self.max_nb_decimals - 1) + '1'
+            self._value = self.to_python(value).quantize(D(precision))
+
