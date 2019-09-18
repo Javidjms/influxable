@@ -179,3 +179,6 @@ class TagFieldAttribute(BaseAttribute):
     pass
 
 
+class TimestampFieldAttribute(BaseAttribute):
+    def __init__(self, **kwargs):
+        super(TimestampFieldAttribute, self).__init__(**kwargs)
