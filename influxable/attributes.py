@@ -26,3 +26,4 @@ class BaseAttribute:
         self.raw_value = None
         self.attribute_name = kwargs.get('name', None)
         self.default = kwargs.get('default', None)
+        self.enforce_cast = kwargs.get('enforce_cast', True)
