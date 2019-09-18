@@ -137,3 +137,4 @@ class FloatFieldAttribute(IntegerFieldAttribute):
 class StringFieldAttribute(GenericFieldAttribute):
     def __init__(self, **kwargs):
         super(StringFieldAttribute, self).__init__(**kwargs)
+        self.choices = kwargs.get('choices', None)
