@@ -225,3 +225,9 @@ class DateTimeFieldAttribute(TimestampFieldAttribute):
         super(DateTimeFieldAttribute, self).__init__(**kwargs)
         self.str_format = kwargs.get('str_format', 'YYYY-MM-DD HH:mm:ss ZZ')
 
+    def clean(self, value):
+        super(DateTimeFieldAttribute, self).clean(value)
+        if value is None and self.auto_now:
+            timestamp = arrow.now().datetime
+            self._value = self.to_python(timestamp)
+
