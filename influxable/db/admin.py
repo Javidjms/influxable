@@ -1,27 +1,48 @@
 from .query import RawQuery
+from ..response import InfluxDBResponse
+from .. import serializers
 
 
 class InfluxDBAdmin:
     @staticmethod
+    def _execute_query(query, parser=serializers.FlatFormattedSerieSerializer):
+        response = RawQuery(query).execute()
+        influx_response = InfluxDBResponse(response)
+        formatted_result = parser(influx_response).convert()
+        return formatted_result
+
+    @staticmethod
     def show_databases():
-        return RawQuery('SHOW DATABASES').execute()
+        query = 'SHOW DATABASES'
+        parser = serializers.FlatSimpleResultSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
     def show_measurements():
-        return RawQuery('SHOW MEASUREMENTS').execute()
+        query = 'SHOW MEASUREMENTS'
+        parser = serializers.FlatSimpleResultSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
     def show_queries():
-        return RawQuery('SHOW QUERIES').execute()
+        query = 'SHOW QUERIES'
+        parser = serializers.FlatFormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
     def show_series():
-        return RawQuery('SHOW SERIES').execute()
+        query = 'SHOW SERIES'
+        parser = serializers.FlatFormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
     def show_stats():
-        return RawQuery('SHOW STATS').execute()
+        query = 'SHOW STATS'
+        parser = serializers.FormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
     def show_users():
-        return RawQuery('SHOW USERS').execute()
+        query = 'SHOW USERS'
+        parser = serializers.FlatFormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
