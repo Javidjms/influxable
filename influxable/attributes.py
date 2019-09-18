@@ -205,3 +205,8 @@ class TimestampFieldAttribute(BaseAttribute):
         convert_ratio = TIMESTAMP_CONVERT_RATIO[precision]
         return D(timestamp) * convert_ratio
 
+    def to_influx(self, value):
+        timestamp = D(self.formatted_timestamp)
+        str_value = str(timestamp)
+        return "{}".format(str_value)
+
