@@ -234,3 +234,9 @@ class DateTimeFieldAttribute(TimestampFieldAttribute):
     def get_internal_value(self):
         return arrow.get(self._value).format(self.str_format)
 
+    def to_influx(self, value):
+        timestamp = arrow.get(value).timestamp
+        nanoseconds = self.convert_to_nanoseconds(timestamp)
+        str_value = str(nanoseconds)
+        return "{}".format(str_value)
+
