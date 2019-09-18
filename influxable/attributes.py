@@ -147,3 +147,21 @@ class StringFieldAttribute(GenericFieldAttribute):
     def to_python(self, value):
         return str(value)
 
+    def validate(self, value):
+        super(StringFieldAttribute, self).validate(value)
+        if self.choices is not None and not isinstance(self.choices, list):
+            raise ValueError('choices must be a list')
+        if self.choices is not None and not any(
+            [isinstance(c, str) for c in self.choices]
+        ):
+            raise ValueError('choices items must be a string')
+        if self.choices is not None and value not in self.choices:
+            raise ValueError('The value is not refered in choices')
+        if self.max_length is not None and not isinstance(self.max_length, int):
+            raise ValueError('max_length must be integer')
+        if self.max_length is not None and self.max_length <= 0:
+            raise ValueError('max_length must be positive')
+        if self.max_length is not None and len(str(value)) > self.max_length:
+            raise ValueError('the string length must be lower than the max_length')
+
+
