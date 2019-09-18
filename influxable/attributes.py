@@ -56,3 +56,6 @@ class BaseAttribute:
     def to_influx(self, value):
         return str(value)
 
+    def to_python(self, value):
+        return str(value)
+
