@@ -119,3 +119,7 @@ class FloatFieldAttribute(IntegerFieldAttribute):
             precision = '.' + '0' * (self.max_nb_decimals - 1) + '1'
             self._value = self.to_python(value).quantize(D(precision))
 
+    def to_influx(self, value):
+        str_value = str(value)
+        return str_value
+
