@@ -62,3 +62,15 @@ class BaseAttribute:
     def reset(self):
         self._value = None
 
+    def set_internal_value(self, value):
+        self.validate(value)
+        self.raw_value = value
+        if value is not None:
+            try:
+                self._value = self.to_python(value)
+            except ValueError as exception:
+                if self.enforce_cast:
+                    raise exception
+                self._value = value
+        self.clean(value)
+
