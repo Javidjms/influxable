@@ -197,3 +197,7 @@ class TimestampFieldAttribute(BaseAttribute):
         else:
             self.formatted_timestamp = None
 
+    def convert_to_nanoseconds(self, timestamp):
+        precision = TimestampPrecision.NANOSECONDS
+        return self.convert_to_precision(timestamp, precision)
+
