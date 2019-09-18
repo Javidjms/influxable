@@ -111,3 +111,4 @@ class IntegerFieldAttribute(GenericFieldAttribute):
 class FloatFieldAttribute(IntegerFieldAttribute):
     def __init__(self, **kwargs):
         super(FloatFieldAttribute, self).__init__(**kwargs)
+        self.max_nb_decimals = kwargs.get('max_nb_decimals', None)
