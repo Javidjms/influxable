@@ -53,3 +53,6 @@ class BaseAttribute:
     def name(self):
         return self.attribute_name
 
+    def to_influx(self, value):
+        return str(value)
+
