@@ -93,3 +93,7 @@ class IntegerFieldAttribute(GenericFieldAttribute):
         self.min_value = kwargs.get('min_value', None)
         self.max_value = kwargs.get('max_value', None)
 
+    def to_influx(self, value):
+        str_value = str(value)
+        return "{}i".format(str_value)
+
