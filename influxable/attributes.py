@@ -87,3 +87,6 @@ class GenericFieldAttribute(BaseAttribute):
     pass
 
 
+class IntegerFieldAttribute(GenericFieldAttribute):
+    def __init__(self, **kwargs):
+        super(IntegerFieldAttribute, self).__init__(**kwargs)
