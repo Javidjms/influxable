@@ -144,3 +144,6 @@ class StringFieldAttribute(GenericFieldAttribute):
         str_value = str(value)
         return "\'{}\'".format(str_value)
 
+    def to_python(self, value):
+        return str(value)
+
