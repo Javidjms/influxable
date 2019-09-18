@@ -220,3 +220,8 @@ class TimestampFieldAttribute(BaseAttribute):
             raise ValueError('precision must be one of [ns,u,ms,s,m,h]')
 
 
+class DateTimeFieldAttribute(TimestampFieldAttribute):
+    def __init__(self, **kwargs):
+        super(DateTimeFieldAttribute, self).__init__(**kwargs)
+        self.str_format = kwargs.get('str_format', 'YYYY-MM-DD HH:mm:ss ZZ')
+
