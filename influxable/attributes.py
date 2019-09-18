@@ -59,3 +59,6 @@ class BaseAttribute:
     def to_python(self, value):
         return str(value)
 
+    def reset(self):
+        self._value = None
+
