@@ -140,3 +140,7 @@ class StringFieldAttribute(GenericFieldAttribute):
         self.choices = kwargs.get('choices', None)
         self.max_length = kwargs.get('max_length', None)
 
+    def to_influx(self, value):
+        str_value = str(value)
+        return "\'{}\'".format(str_value)
+
