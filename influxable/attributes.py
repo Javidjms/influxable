@@ -97,3 +97,6 @@ class IntegerFieldAttribute(GenericFieldAttribute):
         str_value = str(value)
         return "{}i".format(str_value)
 
+    def to_python(self, value):
+        return int(value)
+
