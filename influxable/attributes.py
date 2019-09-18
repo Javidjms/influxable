@@ -78,3 +78,8 @@ class BaseAttribute:
         if value is None and self.default is None and not self.is_nullable:
             raise ValueError('This field cannot be nullable')
 
+    @property
+    def value(self):
+        return self.get_internal_value()
+
+
