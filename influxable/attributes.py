@@ -166,3 +166,12 @@ class StringFieldAttribute(GenericFieldAttribute):
             raise ValueError('the string length must be lower than the max_length')
 
 
+class BooleanFieldAttribute(GenericFieldAttribute):
+    def to_influx(self, value):
+        str_value = str(value).lower()
+        return str_value
+
+    def to_python(self, value):
+        return bool(value)
+
+
