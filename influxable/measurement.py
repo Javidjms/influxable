@@ -50,3 +50,26 @@ class MeasurementMeta(type):
         timestamp_attributes = list(filter(filter_func, attributes))
         return timestamp_attributes
 
+    def _extend_fields(cls, attribute_names):
+        def generate_getter_and_setter(attr_name):
+            def getx(self):
+                attribute_field = getattr(self, attr_name)
+                return attribute_field.get_internal_value()
+
+            def setx(self, value):
+                attribute_field = getattr(self, attr_name)
+                attribute_field.set_internal_value(value)
+            return getx, setx
+
+        for attribute_name in attribute_names:
+            ext_attribute_name = '_extended_' + attribute_name
+            attribute_field = getattr(cls, attribute_name)
+            attribute_field.attribute_name = attribute_name
+            attribute_field.ext_attribute_name = ext_attribute_name
+
+            getx, setx = generate_getter_and_setter(ext_attribute_name)
+            prop = property(getx, setx)
+            setattr(cls, ext_attribute_name, attribute_field)
+            setattr(cls, attribute_name, prop)
+
+
