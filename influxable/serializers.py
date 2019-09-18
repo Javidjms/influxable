@@ -56,5 +56,24 @@ class PandasSerializer(BaseSerializer):
         return df
 
 
-# class MeasurementSerializer(BaseSerializer):
-#     pass
+class MeasurementPointSerializer(FlatFormattedSerieSerializer):
+    def __init__(self, response, measurement):
+        self.response = response
+        self.measurement = measurement
+
+    def convert(self):
+        flat_formatted_series = super().convert()
+        timestamp_attributes = self.measurement._get_timestamp_attributes()
+        timestamp_attributes_names = [
+            ta.attribute_name
+            for ta in timestamp_attributes
+        ]
+        self.convert_to_seconds(timestamp_attributes_names, flat_formatted_series)
+        points = [self.measurement(**ffs) for ffs in flat_formatted_series]
+        return points
+
+    def convert_to_seconds(self, attr_names, series):
+        NANO_TO_SEC_RATIO = 1000 * 1000 * 1000
+        for field in series:
+            for attr_name in attr_names:
+                field[attr_name] /= NANO_TO_SEC_RATIO
