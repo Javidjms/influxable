@@ -126,3 +126,11 @@ class FloatFieldAttribute(IntegerFieldAttribute):
     def to_python(self, value):
         return D(value)
 
+    def validate(self, value):
+        super(FloatFieldAttribute, self).validate(value)
+        if self.max_nb_decimals is not None and not isinstance(self.max_nb_decimals, int):
+            raise ValueError('max_nb_decimals must be integer')
+        if self.max_nb_decimals is not None and self.max_nb_decimals <= 0:
+            raise ValueError('max_nb_decimals must be positive')
+
+
