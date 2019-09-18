@@ -231,3 +231,6 @@ class DateTimeFieldAttribute(TimestampFieldAttribute):
             timestamp = arrow.now().datetime
             self._value = self.to_python(timestamp)
 
+    def get_internal_value(self):
+        return arrow.get(self._value).format(self.str_format)
+
