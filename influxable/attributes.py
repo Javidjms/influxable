@@ -91,3 +91,5 @@ class IntegerFieldAttribute(GenericFieldAttribute):
     def __init__(self, **kwargs):
         super(IntegerFieldAttribute, self).__init__(**kwargs)
         self.min_value = kwargs.get('min_value', None)
+        self.max_value = kwargs.get('max_value', None)
+
