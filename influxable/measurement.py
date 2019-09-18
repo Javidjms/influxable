@@ -173,7 +173,6 @@ class Measurement(object, metaclass=MeasurementMeta):
 
         prep_value_groups[0] = ','.join([self.measurement_name] + [prep_value_groups[0]])
         final_prep_value = ' '.join(prep_value_groups)
-        print('final_prep_value', final_prep_value)
         return final_prep_value
 
     def items(self):
