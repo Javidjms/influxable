@@ -1,3 +1,4 @@
+from decimal import Decimal as D
 from .helpers.utils import inv
 
 
