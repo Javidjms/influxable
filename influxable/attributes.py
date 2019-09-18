@@ -27,3 +27,5 @@ class BaseAttribute:
         self.attribute_name = kwargs.get('name', None)
         self.default = kwargs.get('default', None)
         self.enforce_cast = kwargs.get('enforce_cast', True)
+        self.is_nullable = kwargs.get('is_nullable', True)
+
