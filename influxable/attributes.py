@@ -1,3 +1,4 @@
+import arrow
 from decimal import Decimal as D
 from .helpers.utils import inv
 
@@ -184,4 +185,15 @@ class TimestampFieldAttribute(BaseAttribute):
         super(TimestampFieldAttribute, self).__init__(**kwargs)
         self.auto_now = kwargs.get('auto_now', True)
         self.precision = kwargs.get('precision', 'ns')
+
+    def clean(self, value):
+        super(TimestampFieldAttribute, self).clean(value)
+        if value is None and self.auto_now:
+            timestamp = arrow.now().timestamp
+            self._value = self.to_python(timestamp)
+            self.formatted_timestamp = self.convert_to_nanoseconds(timestamp)
+        elif value:
+            self.formatted_timestamp = self.convert_to_nanoseconds(value)
+        else:
+            self.formatted_timestamp = None
 
