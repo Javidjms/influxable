@@ -35,3 +35,10 @@ class BaseAttribute:
         elif value is None:
             self._value = None
 
+    def clone(self):
+        cls = self.__class__
+        instance = cls(**self.__dict__)
+        if self._value is not None:
+            instance.set_internal_value(self._value)
+        return instance
+
