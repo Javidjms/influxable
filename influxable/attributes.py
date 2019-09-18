@@ -100,3 +100,11 @@ class IntegerFieldAttribute(GenericFieldAttribute):
     def to_python(self, value):
         return int(value)
 
+    def validate(self, value):
+        super(IntegerFieldAttribute, self).validate(value)
+        if value is not None and self.min_value is not None and int(value) < self.min_value:
+            raise ValueError('The value must be greater than the min_value')
+        if value is not None and self.max_value is not None and int(value) > self.max_value:
+            raise ValueError('The value must be lower than the max_value')
+
+
