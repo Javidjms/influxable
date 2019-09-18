@@ -201,3 +201,7 @@ class TimestampFieldAttribute(BaseAttribute):
         precision = TimestampPrecision.NANOSECONDS
         return self.convert_to_precision(timestamp, precision)
 
+    def convert_to_precision(self, timestamp, precision):
+        convert_ratio = TIMESTAMP_CONVERT_RATIO[precision]
+        return D(timestamp) * convert_ratio
+
