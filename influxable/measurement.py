@@ -125,6 +125,11 @@ class Measurement(object, metaclass=MeasurementMeta):
         attribute_names = [attr.attribute_name for attr in attributes]
         return attribute_names
 
+    def get_ext_attribute_names(self):
+        attributes = self.get_attributes()
+        attribute_names = [attr.ext_attribute_name for attr in attributes]
+        return attribute_names
+
 
     def items(self):
         return self.dict().items()
