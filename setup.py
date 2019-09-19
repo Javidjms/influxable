@@ -5,12 +5,16 @@ VERSION = '0.0.1-alpha.1'
 with open('requirements.txt', 'r') as f:
     requirements = [x.strip() for x in f if x.strip()]
 
+with open('README.md', 'r') as f:
+    readme = f.read()
+
 setup(
     name='influxable',
     packages=find_packages(),
     version=VERSION,
     license='MIT',
     description='A lightweight python ORM / ODM for InfluxDB',
+    long_description=readme,
     author='Javid Mougamadou',
     author_email='javidjms0@gmail.com',
     url='https://github.com/Javidjms/influxable',
