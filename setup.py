@@ -1,9 +1,11 @@
 from setuptools import find_packages, setup
 
+VERSION = '0.0.1-alpha.1'
+
 setup(
     name='influxable',
     packages=find_packages(),
-    version='0.0.1-alpha.1',
+    version=VERSION,
     license='MIT',
     description='A lightweight python ORM / ODM for InfluxDB',
     author='Javid Mougamadou',
