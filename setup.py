@@ -2,6 +2,9 @@ from setuptools import find_packages, setup
 
 VERSION = '0.0.1-alpha.1'
 
+with open('requirements.txt', 'r') as f:
+    requirements = [x.strip() for x in f if x.strip()]
+
 setup(
     name='influxable',
     packages=find_packages(),
@@ -13,10 +16,7 @@ setup(
     url='https://github.com/Javidjms/influxable',
     download_url='https://github.com/Javidjms/influxable/archive/0.0.1-alpha.tar.gz',
     keywords=['python', 'influxdb', 'odm', 'orm', 'driver', 'client'],
-    install_requires=[
-      'requests==2.22.0',
-      'wheel==0.33.4',
-    ],
+    install_requires=requirements,
     python_requires='>=3.0.*',
     classifiers=[
         'Development Status :: 3 - Alpha',
