@@ -5,8 +5,8 @@ from .helpers.decorators import Singleton
 
 @Singleton
 class Influxable:
-    def __init__(self):
-        self.connection = Connection()
+    def __init__(self, *args, **kwargs):
+        self.connection = Connection(*args, **kwargs)
 
     def ping(self, *args, **kwargs):
         request = self.connection.request
