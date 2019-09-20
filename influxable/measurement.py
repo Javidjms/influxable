@@ -15,6 +15,7 @@ class MeasurementMeta(type):
         setattr(cls, 'get_query', get_query)
 
     def __call__(cls, *args, **kwargs):
+        setattr(cls, '_get_attributes', cls._get_attributes)
         instance = type.__call__(cls, *args, **kwargs)
         return instance
 
@@ -89,7 +90,7 @@ class Measurement(object, metaclass=MeasurementMeta):
         def filter_required_attributes(x):
             return not x.default and not x.is_nullable
 
-        attributes = self.get_attributes()
+        attributes = self._get_attributes()
         required_attributes = list(filter(
             filter_required_attributes,
             attributes,
@@ -103,7 +104,7 @@ class Measurement(object, metaclass=MeasurementMeta):
                 raise AttributeError('The field {} is not defined'.format(key))
 
     def clone_attributes(self):
-        attributes = self.get_attributes()
+        attributes = self._get_attributes()
         for attr in attributes:
             cloned_attribute = attr.clone()
             setattr(self, attr.ext_attribute_name, cloned_attribute)
