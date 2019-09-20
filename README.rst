@@ -45,7 +45,7 @@ You can set your environment variable for the connection of InfluxDB in order to
 
 Then you just have to import the influxable package and create an instance of *Influxable* :
 
-::
+.. code:: python
 
     from influxable import Influxable
 
@@ -53,7 +53,7 @@ Then you just have to import the influxable package and create an instance of *I
 
 You can also set connection variable in *Influxable* constructor :
 
-::
+.. code:: python
 
     # Without authentication
 
@@ -74,15 +74,18 @@ You can also set connection variable in *Influxable* constructor :
 Measurement
 ~~~~~~~~~~~
 
-::
+.. code:: python
+
+    from influxable import attributes
+    from influxable.measurement import Measurement
 
     class TemperatureMeasurement(Measurement):
         parser_class = MeasurementPointSerializer # Default
         measurement_name = 'temperature'
 
-        time = TimestampFieldAttribute()
-        phase = TagFieldAttribute()
-        value = FloatFieldAttribute()
+        time = attributes.TimestampFieldAttribute()
+        phase = attributes.TagFieldAttribute()
+        value = attributes.FloatFieldAttribute()
 
 Fields :
 
@@ -109,7 +112,7 @@ Parser Classes :
 Instanciation
 ~~~~~~~~~~~~~
 
-::
+.. code:: python
 
     point = TemperatureMeasurement(
       time=1568970572,
@@ -122,7 +125,7 @@ Query
 
 You can query with *Measurement.get\_query()* :
 
-::
+.. code:: python
 
     from influxable.db.criteria import Field
 
@@ -138,7 +141,7 @@ You can query with *Measurement.get\_query()* :
 
 You can also query with *Query* :
 
-::
+.. code:: python
 
     from influxable.db.query import Query
     from influxable.db.criteria import Field
@@ -158,21 +161,21 @@ Saving Data
 
 You can create data by using *Measurement.bulk\_save()*
 
-::
+.. code:: python
 
     points = [
-        TemperatureMeasurement(phase="moon",value=10,time=1463289075),
-        TemperatureMeasurement(phase="moon",value=10,time=1463289075),
+        TemperatureMeasurement(phase="HOT", value=30, time=1463289075),
+        TemperatureMeasurement(phase="COLD", value=10, time=1463289275),
     ]
     TemperatureMeasurement.bulk_save(points)
 
 You can also create data with *BulkInsertQuery*
 
-::
+.. code:: python
 
     str_query = '''
-    temperature,phase=moon value=10 1463289075000000000
-    temperature,phase=moon value=10 1463289075000000000
+    temperature,phase=HOT value=30 1463289075000000000
+    temperature,phase=COLD value=10 1463289275000000000
     '''
 
     raw_query = BulkInsertQuery(str_query)
