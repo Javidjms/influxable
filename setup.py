@@ -1,11 +1,11 @@
 from setuptools import find_packages, setup
 
-VERSION = '1.0.0'
+VERSION = '1.0.1'
 
 with open('requirements.txt', 'r') as f:
     requirements = [x.strip() for x in f if x.strip()]
 
-with open('README.md', 'r') as f:
+with open('README.rst', 'r') as f:
     readme = f.read()
 
 setup(
