@@ -1,0 +1,5 @@
+arrow==0.15.2
+numpy==1.17.2
+pandas==0.25.1
+requests==2.22.0
+wheel==0.33.4
