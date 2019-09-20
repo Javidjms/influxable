@@ -18,7 +18,7 @@ setup(
     author='Javid Mougamadou',
     author_email='javidjms0@gmail.com',
     url='https://github.com/Javidjms/influxable',
-    download_url='https://github.com/Javidjms/influxable/archive/1.0.0.zip',
+    download_url='https://github.com/Javidjms/influxable/archive/1.0.1.zip',
     keywords=['python', 'influxdb', 'odm', 'orm', 'driver', 'client'],
     install_requires=requirements,
     python_requires='>=3.0.*',
