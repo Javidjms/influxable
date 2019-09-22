@@ -107,6 +107,8 @@ class Measurement(object, metaclass=MeasurementMeta):
         attributes = self._get_attributes()
         for attr in attributes:
             cloned_attribute = attr.clone()
+            cloned_attribute.attribute_name = attr.attribute_name
+            cloned_attribute.ext_attribute_name = attr.ext_attribute_name
             setattr(self, attr.ext_attribute_name, cloned_attribute)
 
     def dict(self):
@@ -161,13 +163,16 @@ class Measurement(object, metaclass=MeasurementMeta):
         ))
 
         prep_value_groups = []
-        attributes_groups = [field_attributes, tag_attributes, timestamp_attributes]
+        attributes_groups = [tag_attributes, field_attributes, timestamp_attributes]
         for attr_group in attributes_groups:
             prep_value_group = []
             for attr in attr_group:
                 attr_prep_value = attr.get_prep_value()
                 attr_name = attr.name or attr.attribute_name
-                prep_value = '{}={}'.format(attr_name, attr_prep_value)
+                if not isinstance(attr, TimestampFieldAttribute):
+                    prep_value = '{}={}'.format(attr_name, attr_prep_value)
+                else:
+                    prep_value = '{}'.format(attr_prep_value)
                 prep_value_group.append(prep_value)
             str_prep_value_group = ','.join(prep_value_group)
             prep_value_groups.append(str_prep_value_group)
