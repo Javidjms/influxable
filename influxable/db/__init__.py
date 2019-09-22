@@ -1,5 +1,5 @@
 from .admin import InfluxDBAdmin
-from .field import Field
+from .criteria import Field
 from .query import Query
 
 
