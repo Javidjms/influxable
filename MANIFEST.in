@@ -1,3 +1,4 @@
+include artwork/logo.svg
 include requirements.txt
 include requirements-dev.txt
 include LICENSE.txt
