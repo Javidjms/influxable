@@ -193,9 +193,9 @@ If you want to contribute, please use the pull requests section.
 Contributors
 ------------
 
--  Javid Mougamadou javidjms0@gmail.com
+-  `Javid Mougamadou <https://github.com/Javidjms>`__
 
 Thanks to
 ---------
 
--  Logo designed by `Maxime Bergerard <https://github.com/maximebergerard%5D>`__
+-  Logo designed by `Maxime Bergerard <https://github.com/maximebergerard>`__
