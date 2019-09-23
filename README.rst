@@ -1,3 +1,6 @@
+.. figure:: ./artwork/logo.svg
+   :alt:
+
 Influxable
 ==========
 
@@ -127,7 +130,7 @@ You can query with *Measurement.get\_query()* :
 
 .. code:: python
 
-    from influxable.db.criteria import Field
+    from influxable.db import Field
 
     points = TemperatureMeasurement\
       .get_query()\
@@ -143,8 +146,7 @@ You can also query with *Query* :
 
 .. code:: python
 
-    from influxable.db.query import Query
-    from influxable.db.criteria import Field
+    from influxable.db import Query, Field
 
     points = Query()\
       .select('phase', 'value')\
@@ -164,8 +166,8 @@ You can create data by using *Measurement.bulk\_save()*
 .. code:: python
 
     points = [
-        TemperatureMeasurement(phase="HOT", value=30, time=1463289075),
-        TemperatureMeasurement(phase="COLD", value=10, time=1463289275),
+        TemperatureMeasurement(phase="HOT",value=10,time=1463289075),
+        TemperatureMeasurement(phase="COLD",value=10,time=1463289076),
     ]
     TemperatureMeasurement.bulk_save(points)
 
@@ -174,8 +176,8 @@ You can also create data with *BulkInsertQuery*
 .. code:: python
 
     str_query = '''
-    temperature,phase=HOT value=30 1463289075000000000
-    temperature,phase=COLD value=10 1463289275000000000
+    temperature,phase=HOT value=10 1463289075000000000
+    temperature,phase=COLD value=10 1463289076000000000
     '''
 
     raw_query = BulkInsertQuery(str_query)
@@ -188,7 +190,12 @@ Feel free to post issues your feedback or if you reach a problem with influxable
 
 If you want to contribute, please use the pull requests section.
 
-Authors
--------
+Contributors
+------------
 
-Javid Mougamadou javidjms0@gmail.com
+-  `Javid Mougamadou <https://github.com/Javidjms>`__
+
+Thanks to
+---------
+
+-  Logo designed by `Maxime Bergerard <https://github.com/maximebergerard>`__
