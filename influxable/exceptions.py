@@ -36,6 +36,16 @@ class InfluxDBInvalidNumberError(InfluxDBException):
     def __init__(self, points):
         self.message = self.MESSAGE_PLACEHOLDER.format(points=points)
         super().__init__(self.message)
+
+
+class InfluxDBInvalidTimestampError(InfluxDBException):
+    MESSAGE_PLACEHOLDER = 'Invalid timestamp : {points}'
+
+    def __init__(self, points):
+        self.message = self.MESSAGE_PLACEHOLDER.format(points=points)
+        super().__init__(self.message)
+
+
 class InfluxDBUnauthorizedError(InfluxDBException):
     MESSAGE = 'Authorization Failed (Bad credentials)'
 
