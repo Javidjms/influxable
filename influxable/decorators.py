@@ -27,6 +27,11 @@ def raise_if_error(func):
                 query = params['q']
                 raise exceptions.InfluxDBBadQueryError(query)
 
+            if json_res and 'error' in json_res and\
+               json_res['error'].endswith('invalid number'):
+                points = kwargs['data']
+                raise exceptions.InfluxDBInvalidNumberError(points)
+
             if res.status_code == 400:
                 raise exceptions.InfluxDBBadRequestError(params)
             if res.status_code == 401:
