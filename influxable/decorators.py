@@ -32,6 +32,11 @@ def raise_if_error(func):
                 points = kwargs['data']
                 raise exceptions.InfluxDBInvalidNumberError(points)
 
+            if json_res and 'error' in json_res and\
+               json_res['error'].endswith('bad timestamp'):
+                points = kwargs['data']
+                raise exceptions.InfluxDBInvalidTimestampError(points)
+
             if res.status_code == 400:
                 raise exceptions.InfluxDBBadRequestError(params)
             if res.status_code == 401:
