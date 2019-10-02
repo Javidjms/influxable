@@ -22,6 +22,12 @@ class InfluxDBBadRequestError(InfluxDBException):
         super().__init__(self.message)
 
 
+class InfluxDBBadQueryError(InfluxDBException):
+    MESSAGE_PLACEHOLDER = 'Invalid query : {query}'
+
+    def __init__(self, query):
+        self.message = self.MESSAGE_PLACEHOLDER.format(query=query)
+        super().__init__(self.message)
 class InfluxDBUnauthorizedError(InfluxDBException):
     MESSAGE = 'Authorization Failed (Bad credentials)'
 
