@@ -8,6 +8,9 @@ class Influxable:
     def __init__(self, *args, **kwargs):
         self.connection = Connection(*args, **kwargs)
 
+    def create_connection(self, *args, **kwargs):
+        return Connection.create_connection(*args, **kwargs)
+
     def ping(self, *args, **kwargs):
         request = self.connection.request
         return InfluxDBApi.ping(request, *args, **kwargs)
