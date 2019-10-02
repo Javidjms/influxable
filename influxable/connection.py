@@ -12,8 +12,12 @@ class Connection:
             settings.INFLUXDB_DATABASE_NAME,
         )
 
-        self.request = InfluxDBRequest(self.base_url, self.database_name)
-        self.request.auth = (self.user, self.password)
+        self.auth = (self.user, self.password)
+        self.request = InfluxDBRequest(
+            self.base_url,
+            self.database_name,
+            auth=self.auth,
+        )
         self.stream = False
 
     @staticmethod
