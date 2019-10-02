@@ -14,6 +14,7 @@ class Connection:
 
         self.request = InfluxDBRequest(self.base_url, self.database_name)
         self.request.auth = (self.user, self.password)
+        self.stream = False
 
     @staticmethod
     def create(base_url, database_name, user='', password=''):
