@@ -1,0 +1,2 @@
+class InfluxDBException(Exception):
+    pass
