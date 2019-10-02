@@ -14,6 +14,10 @@ def raise_if_error(func):
             except json.decoder.JSONDecodeError:
                 json_res = {}
             res.raise_for_status()
+
+        except requests.exceptions.MissingSchema as err:
+            raise exceptions.InfluxDBInvalidURLError(request.base_url)
+
         except requests.exceptions.ConnectionError as err:
             raise exceptions.InfluxDBConnectionError(err)
 
