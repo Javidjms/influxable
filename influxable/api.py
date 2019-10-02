@@ -56,5 +56,5 @@ class InfluxDBApi:
             'consistency': consistency,
             'retention_policy_name': retention_policy_name,
         }
-        res = request.post(url, params=params, data=points)
+        request.post(url, params=params, data=points)
         return True
