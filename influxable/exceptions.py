@@ -6,6 +6,14 @@ class InfluxDBConnectionError(InfluxDBException):
     pass
 
 
+class InfluxDBInvalidURLError(InfluxDBException):
+    MESSAGE_PLACEHOLDER = 'Bad schema for : {base_url}'
+
+    def __init__(self, base_url):
+        self.message = self.MESSAGE_PLACEHOLDER.format(base_url=base_url)
+        super().__init__(self.message)
+
+
 class InfluxDBBadRequestError(InfluxDBException):
     MESSAGE_PLACEHOLDER = 'Bad request for params : {params}'
 
