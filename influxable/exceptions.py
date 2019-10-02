@@ -14,3 +14,9 @@ class InfluxDBBadRequestError(InfluxDBException):
         super().__init__(self.message)
 
 
+class InfluxDBUnauthorizedError(InfluxDBException):
+    MESSAGE = 'Authorization Failed (Bad credentials)'
+
+    def __init__(self, message):
+        self.message = self.MESSAGE
+        super().__init__(self.MESSAGE)
