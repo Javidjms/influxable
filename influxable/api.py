@@ -2,6 +2,7 @@ class InfluxDBApi:
     @staticmethod
     def get_debug_requests(request, seconds=10):
         url = '/debug/requests'
+        seconds = seconds if isinstance(seconds, int) else 10
         params = {'seconds': seconds}
         res = request.get(url=url, params=params)
         return res.json()
