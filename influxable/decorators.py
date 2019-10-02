@@ -9,5 +9,7 @@ def raise_if_error(func):
             res.raise_for_status()
         except requests.exceptions.ConnectionError as err:
             raise exceptions.InfluxDBConnectionError(err)
+        except requests.exceptions.HTTPError as err:
+            raise err
         return res
     return func_wrapper
