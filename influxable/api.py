@@ -16,6 +16,7 @@ class InfluxDBApi:
     @staticmethod
     def ping(request, verbose=False):
         url = '/ping'
+        verbose = verbose if isinstance(verbose, bool) else False
         params = {'verbose': verbose} if verbose else {}
         res = request.get(url=url, params=params)
         return res.text or True
