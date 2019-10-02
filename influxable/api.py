@@ -55,4 +55,4 @@ class InfluxDBApi:
             'retention_policy_name': retention_policy_name,
         }
         res = request.post(url, params=params, data=points)
-        return res.text
+        return True
