@@ -13,6 +13,8 @@ def raise_if_error(func):
         except requests.exceptions.HTTPError as err:
             if res.status_code == 400:
                 raise exceptions.InfluxDBBadRequestError(params)
+            if res.status_code == 401:
+                raise exceptions.InfluxDBUnauthorizedError(err)
             raise err
         return res
     return func_wrapper
