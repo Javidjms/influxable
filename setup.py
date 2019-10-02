@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-VERSION = '1.0.3'
+VERSION = '1.0.4'
 
 with open('requirements.txt', 'r') as f:
     requirements = [x.strip() for x in f if x.strip()]
@@ -18,7 +18,7 @@ setup(
     author='Javid Mougamadou',
     author_email='javidjms0@gmail.com',
     url='https://github.com/Javidjms/influxable',
-    download_url='https://github.com/Javidjms/influxable/archive/1.0.3.zip',
+    download_url='https://github.com/Javidjms/influxable/archive/1.0.4.zip',
     keywords=['python', 'influxdb', 'odm', 'orm', 'driver', 'client'],
     install_requires=requirements,
     python_requires='>=3.0.*',
