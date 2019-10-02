@@ -1,4 +1,5 @@
 from . import settings
+from .api import InfluxDBApi
 from .request import InfluxDBRequest
 
 
@@ -12,9 +13,19 @@ class Connection:
             settings.INFLUXDB_DATABASE_NAME,
         )
 
-        self.request = InfluxDBRequest(self.base_url, self.database_name)
-        self.request.auth = (self.user, self.password)
+        self.auth = (self.user, self.password)
+        self.request = InfluxDBRequest(
+            self.base_url,
+            self.database_name,
+            auth=self.auth,
+        )
+        self.stream = False
+        self.check_if_connection_reached()
 
     @staticmethod
     def create(base_url, database_name, user='', password=''):
         return Connection(base_url, database_name, user, password)
+
+    def check_if_connection_reached(self):
+        query = 'SHOW DATABASES'
+        InfluxDBApi.execute_query(self.request, query)

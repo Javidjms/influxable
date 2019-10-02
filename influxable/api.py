@@ -15,7 +15,7 @@ class InfluxDBApi:
     @staticmethod
     def ping(request, verbose=False):
         url = '/ping'
-        params = {'verbose': verbose}
+        params = {'verbose': verbose} if verbose else {}
         res = request.get(url=url, params=params)
         return res.text or True
 
@@ -55,4 +55,4 @@ class InfluxDBApi:
             'retention_policy_name': retention_policy_name,
         }
         res = request.post(url, params=params, data=points)
-        return res.text
+        return True
