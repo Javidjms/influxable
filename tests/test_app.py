@@ -16,3 +16,7 @@ class TestApp:
         second_instance = self.get_instance()
         assert first_instance == second_instance
 
+    def test_singleton_get_instance_success(self):
+        instance = self.get_instance()
+        assert instance is not None
+
