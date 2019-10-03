@@ -199,3 +199,12 @@ Thanks to
 ---------
 
 -  Logo designed by `Maxime Bergerard <https://github.com/maximebergerard>`__
+
+References
+----------
+
+-  `Influxdb Website <https://docs.influxdata.com/platform/introduction>`__
+
+-  `Influxdb Github Repository <https://github.com/influxdata/influxdb>`__
+
+-  `Influxdb-Python Github Repository <https://github.com/influxdata/influxdb-python>`__
