@@ -21,3 +21,7 @@ class TestConnection:
         self.check_if_connection_reached(connection)
         assert connection is not None
 
+    def test_create_instance_with_bad_url_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidURLError):
+            Connection(base_url="incorrect_url")
+
