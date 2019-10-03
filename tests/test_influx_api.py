@@ -90,3 +90,17 @@ class TestInfluxApi:
         )
         assert res is True
 
+    def test_write_points_multiple_success(self):
+        precision = 's'
+        points = '''
+        mymeas,mytag=1 myfield=90 1463683075
+        mymeas,mytag=3 myfield=34 1463683025
+        '''
+        instance = self.get_instance()
+        res = InfluxDBApi.write_points(
+            instance.connection.request,
+            points,
+            precision,
+        )
+        assert res is True
+
