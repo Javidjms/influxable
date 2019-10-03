@@ -8,3 +8,6 @@ class TestSettings:
     def test_check_url_exist(self):
         assert self.check_if_variable_exist('INFLUXDB_URL')
 
+    def test_check_user_exist(self):
+        assert self.check_if_variable_exist('INFLUXDB_USER')
+
