@@ -20,3 +20,7 @@ class TestApp:
         instance = self.get_instance()
         assert instance is not None
 
+    def test_singleton_create_second_instance_error(self):
+        with pytest.raises(TypeError):
+            self.create_instance_of_influxable()
+
