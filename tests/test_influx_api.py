@@ -79,3 +79,14 @@ class TestInfluxApi:
         )
         assert res is True
 
+    def test_write_points_without_ts_success(self):
+        precision = 's'
+        points = 'mymeas,mytag=2 myfield=91'
+        instance = self.get_instance()
+        res = InfluxDBApi.write_points(
+            instance.connection.request,
+            points,
+            precision,
+        )
+        assert res is True
+
