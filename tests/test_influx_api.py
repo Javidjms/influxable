@@ -52,3 +52,9 @@ class TestInfluxApi:
         assert res is not None
         assert 'results' in res
 
+    def test_execute_query_bad_query_fail(self):
+        with pytest.raises(exceptions.InfluxDBBadQueryError):
+            query = 'SELECT *'
+            instance = self.get_instance()
+            InfluxDBApi.execute_query(instance.connection.request, query)
+
