@@ -14,3 +14,5 @@ class TestSettings:
     def test_check_password_exist(self):
         assert self.check_if_variable_exist('INFLUXDB_PASSWORD')
 
+    def test_check_database_name_exist(self):
+        assert self.check_if_variable_exist('INFLUXDB_DATABASE_NAME')
