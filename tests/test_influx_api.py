@@ -104,3 +104,14 @@ class TestInfluxApi:
         )
         assert res is True
 
+    def test_write_points_with_policy_success(self):
+        rp = 'myrp'
+        points = 'mymeas,mytag=1 myfield=90'
+        instance = self.get_instance()
+        res = InfluxDBApi.write_points(
+            instance.connection.request,
+            points,
+            retention_policy_name=rp,
+        )
+        assert res is True
+
