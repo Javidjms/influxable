@@ -35,3 +35,8 @@ class TestApp:
         res = instance.execute_query(query=query)
         assert res != {}
 
+    def test_write_points_success(self):
+        instance = self.get_instance()
+        points = 'mysensor,esn=12,phase=moon value=10 1463289075000000000'
+        res = instance.write_points(points)
+        assert res is True
