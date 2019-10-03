@@ -45,3 +45,10 @@ class TestInfluxApi:
         res = InfluxDBApi.ping(instance.connection.request, verbose='k')
         assert res is True
 
+    def test_execute_query_success(self):
+        query = 'SHOW DATABASES'
+        instance = self.get_instance()
+        res = InfluxDBApi.execute_query(instance.connection.request, query)
+        assert res is not None
+        assert 'results' in res
+
