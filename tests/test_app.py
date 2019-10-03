@@ -29,3 +29,9 @@ class TestApp:
         res = instance.ping()
         assert res is True
 
+    def test_execute_query_success(self):
+        query = 'SHOW DATABASES'
+        instance = self.get_instance()
+        res = instance.execute_query(query=query)
+        assert res != {}
+
