@@ -40,3 +40,8 @@ class TestInfluxApi:
         assert res is not None
         assert 'version' in res
 
+    def test_ping_verbose_silent_fail(self):
+        instance = self.get_instance()
+        res = InfluxDBApi.ping(instance.connection.request, verbose='k')
+        assert res is True
+
