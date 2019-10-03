@@ -68,3 +68,14 @@ class TestInfluxApi:
                 method='delete',
             )
 
+    def test_write_points_success(self):
+        precision = 's'
+        points = 'mymeas,mytag=1 myfield=90 1463683075'
+        instance = self.get_instance()
+        res = InfluxDBApi.write_points(
+            instance.connection.request,
+            points,
+            precision,
+        )
+        assert res is True
+
