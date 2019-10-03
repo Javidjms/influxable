@@ -29,3 +29,8 @@ class TestInfluxApi:
         res = InfluxDBApi.get_debug_vars(instance.connection.request)
         assert res is not None
 
+    def test_ping_success(self):
+        instance = self.get_instance()
+        res = InfluxDBApi.ping(instance.connection.request)
+        assert res is True
+
