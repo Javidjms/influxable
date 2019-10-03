@@ -24,3 +24,8 @@ class TestInfluxApi:
         )
         assert res is not None
 
+    def test_get_debug_vars_success(self):
+        instance = self.get_instance()
+        res = InfluxDBApi.get_debug_vars(instance.connection.request)
+        assert res is not None
+
