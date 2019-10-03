@@ -58,3 +58,13 @@ class TestInfluxApi:
             instance = self.get_instance()
             InfluxDBApi.execute_query(instance.connection.request, query)
 
+    def test_execute_query_bad_method_fail(self):
+        with pytest.raises(requests.exceptions.HTTPError):
+            query = 'SHOW DATABASES'
+            instance = self.get_instance()
+            InfluxDBApi.execute_query(
+                instance.connection.request,
+                query,
+                method='delete',
+            )
+
