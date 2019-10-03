@@ -115,3 +115,11 @@ class TestInfluxApi:
         )
         assert res is True
 
+    def test_write_points_bad_timestamp_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTimestampError):
+            points = 'mymeas,mytag=1 myfield=90 invalid'
+            instance = self.get_instance()
+            InfluxDBApi.write_points(
+                instance.connection.request,
+                points,
+            )
