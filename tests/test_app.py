@@ -24,3 +24,8 @@ class TestApp:
         with pytest.raises(TypeError):
             self.create_instance_of_influxable()
 
+    def test_ping_success(self):
+        instance = self.get_instance()
+        res = instance.ping()
+        assert res is True
+
