@@ -7,3 +7,7 @@ class TestApp:
         instance = Influxable()
         return instance
 
+    def get_instance(self):
+        instance = Influxable.get_instance()
+        return instance
+
