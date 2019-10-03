@@ -34,3 +34,9 @@ class TestInfluxApi:
         res = InfluxDBApi.ping(instance.connection.request)
         assert res is True
 
+    def test_ping_verbose_success(self):
+        instance = self.get_instance()
+        res = InfluxDBApi.ping(instance.connection.request, verbose=True)
+        assert res is not None
+        assert 'version' in res
+
