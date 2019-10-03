@@ -25,3 +25,7 @@ class TestConnection:
         with pytest.raises(exceptions.InfluxDBInvalidURLError):
             Connection(base_url="incorrect_url")
 
+    def test_create_instance_with_bad_database_name_fail(self):
+        pytest.skip()
+        with pytest.raises(exceptions.InfluxDBInvalidURLError):
+            Connection(database_name="invalid_database_name")
