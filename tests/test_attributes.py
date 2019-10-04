@@ -73,3 +73,8 @@ class TestBaseAttribute:
         base_attr.set_internal_value(None)
         assert base_attr.get_internal_value() is None
 
+    def test_validate_is_nullable_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            base_attr = attributes.BaseAttribute(is_nullable=False)
+            base_attr.set_internal_value(None)
+
