@@ -285,6 +285,7 @@ class DateTimeFieldAttribute(TimestampFieldAttribute):
 
     def get_internal_value(self):
         if self._value is None:
+            return None
         return arrow.get(self._value).format(self.str_format)
 
     def to_influx(self, value):
