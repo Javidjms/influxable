@@ -142,3 +142,8 @@ class TestFloatFieldAttribute:
         with pytest.raises(exceptions.InfluxDBAttributeValueError):
             attributes.FloatFieldAttribute(max_nb_decimals='ok')
 
+    def test_validate_negative_max_nb_decimals_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attributes.FloatFieldAttribute(max_nb_decimals=-5)
+
+
