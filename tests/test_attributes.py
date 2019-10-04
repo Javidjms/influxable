@@ -209,3 +209,8 @@ class TestTimestampFieldAttribute:
         attr.set_internal_value(1570209691)
         assert attr.to_python(1570209691) == D('1570209691000000000')
 
+    def test_clean_with_auto_now_success(self):
+        attr = attributes.TimestampFieldAttribute(auto_now=True)
+        attr.set_internal_value(None)
+        assert attr.get_internal_value() is not None
+
