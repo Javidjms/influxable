@@ -52,3 +52,7 @@ class InfluxDBUnauthorizedError(InfluxDBException):
     def __init__(self, message):
         self.message = self.MESSAGE
         super().__init__(self.MESSAGE)
+
+
+class InfluxDBAttributeValueError(InfluxDBException):
+    pass
