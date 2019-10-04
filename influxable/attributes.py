@@ -62,7 +62,7 @@ class BaseAttribute:
         return str(value)
 
     def to_python(self, value):
-        return str(value)
+        return value
 
     def reset(self):
         self._value = None
