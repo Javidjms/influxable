@@ -97,3 +97,7 @@ class TestIntegerFieldAttribute:
             base_attr = attributes.IntegerFieldAttribute(min_value=5)
             base_attr.set_internal_value(4)
 
+    def test_validate_min_value_success(self):
+        base_attr = attributes.IntegerFieldAttribute(min_value=5)
+        base_attr.set_internal_value(6)
+
