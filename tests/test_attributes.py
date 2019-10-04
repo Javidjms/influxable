@@ -30,3 +30,12 @@ class TestBaseAttribute:
         cloned_attr = base_attr.clone()
         assert base_attr != cloned_attr
 
+    def test_clone_with_value_success(self):
+        base_attr = attributes.BaseAttribute()
+        base_attr._value = 5
+        cloned_attr = base_attr.clone()
+        value = base_attr.get_internal_value()
+        cloned_value = cloned_attr.get_internal_value()
+        assert base_attr != cloned_attr
+        assert value == cloned_value
+
