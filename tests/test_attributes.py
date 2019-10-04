@@ -134,3 +134,7 @@ class TestFloatFieldAttribute:
         attr = attributes.FloatFieldAttribute()
         assert attr.to_python(5.2504) == 5.2504
 
+    def test_to_influx_success(self):
+        attr = attributes.FloatFieldAttribute()
+        assert attr.to_influx(5.2504) == '5.2504'
+
