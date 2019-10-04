@@ -51,3 +51,8 @@ class TestBaseAttribute:
         base_attr._value = 5
         assert base_attr.get_prep_value() == base_attr.to_influx(5)
 
+    def test_get_name_success(self):
+        base_attr = attributes.BaseAttribute(name='my_field')
+        assert base_attr.attribute_name == 'my_field'
+        assert base_attr.name == 'my_field'
+
