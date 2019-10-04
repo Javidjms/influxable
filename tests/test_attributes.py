@@ -56,3 +56,9 @@ class TestBaseAttribute:
         assert base_attr.attribute_name == 'my_field'
         assert base_attr.name == 'my_field'
 
+    def test_reset_success(self):
+        base_attr = attributes.BaseAttribute()
+        base_attr._value = 5
+        base_attr.reset()
+        assert base_attr.get_internal_value() is None
+
