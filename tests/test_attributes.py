@@ -78,3 +78,8 @@ class TestBaseAttribute:
             base_attr = attributes.BaseAttribute(is_nullable=False)
             base_attr.set_internal_value(None)
 
+    def test_validate_is_nullable_success(self):
+        base_attr = attributes.BaseAttribute(is_nullable=False)
+        base_attr.set_internal_value(5)
+
+
