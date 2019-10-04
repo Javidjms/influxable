@@ -25,3 +25,8 @@ class TestBaseAttribute:
         value = base_attr.get_internal_value()
         assert value == 10
 
+    def test_clone_success(self):
+        base_attr = attributes.BaseAttribute()
+        cloned_attr = base_attr.clone()
+        assert base_attr != cloned_attr
+
