@@ -152,3 +152,7 @@ class TestStringFieldAttribute:
         attr = attributes.StringFieldAttribute()
         assert attr.to_python(5) == '5'
 
+    def test_to_influx_success(self):
+        attr = attributes.StringFieldAttribute()
+        assert attr.to_influx('5') == "\'5\'"
+
