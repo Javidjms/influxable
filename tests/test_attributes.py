@@ -19,3 +19,9 @@ class TestBaseAttribute:
         value = base_attr.get_internal_value()
         assert value is None
 
+    def test_clean_with_default_value_success(self):
+        base_attr = attributes.BaseAttribute(default=10)
+        base_attr.clean(None)
+        value = base_attr.get_internal_value()
+        assert value == 10
+
