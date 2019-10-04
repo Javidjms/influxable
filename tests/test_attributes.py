@@ -224,3 +224,8 @@ class TestTimestampFieldAttribute:
         attr.set_internal_value(1570209691)
         assert attr.convert_to_nanoseconds(1570209691) == D('1570209691000000000')
 
+    def test_convert_to_precision_success(self):
+        attr = attributes.TimestampFieldAttribute()
+        attr.set_internal_value(1570209691)
+        assert attr.convert_to_precision(1570209691, 'ms') == D('1570209691000')
+
