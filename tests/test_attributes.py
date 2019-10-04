@@ -39,3 +39,10 @@ class TestBaseAttribute:
         assert base_attr != cloned_attr
         assert value == cloned_value
 
+    def test_get_internal_value_success(self):
+        base_attr = attributes.BaseAttribute()
+        base_attr._value = 5
+        assert base_attr._value == 5
+        assert base_attr.value == 5
+        assert base_attr.get_internal_value() == 5
+
