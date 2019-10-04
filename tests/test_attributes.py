@@ -138,3 +138,7 @@ class TestFloatFieldAttribute:
         attr = attributes.FloatFieldAttribute()
         assert attr.to_influx(5.2504) == '5.2504'
 
+    def test_validate_invalid_type_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attributes.FloatFieldAttribute(max_nb_decimals='ok')
+
