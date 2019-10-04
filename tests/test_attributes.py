@@ -46,3 +46,8 @@ class TestBaseAttribute:
         assert base_attr.value == 5
         assert base_attr.get_internal_value() == 5
 
+    def test_get_prep_value_success(self):
+        base_attr = attributes.BaseAttribute()
+        base_attr._value = 5
+        assert base_attr.get_prep_value() == base_attr.to_influx(5)
+
