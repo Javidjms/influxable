@@ -147,3 +147,8 @@ class TestFloatFieldAttribute:
             attributes.FloatFieldAttribute(max_nb_decimals=-5)
 
 
+class TestStringFieldAttribute:
+    def test_to_python_success(self):
+        attr = attributes.StringFieldAttribute()
+        assert attr.to_python(5) == '5'
+
