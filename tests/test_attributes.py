@@ -101,3 +101,8 @@ class TestIntegerFieldAttribute:
         base_attr = attributes.IntegerFieldAttribute(min_value=5)
         base_attr.set_internal_value(6)
 
+    def test_validate_max_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            base_attr = attributes.IntegerFieldAttribute(max_value=5)
+            base_attr.set_internal_value(6)
+
