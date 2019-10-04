@@ -83,3 +83,8 @@ class TestBaseAttribute:
         base_attr.set_internal_value(5)
 
 
+class TestIntegerFieldAttribute:
+    def test_to_python_success(self):
+        attr = attributes.IntegerFieldAttribute()
+        assert attr.to_python(5) == 5
+
