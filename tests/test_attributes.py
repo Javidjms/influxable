@@ -183,3 +183,13 @@ class TestStringFieldAttribute:
             attr.set_internal_value('test_value')
 
 
+class TestBooleanFieldAttribute:
+    def test_to_python_success(self):
+        attr = attributes.BooleanFieldAttribute()
+        assert attr.to_python(True) is True
+
+    def test_to_influx_success(self):
+        attr = attributes.BooleanFieldAttribute()
+        assert attr.to_influx(True) == "true"
+
+
