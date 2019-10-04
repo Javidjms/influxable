@@ -173,3 +173,7 @@ class TestStringFieldAttribute:
         with pytest.raises(exceptions.InfluxDBAttributeValueError):
             attributes.StringFieldAttribute(max_length='test')
 
+    def test_validate_invalid_negative_max_length_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attributes.StringFieldAttribute(max_length=-7)
+
