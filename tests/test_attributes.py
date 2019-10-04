@@ -264,3 +264,9 @@ class TestDateTimeFieldAttribute:
         dt = arrow.get('2019-10-04 21:20:34', attr.str_format).datetime
         assert attr.to_python('2019-10-04 21:20:34') == dt
 
+    def test_clean_with_auto_now_success(self):
+        attr = attributes.DateTimeFieldAttribute(auto_now=True)
+        attr.set_internal_value(None)
+        assert attr.get_internal_value() is not None
+        assert isinstance(attr._value, datetime)
+
