@@ -295,5 +295,7 @@ class DateTimeFieldAttribute(TimestampFieldAttribute):
         return "{}".format(str_value)
 
     def to_python(self, value):
-        datetime = arrow.get(value).datetime
-        return datetime
+        if isinstance(value, datetime):
+            return value
+        dt = arrow.get(value, self.str_format).datetime
+        return dt
