@@ -92,3 +92,8 @@ class TestIntegerFieldAttribute:
         attr = attributes.IntegerFieldAttribute()
         assert attr.to_influx(5) == '5i'
 
+    def test_validate_min_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            base_attr = attributes.IntegerFieldAttribute(min_value=5)
+            base_attr.set_internal_value(4)
+
