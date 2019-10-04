@@ -160,3 +160,7 @@ class TestStringFieldAttribute:
         with pytest.raises(exceptions.InfluxDBAttributeValueError):
             attributes.StringFieldAttribute(choices=5)
 
+    def test_validate_invalid_choices_item_type_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attributes.StringFieldAttribute(choices=[5, 2, 3])
+
