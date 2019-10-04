@@ -247,3 +247,9 @@ class TestDateTimeFieldAttribute:
         attr.set_internal_value(dt)
         assert attr.to_python(dt) == dt
 
+    def test_to_influx_success(self):
+        attr = attributes.DateTimeFieldAttribute()
+        attr.set_internal_value('2019-10-04 21:20:34')
+        dt = attr.get_internal_value()
+        assert attr.to_influx(dt) == '1570224034000000000'
+
