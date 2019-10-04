@@ -130,3 +130,7 @@ class TestFloatFieldAttribute:
         attr.clean(5.2345)
         assert attr.get_internal_value() == D(5.23).quantize(D('.01'))
 
+    def test_to_python_success(self):
+        attr = attributes.FloatFieldAttribute()
+        assert attr.to_python(5.2504) == 5.2504
+
