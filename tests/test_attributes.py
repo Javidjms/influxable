@@ -110,3 +110,7 @@ class TestIntegerFieldAttribute:
         base_attr = attributes.IntegerFieldAttribute(max_value=5)
         base_attr.set_internal_value(4)
 
+    def test_validate_invalid_min_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attributes.IntegerFieldAttribute(min_value='ok')
+
