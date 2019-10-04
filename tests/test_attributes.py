@@ -119,3 +119,9 @@ class TestIntegerFieldAttribute:
             attributes.IntegerFieldAttribute(max_value='ok')
 
 
+class TestFloatFieldAttribute:
+    def test_clean_success(self):
+        attr = attributes.FloatFieldAttribute()
+        attr.set_internal_value(5.2345)
+        assert attr.get_internal_value() == D(5.2345)
+
