@@ -164,3 +164,8 @@ class TestStringFieldAttribute:
         with pytest.raises(exceptions.InfluxDBAttributeValueError):
             attributes.StringFieldAttribute(choices=[5, 2, 3])
 
+    def test_validate_bad_choice_type_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attr = attributes.StringFieldAttribute(choices=['first', 'last'])
+            attr.set_internal_value('ok')
+
