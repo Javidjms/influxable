@@ -169,3 +169,7 @@ class TestStringFieldAttribute:
             attr = attributes.StringFieldAttribute(choices=['first', 'last'])
             attr.set_internal_value('ok')
 
+    def test_validate_invalid_max_length_type_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attributes.StringFieldAttribute(max_length='test')
+
