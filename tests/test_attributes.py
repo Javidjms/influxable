@@ -156,3 +156,7 @@ class TestStringFieldAttribute:
         attr = attributes.StringFieldAttribute()
         assert attr.to_influx('5') == "\'5\'"
 
+    def test_validate_invalid_choices_type_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attributes.StringFieldAttribute(choices=5)
+
