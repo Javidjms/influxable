@@ -214,3 +214,8 @@ class TestTimestampFieldAttribute:
         attr.set_internal_value(None)
         assert attr.get_internal_value() is not None
 
+    def test_clean_with_none_success(self):
+        attr = attributes.TimestampFieldAttribute(auto_now=False)
+        attr.set_internal_value(None)
+        assert attr.get_internal_value() is None
+
