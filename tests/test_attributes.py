@@ -125,3 +125,8 @@ class TestFloatFieldAttribute:
         attr.set_internal_value(5.2345)
         assert attr.get_internal_value() == D(5.2345)
 
+    def test_clean_with_max_nb_decimals_success(self):
+        attr = attributes.FloatFieldAttribute(max_nb_decimals=2)
+        attr.clean(5.2345)
+        assert attr.get_internal_value() == D(5.23).quantize(D('.01'))
+
