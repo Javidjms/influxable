@@ -270,3 +270,7 @@ class TestDateTimeFieldAttribute:
         assert attr.get_internal_value() is not None
         assert isinstance(attr._value, datetime)
 
+    def test_clean_with_none_success(self):
+        attr = attributes.DateTimeFieldAttribute(auto_now=False)
+        attr.set_internal_value(None)
+        assert attr.get_internal_value() is None
