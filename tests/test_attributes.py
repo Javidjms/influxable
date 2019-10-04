@@ -193,3 +193,9 @@ class TestBooleanFieldAttribute:
         assert attr.to_influx(True) == "true"
 
 
+class TestTimestampFieldAttribute:
+    def test_to_python_success(self):
+        attr = attributes.TimestampFieldAttribute()
+        attr.set_internal_value(1570209691)
+        assert attr.to_python(1570209691) == D('1570209691000000000')
+
