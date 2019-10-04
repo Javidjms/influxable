@@ -234,3 +234,10 @@ class TestTimestampFieldAttribute:
             attributes.TimestampFieldAttribute(precision='k')
 
 
+class TestDateTimeFieldAttribute:
+    def test_to_python_success(self):
+        attr = attributes.DateTimeFieldAttribute()
+        attr.set_internal_value('2019-10-01 10:11:05')
+        dt = arrow.get('2019-10-01 10:11:05', attr.str_format).datetime
+        assert attr.to_python('2019-10-01 10:11:05') == dt
+
