@@ -62,3 +62,14 @@ class TestBaseAttribute:
         base_attr.reset()
         assert base_attr.get_internal_value() is None
 
+    def test_set_internal_value_success(self):
+        base_attr = attributes.BaseAttribute()
+        base_attr.set_internal_value(5)
+        assert base_attr.get_internal_value() == 5
+        base_attr.set_internal_value(True)
+        assert base_attr.get_internal_value() is True
+        base_attr.set_internal_value('hello')
+        assert base_attr.get_internal_value() == 'hello'
+        base_attr.set_internal_value(None)
+        assert base_attr.get_internal_value() is None
+
