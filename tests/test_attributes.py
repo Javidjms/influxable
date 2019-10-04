@@ -114,3 +114,8 @@ class TestIntegerFieldAttribute:
         with pytest.raises(exceptions.InfluxDBAttributeValueError):
             attributes.IntegerFieldAttribute(min_value='ok')
 
+    def test_validate_invalid_max_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            attributes.IntegerFieldAttribute(max_value='ok')
+
+
