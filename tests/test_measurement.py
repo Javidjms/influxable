@@ -103,3 +103,9 @@ class TestMeasurement:
             cloned_attribute = getattr(instance, attr.ext_attribute_name)
             assert attr != cloned_attribute
 
+    def test_fill_values_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls(time=1570481055, value=10)
+        assert instance.time == D(1570481055)
+        assert instance.value == 10
+
