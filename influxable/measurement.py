@@ -3,6 +3,9 @@ from .attributes import BaseAttribute, GenericFieldAttribute, \
 from .db.query import Query, BulkInsertQuery
 from .response import InfluxDBResponse
 from .serializers import MeasurementPointSerializer
+from .exceptions import InfluxDBAttributeValueError
+
+EXTENDED_ATTRIBUTE_PREFIX_NAME = '__attribute__'
 
 
 class MeasurementMeta(type):
@@ -65,7 +68,7 @@ class MeasurementMeta(type):
             return getx, setx
 
         for attribute_name in attribute_names:
-            ext_attribute_name = '_extended_' + attribute_name
+            ext_attribute_name = EXTENDED_ATTRIBUTE_PREFIX_NAME + attribute_name
             attribute_field = getattr(cls, attribute_name)
             attribute_field.attribute_name = attribute_name
             attribute_field.ext_attribute_name = ext_attribute_name
