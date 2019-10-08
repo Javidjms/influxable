@@ -48,3 +48,9 @@ class TestMeasurement:
         query = measurement_cls.get_query()
         assert isinstance(query, Query)
 
+    def test_meta_get_attributes_success(self):
+        measurement_cls = self.create_measurement_class()
+        attrs = measurement_cls._get_attributes()
+        for attr in attrs:
+            assert isinstance(attr, attributes.BaseAttribute)
+
