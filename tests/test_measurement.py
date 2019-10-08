@@ -157,3 +157,13 @@ class TestMeasurement:
         items = {'time': D('1570481055'), 'value': 10}.items()
         assert instance.items() == items
 
+    def test_bulk_success(self):
+        measurement_cls = self.create_measurement_class()
+        measurements = [
+            measurement_cls(time=1570481055, value=10),
+            measurement_cls(time=1570481065, value=20),
+            measurement_cls(time=1570481075, value=30),
+        ]
+        res = measurement_cls.bulk_save(measurements)
+        assert res is True
+
