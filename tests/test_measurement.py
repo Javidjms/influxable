@@ -95,3 +95,11 @@ class TestMeasurement:
             measurement_cls = self.create_measurement_class_with_required()
             measurement_cls()
 
+    def test_clone_attributes_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls()
+        cls_attrs = instance._get_attributes()
+        for attr in cls_attrs:
+            cloned_attribute = getattr(instance, attr.ext_attribute_name)
+            assert attr != cloned_attribute
+
