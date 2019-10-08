@@ -181,7 +181,12 @@ class Measurement(object, metaclass=MeasurementMeta):
             str_prep_value_group = ','.join(prep_value_group)
             prep_value_groups.append(str_prep_value_group)
 
-        prep_value_groups[0] = ','.join([self.measurement_name] + [prep_value_groups[0]])
+        if prep_value_groups[0]:
+            prep_value_groups[0] = ','.join(
+                [self.measurement_name] + [prep_value_groups[0]]
+            )
+        else:
+            prep_value_groups[0] = self.measurement_name
         final_prep_value = ' '.join(prep_value_groups)
         return final_prep_value
 
