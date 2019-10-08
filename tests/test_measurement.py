@@ -32,3 +32,7 @@ class TestMeasurement:
         attr_names = measurement_cls._get_attribute_names()
         assert attr_names == ['__attribute__time', '__attribute__value']
 
+    def test_meta_check_has_query_attr_success(self):
+        measurement_cls = self.create_measurement_class()
+        assert hasattr(measurement_cls, 'get_query')
+
