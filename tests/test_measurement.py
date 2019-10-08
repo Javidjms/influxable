@@ -54,3 +54,9 @@ class TestMeasurement:
         for attr in attrs:
             assert isinstance(attr, attributes.BaseAttribute)
 
+    def test_meta_get_timestamp_attribute_success(self):
+        measurement_cls = self.create_measurement_class()
+        timestamp_attrs = measurement_cls._get_timestamp_attributes()
+        for attr in timestamp_attrs:
+            assert isinstance(attr, attributes.TimestampFieldAttribute)
+
