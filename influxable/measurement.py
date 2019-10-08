@@ -103,7 +103,9 @@ class Measurement(object, metaclass=MeasurementMeta):
         ]
         for key in required_attributes_names:
             if key not in kwargs:
-                raise AttributeError('The field {} is not defined'.format(key))
+                raise InfluxDBAttributeValueError(
+                    'The attribute \'{}\' cannot be nullable'.format(key)
+                )
 
     def clone_attributes(self):
         attributes = self._get_attributes()
