@@ -72,3 +72,16 @@ class TestMeasurement:
         assert measurement_cls.parser_class == MeasurementPointSerializer
         assert instance.parser_class == MeasurementPointSerializer
 
+    def test_extend_attributes_success(self):
+        measurement_cls = self.create_measurement_class()
+        attrs = measurement_cls._get_attributes()
+        for attr in attrs:
+            attribute_name = attr.attribute_name
+            ext_attribute_name = attr.ext_attribute_name
+            assert hasattr(measurement_cls, attribute_name)
+            assert hasattr(measurement_cls, ext_attribute_name)
+            prop = getattr(measurement_cls, attribute_name)
+            attr_field = getattr(measurement_cls, ext_attribute_name)
+            assert isinstance(attr_field, attributes.BaseAttribute)
+            assert isinstance(prop, property)
+
