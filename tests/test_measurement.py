@@ -36,3 +36,10 @@ class TestMeasurement:
         measurement_cls = self.create_measurement_class()
         assert hasattr(measurement_cls, 'get_query')
 
+    def test_meta_create_instance_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls()
+        assert isinstance(instance, measurement_cls)
+        assert hasattr(instance, 'get_query')
+        assert hasattr(instance, '_get_attributes')
+
