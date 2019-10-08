@@ -138,3 +138,10 @@ class TestMeasurement:
         attr_names = instance.get_ext_attribute_names()
         assert attr_names == ['__attribute__time', '__attribute__value']
 
+    def test_get_timestamp_attributes_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls(time=1570481055, value=10)
+        time_attrs = instance.get_timestamp_attributes()
+        for attr in time_attrs:
+            assert isinstance(attr, attributes.TimestampFieldAttribute)
+
