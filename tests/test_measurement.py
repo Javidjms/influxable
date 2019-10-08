@@ -119,3 +119,10 @@ class TestMeasurement:
         instance = measurement_cls(time=1570481055, value=10)
         assert instance.dict() == {'time': D('1570481055'), 'value': 10}
 
+    def test_get_attributes_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls(time=1570481055, value=10)
+        attrs = instance.get_attributes()
+        for attr in attrs:
+            assert isinstance(attr, attributes.BaseAttribute)
+
