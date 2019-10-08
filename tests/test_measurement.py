@@ -145,3 +145,9 @@ class TestMeasurement:
         for attr in time_attrs:
             assert isinstance(attr, attributes.TimestampFieldAttribute)
 
+    def test_get_prep_value_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls(time=1570481055, value=10)
+        prep_value = instance.get_prep_value()
+        assert prep_value == 'mysamplemeasurement value=10i 1570481055000000000'
+
