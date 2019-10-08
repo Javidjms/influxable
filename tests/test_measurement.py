@@ -132,3 +132,9 @@ class TestMeasurement:
         attr_names = instance.get_attribute_names()
         assert attr_names == ['time', 'value']
 
+    def test_get_ext_attribute_names_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls(time=1570481055, value=10)
+        attr_names = instance.get_ext_attribute_names()
+        assert attr_names == ['__attribute__time', '__attribute__value']
+
