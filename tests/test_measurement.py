@@ -173,3 +173,8 @@ class TestMeasurement:
             measurements = True
             measurement_cls.bulk_save(measurements)
 
+    def test_bulk_fail_2(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            measurement_cls = self.create_measurement_class()
+            measurements = [True, True, True]
+            measurement_cls.bulk_save(measurements)
