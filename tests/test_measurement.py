@@ -109,3 +109,8 @@ class TestMeasurement:
         assert instance.time == D(1570481055)
         assert instance.value == 10
 
+    def test_fill_values_failed(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            measurement_cls = self.create_measurement_class_with_required()
+            measurement_cls(time='1570481055', value="S")
+
