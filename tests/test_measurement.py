@@ -23,3 +23,7 @@ class TestMeasurement:
         measurement_cls = MySampleMeasurement
         return measurement_cls
 
+    def test_meta_check_type_success(self):
+        measurement_cls = self.create_measurement_class()
+        assert measurement_cls.__class__ == MeasurementMeta
+
