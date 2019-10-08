@@ -60,3 +60,9 @@ class TestMeasurement:
         for attr in timestamp_attrs:
             assert isinstance(attr, attributes.TimestampFieldAttribute)
 
+    def test_measurement_name_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls()
+        assert measurement_cls.measurement_name == 'mysamplemeasurement'
+        assert instance.measurement_name == 'mysamplemeasurement'
+
