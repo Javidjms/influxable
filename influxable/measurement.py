@@ -204,5 +204,15 @@ class Measurement(object, metaclass=MeasurementMeta):
 
     @staticmethod
     def bulk_save(points):
-        str_points = '\n'.join([point.get_prep_value() for point in points])
+        if not isinstance(points, list):
+            raise InfluxDBAttributeValueError('points must be a list')
+        str_points = ''
+        for point in points:
+            if not isinstance(point, Measurement):
+                raise InfluxDBAttributeValueError(
+                    'type of point must be Measurement'
+                )
+            prep_value = point.get_prep_value()
+            str_points += prep_value
+            str_points += '\n'
         return BulkInsertQuery(str_points).execute()
