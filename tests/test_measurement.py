@@ -66,3 +66,9 @@ class TestMeasurement:
         assert measurement_cls.measurement_name == 'mysamplemeasurement'
         assert instance.measurement_name == 'mysamplemeasurement'
 
+    def test_parser_class_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls()
+        assert measurement_cls.parser_class == MeasurementPointSerializer
+        assert instance.parser_class == MeasurementPointSerializer
+
