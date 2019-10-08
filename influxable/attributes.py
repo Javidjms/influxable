@@ -1,6 +1,6 @@
 import arrow
 from datetime import datetime
-from decimal import Decimal as D
+from decimal import Decimal as D, InvalidOperation
 from .helpers.utils import inv
 from .exceptions import InfluxDBAttributeValueError
 
@@ -73,7 +73,7 @@ class BaseAttribute:
         if value is not None:
             try:
                 self._value = self.to_python(value)
-            except ValueError as exception:
+            except (InvalidOperation, ValueError) as exception:
                 if self.enforce_cast:
                     raise exception
                 self._value = value
