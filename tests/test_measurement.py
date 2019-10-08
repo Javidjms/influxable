@@ -151,3 +151,9 @@ class TestMeasurement:
         prep_value = instance.get_prep_value()
         assert prep_value == 'mysamplemeasurement value=10i 1570481055000000000'
 
+    def test_items_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls(time=1570481055, value=10)
+        items = {'time': D('1570481055'), 'value': 10}.items()
+        assert instance.items() == items
+
