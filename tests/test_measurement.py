@@ -90,3 +90,8 @@ class TestMeasurement:
         instance = measurement_cls(time=1570481055, value=10)
         assert instance is not None
 
+    def test_check_attributes_failed(self):
+        with pytest.raises(exceptions.InfluxDBAttributeValueError):
+            measurement_cls = self.create_measurement_class_with_required()
+            measurement_cls()
+
