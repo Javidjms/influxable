@@ -86,8 +86,7 @@ class Measurement(object, metaclass=MeasurementMeta):
     def __init__(self, **kwargs):
         self.check_attribute_values(**kwargs)
         self.clone_attributes()
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        self.fill_values(**kwargs)
 
     def check_attribute_values(self, **kwargs):
         def filter_required_attributes(x):
@@ -183,6 +182,15 @@ class Measurement(object, metaclass=MeasurementMeta):
         prep_value_groups[0] = ','.join([self.measurement_name] + [prep_value_groups[0]])
         final_prep_value = ' '.join(prep_value_groups)
         return final_prep_value
+
+    def fill_values(self, **kwargs):
+        try:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+        except Exception as err:
+            print('key', key)
+            msg = '<\'{key}\'> : {msg}'.format(key=key, msg=err)
+            raise InfluxDBAttributeValueError(msg)
 
     def items(self):
         return self.dict().items()
