@@ -27,3 +27,8 @@ class TestMeasurement:
         measurement_cls = self.create_measurement_class()
         assert measurement_cls.__class__ == MeasurementMeta
 
+    def test_meta_get_attribute_names_success(self):
+        measurement_cls = self.create_measurement_class()
+        attr_names = measurement_cls._get_attribute_names()
+        assert attr_names == ['__attribute__time', '__attribute__value']
+
