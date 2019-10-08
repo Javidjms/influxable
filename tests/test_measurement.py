@@ -114,3 +114,8 @@ class TestMeasurement:
             measurement_cls = self.create_measurement_class_with_required()
             measurement_cls(time='1570481055', value="S")
 
+    def test_dict_success(self):
+        measurement_cls = self.create_measurement_class()
+        instance = measurement_cls(time=1570481055, value=10)
+        assert instance.dict() == {'time': D('1570481055'), 'value': 10}
+
