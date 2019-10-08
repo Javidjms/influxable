@@ -43,3 +43,8 @@ class TestMeasurement:
         assert hasattr(instance, 'get_query')
         assert hasattr(instance, '_get_attributes')
 
+    def test_factory_get_query_success(self):
+        measurement_cls = self.create_measurement_class()
+        query = measurement_cls.get_query()
+        assert isinstance(query, Query)
+
