@@ -8,7 +8,7 @@ class BaseSerializer:
         self.response = response
 
     def convert(self):
-        return self.response
+        return self.response.raw
 
 
 class JsonSerializer(BaseSerializer):
