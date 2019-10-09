@@ -1,10 +1,15 @@
 import json
 import itertools
 import pandas as pd
+from .exceptions import InfluxDBInvalidResponseError
+from .response import InfluxDBResponse
 
 
 class BaseSerializer:
     def __init__(self, response):
+        if not isinstance(response, InfluxDBResponse):
+            msg = '\'response\' must be type of InfluxDBResponse'
+            raise InfluxDBInvalidResponseError(msg)
         self.response = response
 
     def convert(self):
@@ -58,6 +63,13 @@ class PandasSerializer(BaseSerializer):
 
 class MeasurementPointSerializer(FlatFormattedSerieSerializer):
     def __init__(self, response, measurement):
+        from .measurement import MeasurementMeta
+        if not isinstance(response, InfluxDBResponse):
+            msg = '\'response\' must be type of InfluxDBResponse'
+            raise InfluxDBInvalidResponseError(msg)
+        if not isinstance(measurement, MeasurementMeta):
+            msg = '\'measurement\' must be type of Measurement'
+            raise InfluxDBInvalidResponseError(msg)
         self.response = response
         self.measurement = measurement
 
