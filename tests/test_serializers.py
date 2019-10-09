@@ -32,3 +32,11 @@ class TestSerializer:
         assert isinstance(data, dict)
         assert 'results' in data
 
+    def test_json_serializer_success(self):
+        influx_response = self.execute_sample_query()
+        serializer = serializers.JsonSerializer(influx_response)
+        data = serializer.convert()
+        json_data = json.loads(data)
+        assert isinstance(data, str)
+        assert json_data is not None
+
