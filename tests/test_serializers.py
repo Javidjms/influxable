@@ -48,3 +48,11 @@ class TestSerializer:
         assert len(data) == 1
         assert 'databases' in data[0]
 
+    def test_flat_formatted_serie_serializer_success(self):
+        influx_response = self.execute_sample_query()
+        serializer = serializers.FlatFormattedSerieSerializer(influx_response)
+        data = serializer.convert()
+        assert isinstance(data, list)
+        for d in data:
+            assert isinstance(d, dict)
+
