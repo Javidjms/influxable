@@ -70,3 +70,13 @@ class TestSerializer:
         data = serializer.convert()
         assert type(data) == pd.DataFrame
 
+    def test_measurement_serializer_success(self):
+        measurement_cls = self.create_measurement_class()
+        points = measurement_cls\
+            .get_query()\
+            .limit(10)\
+            .evaluate()
+
+        assert isinstance(points, list)
+        for p in points:
+            assert isinstance(p, measurement_cls)
