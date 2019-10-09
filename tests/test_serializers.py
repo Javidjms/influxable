@@ -56,3 +56,11 @@ class TestSerializer:
         for d in data:
             assert isinstance(d, dict)
 
+    def test_flat_simple_result_serializer_success(self):
+        influx_response = self.execute_sample_query()
+        serializer = serializers.FlatSimpleResultSerializer(influx_response)
+        data = serializer.convert()
+        assert isinstance(data, list)
+        for d in data:
+            assert isinstance(d, str)
+
