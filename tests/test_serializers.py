@@ -40,3 +40,11 @@ class TestSerializer:
         assert isinstance(data, str)
         assert json_data is not None
 
+    def test_formatted_serie_serializer_success(self):
+        influx_response = self.execute_sample_query()
+        serializer = serializers.FormattedSerieSerializer(influx_response)
+        data = serializer.convert()
+        assert isinstance(data, list)
+        assert len(data) == 1
+        assert 'databases' in data[0]
+
