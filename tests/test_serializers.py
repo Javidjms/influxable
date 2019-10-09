@@ -64,3 +64,9 @@ class TestSerializer:
         for d in data:
             assert isinstance(d, str)
 
+    def test_pandas_serializer_success(self):
+        influx_response = self.execute_sample_query()
+        serializer = serializers.PandasSerializer(influx_response)
+        data = serializer.convert()
+        assert type(data) == pd.DataFrame
+
