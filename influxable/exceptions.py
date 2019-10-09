@@ -6,6 +6,10 @@ class InfluxDBConnectionError(InfluxDBException):
     pass
 
 
+class InfluxDBInvalidResponseError(InfluxDBException):
+    pass
+
+
 class InfluxDBInvalidURLError(InfluxDBException):
     MESSAGE_PLACEHOLDER = 'Bad schema for : {base_url}'
 
