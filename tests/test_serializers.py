@@ -24,3 +24,11 @@ class TestSerializer:
         query = 'SHOW DATABASES'
         influx_response = self.execute_query(query)
         return influx_response
+
+    def test_base_serializer_success(self):
+        influx_response = self.execute_sample_query()
+        serializer = serializers.BaseSerializer(influx_response)
+        data = serializer.convert()
+        assert isinstance(data, dict)
+        assert 'results' in data
+
