@@ -143,6 +143,12 @@ class InfluxDBAdmin:
         return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
+    def show_shards():
+        query = 'SHOW SHARDS'
+        parser = serializers.FormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
+
+    @staticmethod
     def show_users():
         query = 'SHOW USERS'
         parser = serializers.FlatFormattedSerieSerializer
