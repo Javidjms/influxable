@@ -112,3 +112,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_tag_keys()
         assert res is not None
 
+    def test_show_tag_keys_with_measurement_success(self):
+        res = InfluxDBAdmin.show_tag_keys('param1')
+        assert res is not None
+
