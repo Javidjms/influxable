@@ -22,3 +22,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_series_cardinality()
         assert res is not None
 
+    def test_show_series_cardinality_with_exact_success(self):
+        res = InfluxDBAdmin.show_series_cardinality(exact=True)
+        assert res is not None
+
