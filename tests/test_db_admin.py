@@ -92,3 +92,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_series()
         assert res is not None
 
+    def test_show_stats_success(self):
+        res = InfluxDBAdmin.show_stats()
+        assert res is not None
+
