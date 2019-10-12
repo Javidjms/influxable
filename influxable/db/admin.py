@@ -54,6 +54,17 @@ class InfluxDBAdmin:
         return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
+    def show_tag_values_cardinality(key, exact=False):
+        options = {
+            'key': key,
+            'exact': 'EXACT' if exact else '',
+        }
+        query = 'SHOW TAG VALUES {exact} CARDINALITY WITH KEY = "{key}"'
+        query = query.format(**options)
+        parser = serializers.FormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
+
+    @staticmethod
     def show_databases():
         query = 'SHOW DATABASES'
         parser = serializers.FlatSimpleResultSerializer
