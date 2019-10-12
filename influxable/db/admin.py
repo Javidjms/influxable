@@ -175,6 +175,23 @@ class InfluxDBAdmin:
         return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
+    def show_tag_values(key, *measurements):
+        quoted_measurements = ['"{}"'.format(m) for m in measurements]
+        selected_measurements = ', '.join(quoted_measurements)
+        if selected_measurements:
+            from_clause = 'FROM {}'.format(selected_measurements)
+        else:
+            from_clause = ''
+        options = {
+            'key': key,
+            'from_clause': from_clause,
+        }
+        query = 'SHOW TAG VALUES {from_clause} WITH KEY = "{key}"'
+        query = query.format(**options)
+        parser = serializers.FormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
+
+    @staticmethod
     def show_users():
         query = 'SHOW USERS'
         parser = serializers.FlatFormattedSerieSerializer
