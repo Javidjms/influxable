@@ -42,3 +42,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_tag_values_cardinality('phase', exact=True)
         assert res is not None
 
+    def test_show_continuous_queries_success(self):
+        res = InfluxDBAdmin.show_continuous_queries()
+        assert res is not None
+
