@@ -12,6 +12,16 @@ class InfluxDBAdmin:
         return formatted_result
 
     @staticmethod
+    def show_field_key_cardinality(exact=False):
+        options = {
+            'exact': 'EXACT' if exact else '',
+        }
+        query = 'SHOW FIELD KEY {exact} CARDINALITY'
+        query = query.format(**options)
+        parser = serializers.FormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
+
+    @staticmethod
     def show_databases():
         query = 'SHOW DATABASES'
         parser = serializers.FlatSimpleResultSerializer
