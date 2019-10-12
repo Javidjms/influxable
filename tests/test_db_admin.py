@@ -128,3 +128,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_tag_values('phase', 'param1')
         assert res is not None
 
+    def test_show_tag_values_with_measurements_success(self):
+        res = InfluxDBAdmin.show_tag_values('phase', 'param1', 'param2')
+        assert res is not None
+
