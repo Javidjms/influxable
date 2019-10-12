@@ -155,6 +155,12 @@ class InfluxDBAdmin:
         return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
+    def show_subscriptions():
+        query = 'SHOW SUBSCRIPTIONS'
+        parser = serializers.FormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
+
+    @staticmethod
     def show_users():
         query = 'SHOW USERS'
         parser = serializers.FlatFormattedSerieSerializer
