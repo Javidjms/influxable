@@ -104,3 +104,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_shard_groups()
         assert res is not None
 
+    def test_show_subscriptions_success(self):
+        res = InfluxDBAdmin.show_subscriptions()
+        assert res is not None
+
