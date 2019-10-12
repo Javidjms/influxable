@@ -108,3 +108,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_subscriptions()
         assert res is not None
 
+    def test_show_tag_keys_success(self):
+        res = InfluxDBAdmin.show_tag_keys()
+        assert res is not None
+
