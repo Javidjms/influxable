@@ -74,3 +74,9 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_measurements()
         assert res is not None
 
+    def test_show_measurements_with_criteria_success(self):
+        res = InfluxDBAdmin.show_measurements(
+            Field('phase') == 'moon',
+        )
+        assert res is not None
+
