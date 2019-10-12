@@ -50,3 +50,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_diagnostics()
         assert res is not None
 
+    def test_show_field_keys_success(self):
+        res = InfluxDBAdmin.show_field_keys()
+        assert res is not None
+
