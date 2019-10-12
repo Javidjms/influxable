@@ -22,6 +22,16 @@ class InfluxDBAdmin:
         return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
+    def show_measurement_cardinality(exact=False):
+        options = {
+            'exact': 'EXACT' if exact else '',
+        }
+        query = 'SHOW MEASUREMENT {exact} CARDINALITY'
+        query = query.format(**options)
+        parser = serializers.FlatSingleValueSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
+
+    @staticmethod
     def show_databases():
         query = 'SHOW DATABASES'
         parser = serializers.FlatSimpleResultSerializer
