@@ -58,3 +58,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_field_keys('param1')
         assert res is not None
 
+    def test_show_field_keys_with_multiple_measurement_success(self):
+        res = InfluxDBAdmin.show_field_keys('param1', 'param2')
+        assert res is not None
+
