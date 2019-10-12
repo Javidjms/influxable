@@ -46,3 +46,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_continuous_queries()
         assert res is not None
 
+    def test_show_diagnostics_success(self):
+        res = InfluxDBAdmin.show_diagnostics()
+        assert res is not None
+
