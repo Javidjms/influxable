@@ -84,3 +84,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_queries()
         assert res is not None
 
+    def test_show_retention_policies_success(self):
+        res = InfluxDBAdmin.show_retention_policies()
+        assert res is not None
+
