@@ -29,6 +29,8 @@ class FormattedSerieSerializer(BaseSerializer):
             name = serie.name
             columns = serie.columns
             values = serie.values
+            if values is None:
+                values = [[None] * len(serie.columns)]
             formatted_values = [dict(zip(columns, v)) for v in values]
             formatted_series.append({name: formatted_values})
         return formatted_series
