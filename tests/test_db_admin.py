@@ -34,3 +34,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_tag_key_cardinality(exact=True)
         assert res is not None
 
+    def test_show_tag_values_cardinality_success(self):
+        res = InfluxDBAdmin.show_tag_values_cardinality('phase')
+        assert res is not None
+
