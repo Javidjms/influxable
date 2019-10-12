@@ -125,6 +125,12 @@ class InfluxDBAdmin:
         return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
+    def show_retention_policies():
+        query = 'SHOW RETENTION POLICIES'
+        parser = serializers.FlatFormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
+
+    @staticmethod
     def show_series():
         query = 'SHOW SERIES'
         parser = serializers.FlatFormattedSerieSerializer
