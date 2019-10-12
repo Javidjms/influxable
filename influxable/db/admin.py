@@ -65,6 +65,12 @@ class InfluxDBAdmin:
         return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
+    def show_continuous_queries():
+        query = 'SHOW CONTINUOUS QUERIES'
+        parser = serializers.FormattedSerieSerializer
+        return InfluxDBAdmin._execute_query(query, parser)
+
+    @staticmethod
     def show_databases():
         query = 'SHOW DATABASES'
         parser = serializers.FlatSimpleResultSerializer
