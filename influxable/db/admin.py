@@ -105,8 +105,16 @@ class InfluxDBAdmin:
         return InfluxDBAdmin._execute_query(query, parser)
 
     @staticmethod
-    def show_measurements():
-        query = 'SHOW MEASUREMENTS'
+    def show_measurements(*criteria):
+        query = 'SHOW MEASUREMENTS {where_clause}'
+        selected_criteria = [c.evaluate() for c in criteria]
+        eval_criteria = ' AND '.join(selected_criteria)
+        if eval_criteria:
+            where_clause = 'WHERE {}'.format(eval_criteria)
+        else:
+            where_clause = ''
+        options = {'where_clause': where_clause}
+        query = query.format(**options)
         parser = serializers.FlatSimpleResultSerializer
         return InfluxDBAdmin._execute_query(query, parser)
 
