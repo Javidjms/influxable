@@ -70,3 +70,7 @@ class TestDBAdminShowCommand:
         res = InfluxDBAdmin.show_databases()
         assert res is not None
 
+    def test_show_measurements_success(self):
+        res = InfluxDBAdmin.show_measurements()
+        assert res is not None
+
