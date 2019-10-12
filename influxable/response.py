@@ -42,7 +42,7 @@ class InfluxDBSerieResponse:
 
     @property
     def values(self):
-        return self._raw_json_serie["values"]
+        return self._raw_json_serie.get("values", None)
 
 
 class InfluxDBErrorResponse:
