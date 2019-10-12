@@ -52,6 +52,14 @@ class FlatSimpleResultSerializer(BaseSerializer):
         return flatten_serie
 
 
+class FlatSingleValueSerializer(FlatSimpleResultSerializer):
+    def convert(self):
+        simple_result = super().convert()
+        if len(simple_result) == 1:
+            return simple_result[0]
+        return None
+
+
 class PandasSerializer(BaseSerializer):
     def convert(self):
         serie = self.response.main_serie
