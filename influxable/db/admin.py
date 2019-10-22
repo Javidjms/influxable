@@ -53,6 +53,10 @@ class GenericDBAdminCommand:
             raise exceptions.InfluxDBInvalidChoiceError(msg)
         return privilege
 
+    @staticmethod
+    def _get_formatted_user_name(user_name):
+        return GenericDBAdminCommand._format_with_double_quote(user_name)
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
