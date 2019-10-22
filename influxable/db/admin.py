@@ -353,6 +353,16 @@ class DropAdminCommand:
         InfluxDBAdmin._execute_query(query, options)
         return True
 
+    @staticmethod
+    def drop_measurement(measurement_name):
+        measurement_name = GenericDBAdminCommand._format_with_double_quote(
+            measurement_name,
+        )
+        options = {'measurement_name': measurement_name}
+        query = 'DROP MEASUREMENT {measurement_name}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
