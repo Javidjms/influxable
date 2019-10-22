@@ -332,6 +332,17 @@ class DeleteAdminCommand:
         return True
 
 
+class DropAdminCommand:
+    @staticmethod
+    def drop_continuous_query(query_name):
+        query_name = GenericDBAdminCommand._format_with_double_quote(
+            query_name,
+        )
+        options = {'query_name': query_name}
+        query = 'DROP CONTINUOUS QUERY {query_name} ON {database_name}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
