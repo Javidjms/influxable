@@ -429,6 +429,20 @@ class ExplainAdminCommand:
         return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
 
+class GrantAdminCommand:
+    @staticmethod
+    def grant(privilege, user_name):
+        privilege = GenericDBAdminCommand._get_formatted_privilege(privilege)
+        user_name = GenericDBAdminCommand._get_formatted_user_name(user_name)
+        options = {
+            'privilege': privilege,
+            'user_name': user_name,
+        }
+        query = 'GRANT {privilege} ON {database_name} TO {user_name}'
+        parser = serializers.FlatFormattedSerieSerializer
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
+
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
