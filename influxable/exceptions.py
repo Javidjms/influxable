@@ -30,7 +30,7 @@ class InfluxDBInvalidURLError(InfluxDBError):
         super().__init__(self.message)
 
 
-class InfluxDBBadRequestError(InfluxDBException):
+class InfluxDBBadRequestError(InfluxDBError):
     MESSAGE_PLACEHOLDER = 'Bad request for params : {params}'
 
     def __init__(self, params):
@@ -38,7 +38,7 @@ class InfluxDBBadRequestError(InfluxDBException):
         super().__init__(self.message)
 
 
-class InfluxDBBadQueryError(InfluxDBException):
+class InfluxDBBadQueryError(InfluxDBError):
     MESSAGE_PLACEHOLDER = 'Invalid query : {query}'
 
     def __init__(self, query):
@@ -46,7 +46,7 @@ class InfluxDBBadQueryError(InfluxDBException):
         super().__init__(self.message)
 
 
-class InfluxDBInvalidNumberError(InfluxDBException):
+class InfluxDBInvalidNumberError(InfluxDBError):
     MESSAGE_PLACEHOLDER = 'Invalid number : {points}'
 
     def __init__(self, points):
@@ -54,7 +54,7 @@ class InfluxDBInvalidNumberError(InfluxDBException):
         super().__init__(self.message)
 
 
-class InfluxDBInvalidTimestampError(InfluxDBException):
+class InfluxDBInvalidTimestampError(InfluxDBError):
     MESSAGE_PLACEHOLDER = 'Invalid timestamp : {points}'
 
     def __init__(self, points):
@@ -62,7 +62,7 @@ class InfluxDBInvalidTimestampError(InfluxDBException):
         super().__init__(self.message)
 
 
-class InfluxDBUnauthorizedError(InfluxDBException):
+class InfluxDBUnauthorizedError(InfluxDBError):
     MESSAGE = 'Authorization Failed (Bad credentials)'
 
     def __init__(self, message):
@@ -70,5 +70,5 @@ class InfluxDBUnauthorizedError(InfluxDBException):
         super().__init__(self.MESSAGE)
 
 
-class InfluxDBAttributeValueError(InfluxDBException):
+class InfluxDBAttributeValueError(InfluxDBError):
     pass
