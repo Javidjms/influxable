@@ -466,10 +466,14 @@ class RevokeAdminCommand:
         return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
 
+class ShowAdminCommand:
+    @staticmethod
+    def show_field_key_cardinality(exact=False):
+        exact = 'EXACT' if exact else ''
+        options = {'exact': exact}
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
-        query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_measurement_cardinality(exact=False):
