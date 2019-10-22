@@ -22,3 +22,8 @@ class Influxable:
     def write_points(self, *args, **kwargs):
         request = self.connection.request
         return InfluxDBApi.write_points(request, *args, **kwargs)
+
+    @property
+    def base_url(self):
+        return self.connection.base_url
+
