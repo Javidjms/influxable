@@ -43,7 +43,16 @@ class GenericDBAdminCommand:
         return formatted_result
 
     @staticmethod
-    def show_field_key_cardinality(exact=False):
+    def _get_formatted_privilege(privilege):
+        privilege = str(privilege).upper()
+        if privilege not in PRIVILEGE_VALUES:
+            msg = 'privilege `{}` must be one of value of {}'.format(
+                privilege,
+                PRIVILEGE_VALUES,
+            )
+            raise exceptions.InfluxDBInvalidChoiceError(msg)
+        return privilege
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
