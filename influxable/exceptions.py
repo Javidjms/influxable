@@ -18,6 +18,10 @@ class InfluxDBInvalidChoiceError(InfluxDBError):
     pass
 
 
+class InfluxDBInvalidTypeError(InfluxDBError):
+    pass
+
+
     MESSAGE_PLACEHOLDER = 'Bad schema for : {base_url}'
 
     def __init__(self, base_url):
