@@ -133,6 +133,11 @@ class GenericDBAdminCommand:
         database_name = instance.database_name
         return database_name
 
+    @staticmethod
+    def _get_influxable_instance():
+        instance = Influxable.get_instance()
+        return instance
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
