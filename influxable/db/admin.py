@@ -477,179 +477,164 @@ class ShowAdminCommand:
 
     @staticmethod
     def show_measurement_cardinality(exact=False):
-        options = {
-            'exact': 'EXACT' if exact else '',
-        }
+        exact = 'EXACT' if exact else ''
+        options = {'exact': exact}
         query = 'SHOW MEASUREMENT {exact} CARDINALITY'
-        query = query.format(**options)
         parser = serializers.FlatSingleValueSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_series_cardinality(exact=False):
-        options = {
-            'exact': 'EXACT' if exact else '',
-        }
+        exact = 'EXACT' if exact else ''
+        options = {'exact': exact}
         query = 'SHOW SERIES {exact} CARDINALITY'
-        query = query.format(**options)
         parser = serializers.FlatSingleValueSerializer
         if exact:
             parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_tag_key_cardinality(exact=False):
-        options = {
-            'exact': 'EXACT' if exact else '',
-        }
+        exact = 'EXACT' if exact else ''
+        options = {'exact': exact}
         query = 'SHOW TAG KEY {exact} CARDINALITY'
-        query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_tag_values_cardinality(key, exact=False):
+        key_clause = 'KEY = "{key}"'.format(key=key)
+        exact = 'EXACT' if exact else ''
         options = {
-            'key': key,
-            'exact': 'EXACT' if exact else '',
+            'exact': exact,
+            'key_clause': key_clause,
         }
-        query = 'SHOW TAG VALUES {exact} CARDINALITY WITH KEY = "{key}"'
-        query = query.format(**options)
+        query = 'SHOW TAG VALUES {exact} CARDINALITY WITH {key_clause}'
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_continuous_queries():
         query = 'SHOW CONTINUOUS QUERIES'
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
     def show_diagnostics():
         query = 'SHOW DIAGNOSTICS'
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
-    def show_field_keys(*measurements):
-        quoted_measurements = ['"{}"'.format(m) for m in measurements]
-        selected_measurements = ', '.join(quoted_measurements)
-        if selected_measurements:
-            from_clause = 'FROM {}'.format(selected_measurements)
-        else:
-            from_clause = ''
+    def show_field_keys(measurements=[]):
+        from_clause = GenericDBAdminCommand._generate_from_clause(measurements)
         options = {'from_clause': from_clause}
         query = 'SHOW FIELD KEYS {from_clause}'
-        query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
-    def show_grants(username):
-        options = {'username': username}
-        query = 'SHOW GRANTS FOR {username}'
-        query = query.format(**options)
+    def show_grants(user_name):
+        options = {'user_name': user_name}
+        query = 'SHOW GRANTS FOR {user_name}'
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_databases():
         query = 'SHOW DATABASES'
         parser = serializers.FlatSimpleResultSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
-    def show_measurements(*criteria):
-        query = 'SHOW MEASUREMENTS {where_clause}'
-        selected_criteria = [c.evaluate() for c in criteria]
-        eval_criteria = ' AND '.join(selected_criteria)
-        if eval_criteria:
-            where_clause = 'WHERE {}'.format(eval_criteria)
-        else:
-            where_clause = ''
+    def show_measurements(criteria=[]):
+        where_clause = GenericDBAdminCommand._generate_where_clause(criteria)
         options = {'where_clause': where_clause}
-        query = query.format(**options)
+        query = 'SHOW MEASUREMENTS {where_clause}'
         parser = serializers.FlatSimpleResultSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_queries():
         query = 'SHOW QUERIES'
         parser = serializers.FlatFormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
     def show_retention_policies():
         query = 'SHOW RETENTION POLICIES'
         parser = serializers.FlatFormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
-    def show_series():
-        query = 'SHOW SERIES'
+    def show_series(measurements=[], criteria=[], limit=None, offset=None):
+        from_clause = GenericDBAdminCommand._generate_from_clause(measurements)
+        where_clause = GenericDBAdminCommand._generate_where_clause(criteria)
+        limit_clause = GenericDBAdminCommand._generate_limit_clause(limit)
+        offset_clause = GenericDBAdminCommand._generate_offset_clause(offset)
+        options = {
+            'from_clause': from_clause,
+            'where_clause': where_clause,
+            'limit_clause': limit_clause,
+            'offset_clause': offset_clause,
+        }
+        query = 'SHOW SERIES ON {database_name}' +\
+                ' {from_clause}' +\
+                ' {where_clause}' +\
+                ' {limit_clause}' +\
+                ' {offset_clause}'
         parser = serializers.FlatFormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_stats():
         query = 'SHOW STATS'
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
     def show_shards():
         query = 'SHOW SHARDS'
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
     def show_shard_groups():
         query = 'SHOW SHARD GROUPS'
         parser = serializers.FlatFormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
     def show_subscriptions():
         query = 'SHOW SUBSCRIPTIONS'
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
     @staticmethod
-    def show_tag_keys(*measurements):
-        quoted_measurements = ['"{}"'.format(m) for m in measurements]
-        selected_measurements = ', '.join(quoted_measurements)
-        if selected_measurements:
-            from_clause = 'FROM {}'.format(selected_measurements)
-        else:
-            from_clause = ''
+    def show_tag_keys(measurements=[]):
+        from_clause = GenericDBAdminCommand._generate_from_clause(measurements)
         options = {'from_clause': from_clause}
         query = 'SHOW TAG KEYS {from_clause}'
-        query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
-    def show_tag_values(key, *measurements):
-        quoted_measurements = ['"{}"'.format(m) for m in measurements]
-        selected_measurements = ', '.join(quoted_measurements)
-        if selected_measurements:
-            from_clause = 'FROM {}'.format(selected_measurements)
-        else:
-            from_clause = ''
+    def show_tag_values(key, measurements=[]):
+        key_clause = 'KEY = "{key}"'.format(key=key)
+        from_clause = GenericDBAdminCommand._generate_from_clause(measurements)
         options = {
-            'key': key,
+            'key_clause': key_clause,
             'from_clause': from_clause,
         }
-        query = 'SHOW TAG VALUES {from_clause} WITH KEY = "{key}"'
-        query = query.format(**options)
+        query = 'SHOW TAG VALUES {from_clause} WITH {key_clause}'
         parser = serializers.FormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
     @staticmethod
     def show_users():
         query = 'SHOW USERS'
         parser = serializers.FlatFormattedSerieSerializer
-        return InfluxDBAdmin._execute_query(query, parser)
+        return InfluxDBAdmin._execute_query_with_parser(query, parser)
 
 
 class InfluxDBAdmin(
