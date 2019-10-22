@@ -133,6 +133,7 @@ class Query(RawQuery):
 
     def evaluate(self, parser_class=BaseSerializer, **kwargs):
         result = InfluxDBResponse(self.execute())
+        result.raise_if_error()
         formatted_result = self.format(result, parser_class, **kwargs)
         return formatted_result
 

@@ -30,6 +30,7 @@ class MeasurementMeta(type):
 
                 def evaluate(self, parser_class=cls.parser_class):
                     result = InfluxDBResponse(self.execute())
+                    result.raise_if_error()
                     formatted_result = self.format(result, parser_class)
                     return formatted_result
             return MeasurementQuery().from_measurements(cls.measurement_name)
