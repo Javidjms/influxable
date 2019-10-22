@@ -277,6 +277,24 @@ class CreateAdminCommand:
                 ' {default_clause}'
         InfluxDBAdmin._execute_query(query, options)
         return True
+
+    @staticmethod
+    def create_subscription(subscription_name, hosts, any=False):
+        subscription_name = GenericDBAdminCommand._format_with_double_quote(
+            subscription_name,
+        )
+        destination_type = 'ANY' if any else 'ALL'
+        formatted_hosts = ', '.join(['\'{}\''.format(h) for h in hosts])
+        options = {
+            'hosts': formatted_hosts,
+            'destination_type': destination_type,
+            'subscription_name': subscription_name,
+        }
+        query = 'CREATE SUBSCRIPTION {subscription_name} ON {database_name}' +\
+                ' DESTINATIONS {destination_type} {hosts}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
