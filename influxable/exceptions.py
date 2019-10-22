@@ -6,7 +6,7 @@ class InfluxDBError(InfluxDBException):
     pass
 
 
-class InfluxDBInvalidResponseError(InfluxDBException):
+class InfluxDBConnectionError(InfluxDBError):
     pass
 
 
