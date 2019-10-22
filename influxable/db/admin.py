@@ -71,6 +71,24 @@ class GenericDBAdminCommand:
             from_clause = 'FROM {}'.format(selected_measurements)
         return from_clause
 
+    @staticmethod
+    def _generate_where_clause(criteria):
+        if not isinstance(criteria, list):
+            msg = 'criteria type must be <list>'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+        if len(criteria) and \
+           not any([isinstance(c, Criteria) for c in criteria]):
+            msg = 'criteria type must be <list> of <Criteria>'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+        where_clause = ''
+        if len(criteria):
+            selected_criteria = [c.evaluate() for c in criteria]
+            eval_criteria = ' AND '.join(selected_criteria)
+            where_clause = 'WHERE {}'.format(eval_criteria)
+        return where_clause
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
