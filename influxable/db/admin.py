@@ -100,6 +100,17 @@ class GenericDBAdminCommand:
             limit_clause = 'LIMIT {}'.format(limit)
         return limit_clause
 
+    @staticmethod
+    def _generate_offset_clause(offset):
+        if offset is not None and not isinstance(offset, int):
+            msg = 'offset type must be <int>'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+        offset_clause = ''
+        if offset is not None:
+            offset_clause = 'OFFSET {}'.format(offset)
+        return offset_clause
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
