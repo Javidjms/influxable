@@ -416,6 +416,19 @@ class DropAdminCommand:
         return True
 
 
+class ExplainAdminCommand:
+    @staticmethod
+    def explain(query, analyze=False):
+        analyze = 'ANALYZE' if analyze else ''
+        options = {
+            'analyze': analyze,
+            'query': query,
+        }
+        query = 'EXPLAIN {analyze} {query}'
+        parser = serializers.FlatFormattedSerieSerializer
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
+
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
