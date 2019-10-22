@@ -2,7 +2,7 @@ class InfluxDBException(Exception):
     pass
 
 
-class InfluxDBConnectionError(InfluxDBException):
+class InfluxDBError(InfluxDBException):
     pass
 
 
