@@ -138,6 +138,11 @@ class GenericDBAdminCommand:
         instance = Influxable.get_instance()
         return instance
 
+    @staticmethod
+    def _format_with_simple_quote(string):
+        return '\'{}\''.format(string)
+
+    @staticmethod
         options = {
             'exact': 'EXACT' if exact else '',
         }
