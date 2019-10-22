@@ -194,6 +194,50 @@ class CreateAdminCommand:
     def create_continuous_query():
         raise NotImplementedError
 
+    @staticmethod
+    def create_database(
+        database_name,
+        duration=None,
+        replication=None,
+        shard_duration=None,
+        policy_name=None,
+    ):
+        database_name = GenericDBAdminCommand._format_with_double_quote(
+            database_name,
+        )
+        options = {'database_name': database_name}
+
+        with_clause = ''
+        if duration or replication or shard_duration or policy_name:
+            policy_clause = ''
+            if policy_name:
+                policy_clause = 'NAME "{}"'.format(policy_name)
+
+            duration_clause = GenericDBAdminCommand._generate_duration_clause(
+                duration
+            )
+            replication_clause = GenericDBAdminCommand._generate_replication_clause(
+                replication
+            )
+            shard_duration_clause = GenericDBAdminCommand._generate_shard_duration_clause(
+                shard_duration
+            )
+
+            with_clause = 'WITH' +\
+                          ' {duration_clause}' +\
+                          ' {replication_clause}' +\
+                          ' {shard_duration_clause}' +\
+                          ' {policy_clause}'
+            options.update({
+                'duration_clause': duration_clause,
+                'replication_clause': replication_clause,
+                'policy_clause': policy_clause,
+                'shard_duration_clause': shard_duration_clause,
+            })
+        query = 'CREATE DATABASE {database_name}' + with_clause
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
