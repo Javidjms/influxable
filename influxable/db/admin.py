@@ -373,6 +373,23 @@ class DropAdminCommand:
         InfluxDBAdmin._execute_query(query, options)
         return True
 
+    @staticmethod
+    def drop_series(measurements, criteria):
+        from_clause = GenericDBAdminCommand._generate_from_clause(measurements)
+        where_clause = GenericDBAdminCommand._generate_where_clause(criteria)
+
+        if not from_clause and not where_clause:
+            msg = '`measurements` or `criteria` must be not null'
+            raise exceptions.InfluxDBError(msg)
+
+        options = {
+            'from_clause': from_clause,
+            'where_clause': where_clause,
+        }
+        query = 'DROP SERIES {from_clause} {where_clause}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
