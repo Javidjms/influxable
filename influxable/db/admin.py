@@ -123,6 +123,10 @@ class GenericDBAdminCommand:
     def _generate_replication_clause(replication):
         return 'REPLICATION {}'.format(replication) if replication else ''
 
+    @staticmethod
+    def _generate_shard_duration_clause(sh_duration):
+        return 'SHARD DURATION {}'.format(sh_duration) if sh_duration else ''
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
