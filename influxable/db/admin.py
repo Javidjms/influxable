@@ -407,6 +407,15 @@ class DropAdminCommand:
         InfluxDBAdmin._execute_query(query, options)
         return True
 
+    @staticmethod
+    def drop_user(user_name):
+        user_name = GenericDBAdminCommand._get_formatted_user_name(user_name)
+        options = {'user_name': user_name}
+        query = 'DROP USER {user_name}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
