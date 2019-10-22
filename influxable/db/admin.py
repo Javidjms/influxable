@@ -143,6 +143,10 @@ class GenericDBAdminCommand:
         return '\'{}\''.format(string)
 
     @staticmethod
+    def _format_with_double_quote(string):
+        return '"{}"'.format(string)
+
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
