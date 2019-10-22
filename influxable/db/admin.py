@@ -89,6 +89,17 @@ class GenericDBAdminCommand:
             where_clause = 'WHERE {}'.format(eval_criteria)
         return where_clause
 
+    @staticmethod
+    def _generate_limit_clause(limit):
+        if limit is not None and not isinstance(limit, int):
+            msg = 'limit type must be <int>'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+        limit_clause = ''
+        if limit is not None:
+            limit_clause = 'LIMIT {}'.format(limit)
+        return limit_clause
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
