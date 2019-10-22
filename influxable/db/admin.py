@@ -24,9 +24,21 @@ class GenericDBAdminCommand:
         return options
 
     @staticmethod
-    def _execute_query(query, parser=serializers.FlatFormattedSerieSerializer):
-        response = RawQuery(query).execute()
+    def _execute_query(query, options={}):
+        options = GenericDBAdminCommand._add_database_name_to_options(options)
+        prepared_query = query.format(**options)
+        response = RawQuery(prepared_query).execute()
         influx_response = InfluxDBResponse(response)
+        influx_response.raise_if_error()
+        return influx_response
+
+    @staticmethod
+    def _execute_query_with_parser(
+        query,
+        parser=serializers.FlatFormattedSerieSerializer,
+        options={},
+    ):
+        influx_response = GenericDBAdminCommand._execute_query(query, options)
         formatted_result = parser(influx_response).convert()
         return formatted_result
 
