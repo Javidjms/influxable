@@ -23,6 +23,23 @@ class InfluxDBResponse:
                     return [InfluxDBSerieResponse(s) for s in result['series']]
         return []
 
+    @property
+    def error(self):
+        main_level_error = self.raw.get('error', None)
+        if main_level_error:
+            return main_level_error
+        if 'results' in self.raw:
+            results = self.raw['results']
+            if len(results):
+                result = results[0]
+                if 'error' in result:
+                    return result.get('error', None)
+
+    def raise_if_error(self):
+        if self.error:
+            from .exceptions import InfluxDBError
+            raise InfluxDBError(self.error)
+
 
 class InfluxDBSerieResponse:
     def __init__(self, json_serie):
