@@ -111,6 +111,10 @@ class GenericDBAdminCommand:
             offset_clause = 'OFFSET {}'.format(offset)
         return offset_clause
 
+    @staticmethod
+    def _generate_default_clause(is_default):
+        return 'DEFAULT' if is_default is True else ''
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
