@@ -112,19 +112,19 @@ class GenericDBAdminCommand:
         return offset_clause
 
     @staticmethod
-    def _generate_default_clause(is_default):
+    def _generate_default_clause(is_default=False):
         return 'DEFAULT' if is_default is True else ''
 
     @staticmethod
-    def _generate_duration_clause(duration):
+    def _generate_duration_clause(duration=None):
         return 'DURATION {}'.format(duration) if duration else ''
 
     @staticmethod
-    def _generate_replication_clause(replication):
+    def _generate_replication_clause(replication=None):
         return 'REPLICATION {}'.format(replication) if replication else ''
 
     @staticmethod
-    def _generate_shard_duration_clause(sh_duration):
+    def _generate_shard_duration_clause(sh_duration=None):
         return 'SHARD DURATION {}'.format(sh_duration) if sh_duration else ''
 
     @staticmethod
