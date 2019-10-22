@@ -127,6 +127,12 @@ class GenericDBAdminCommand:
     def _generate_shard_duration_clause(sh_duration):
         return 'SHARD DURATION {}'.format(sh_duration) if sh_duration else ''
 
+    @staticmethod
+    def _get_database_name():
+        instance = GenericDBAdminCommand._get_influxable_instance()
+        database_name = instance.database_name
+        return database_name
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
