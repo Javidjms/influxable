@@ -1,9 +1,19 @@
+from .. import Influxable, exceptions, serializers
+from .criteria import Criteria
 from .query import RawQuery
 from ..response import InfluxDBResponse
-from .. import serializers
 
 
-class InfluxDBAdmin:
+class GenericDBAdminCommand:
+    @staticmethod
+    def _add_database_name_to_options(options):
+        database_name = GenericDBAdminCommand._get_database_name()
+        database_name = GenericDBAdminCommand._format_with_double_quote(
+            database_name
+        )
+        options.update({'database_name': database_name})
+        return options
+
     @staticmethod
     def _execute_query(query, parser=serializers.FlatFormattedSerieSerializer):
         response = RawQuery(query).execute()
@@ -196,3 +206,9 @@ class InfluxDBAdmin:
         query = 'SHOW USERS'
         parser = serializers.FlatFormattedSerieSerializer
         return InfluxDBAdmin._execute_query(query, parser)
+
+
+class InfluxDBAdmin(
+    ShowAdminCommand,
+):
+    pass
