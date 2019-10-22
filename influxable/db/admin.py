@@ -147,6 +147,48 @@ class GenericDBAdminCommand:
         return '"{}"'.format(string)
 
 
+class AlterAdminCommand:
+    @staticmethod
+    def alter_retention_policy(
+        policy_name,
+        duration=None,
+        replication=None,
+        shard_duration=None,
+        is_default=False,
+    ):
+        policy_name = GenericDBAdminCommand._format_with_double_quote(
+            policy_name,
+        )
+
+        default_clause = GenericDBAdminCommand._generate_default_clause(
+            is_default
+        )
+        duration_clause = GenericDBAdminCommand._generate_duration_clause(
+            duration
+        )
+        replication_clause = GenericDBAdminCommand._generate_replication_clause(
+            replication
+        )
+        shard_duration_clause = GenericDBAdminCommand._generate_shard_duration_clause(
+            shard_duration
+        )
+
+        options = {
+            'default_clause': default_clause,
+            'duration_clause': duration_clause,
+            'policy_name': policy_name,
+            'replication_clause': replication_clause,
+            'shard_duration_clause': shard_duration_clause,
+        }
+        query = 'ALTER RETENTION POLICY {policy_name} ON {database_name}' +\
+                ' {duration_clause}' +\
+                ' {replication_clause}' +\
+                ' {shard_duration_clause}' +\
+                ' {default_clause}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
