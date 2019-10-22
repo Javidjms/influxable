@@ -390,6 +390,13 @@ class DropAdminCommand:
         InfluxDBAdmin._execute_query(query, options)
         return True
 
+    @staticmethod
+    def drop_shard(shard_id):
+        options = {'shard_id': shard_id}
+        query = 'DROP SHARD {shard_id}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
