@@ -27,3 +27,6 @@ class Influxable:
     def base_url(self):
         return self.connection.base_url
 
+    @property
+    def database_name(self):
+        return self.connection.database_name
