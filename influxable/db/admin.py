@@ -4,6 +4,15 @@ from .query import RawQuery
 from ..response import InfluxDBResponse
 
 
+class Privileges:
+    ALL = 'ALL'
+    READ = 'READ'
+    WRITE = 'WRITE'
+
+
+PRIVILEGE_VALUES = ['ALL', 'READ', 'WRITE']
+
+
 class GenericDBAdminCommand:
     @staticmethod
     def _add_database_name_to_options(options):
