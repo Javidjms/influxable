@@ -295,9 +295,24 @@ class CreateAdminCommand:
         InfluxDBAdmin._execute_query(query, options)
         return True
 
+    @staticmethod
+    def create_user(user_name, password, with_privileges=False):
+        user_name = GenericDBAdminCommand._get_formatted_user_name(user_name)
+        password = GenericDBAdminCommand._format_with_simple_quote(
+            password,
+        )
+        privilege_clause = 'WITH ALL PRIVILEGES' if with_privileges else ''
         options = {
-            'exact': 'EXACT' if exact else '',
+            'user_name': user_name,
+            'password': password,
+            'privilege_clause': privilege_clause,
         }
+        query = 'CREATE USER {user_name} WITH PASSWORD {password}' +\
+                ' {privilege_clause}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
