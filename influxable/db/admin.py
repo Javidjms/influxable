@@ -452,6 +452,20 @@ class KillAdminCommand:
         return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
 
+class RevokeAdminCommand:
+    @staticmethod
+    def revoke(privilege, user_name):
+        privilege = GenericDBAdminCommand._get_formatted_privilege(privilege)
+        user_name = GenericDBAdminCommand._get_formatted_user_name(user_name)
+        options = {
+            'privilege': privilege,
+            'user_name': user_name,
+        }
+        query = 'REVOKE {privilege} ON {database_name} FROM {user_name}'
+        parser = serializers.FlatFormattedSerieSerializer
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
+
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
