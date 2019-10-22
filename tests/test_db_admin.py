@@ -55,11 +55,15 @@ class TestDBAdminShowCommand:
         assert res is not None
 
     def test_show_field_keys_with_measurement_success(self):
-        res = InfluxDBAdmin.show_field_keys('param1')
+        res = InfluxDBAdmin.show_field_keys(
+            measurements=['param1'],
+        )
         assert res is not None
 
     def test_show_field_keys_with_multiple_measurement_success(self):
-        res = InfluxDBAdmin.show_field_keys('param1', 'param2')
+        res = InfluxDBAdmin.show_field_keys(
+            measurements=['param1', 'param2'],
+        )
         assert res is not None
 
     def test_show_grants_success(self):
@@ -76,7 +80,16 @@ class TestDBAdminShowCommand:
 
     def test_show_measurements_with_criteria_success(self):
         res = InfluxDBAdmin.show_measurements(
-            Field('phase') == 'moon',
+            criteria=[Field('phase') == 'moon'],
+        )
+        assert res is not None
+
+    def test_show_measurements_with_criteria_success_2(self):
+        res = InfluxDBAdmin.show_measurements(
+            criteria=[
+                Field('phase') == 'moon',
+                Field('phase') == 'sun',
+            ],
         )
         assert res is not None
 
@@ -90,6 +103,39 @@ class TestDBAdminShowCommand:
 
     def test_show_series_success(self):
         res = InfluxDBAdmin.show_series()
+        assert res is not None
+
+    def test_show_series_with_measurements_success(self):
+        res = InfluxDBAdmin.show_series(
+            measurements=['param1', 'param2'],
+        )
+        assert res is not None
+
+    def test_show_series_with_criteria_success(self):
+        res = InfluxDBAdmin.show_series(
+            criteria=[Field('phase') == 'moon'],
+        )
+        assert res is not None
+
+    def test_show_series_with_limit_success(self):
+        res = InfluxDBAdmin.show_series(
+            limit=10,
+        )
+        assert res is not None
+
+    def test_show_series_with_offset_success(self):
+        res = InfluxDBAdmin.show_series(
+            offset=10,
+        )
+        assert res is not None
+
+    def test_show_series_with_args_success(self):
+        res = InfluxDBAdmin.show_series(
+            measurements=['param1', 'param2'],
+            criteria=[Field('phase') == 'moon'],
+            limit=10,
+            offset=10,
+        )
         assert res is not None
 
     def test_show_stats_success(self):
@@ -113,11 +159,11 @@ class TestDBAdminShowCommand:
         assert res is not None
 
     def test_show_tag_keys_with_measurement_success(self):
-        res = InfluxDBAdmin.show_tag_keys('param1')
+        res = InfluxDBAdmin.show_tag_keys(measurements=['param1'])
         assert res is not None
 
     def test_show_tag_keys_with_measurements_success(self):
-        res = InfluxDBAdmin.show_tag_keys('param1', 'param2')
+        res = InfluxDBAdmin.show_tag_keys(measurements=['param1', 'param2'])
         assert res is not None
 
     def test_show_tag_values_success(self):
@@ -125,11 +171,17 @@ class TestDBAdminShowCommand:
         assert res is not None
 
     def test_show_tag_values_with_measurement_success(self):
-        res = InfluxDBAdmin.show_tag_values('phase', 'param1')
+        res = InfluxDBAdmin.show_tag_values(
+            'phase',
+            measurements=['param1'],
+        )
         assert res is not None
 
     def test_show_tag_values_with_measurements_success(self):
-        res = InfluxDBAdmin.show_tag_values('phase', 'param1', 'param2')
+        res = InfluxDBAdmin.show_tag_values(
+            'phase',
+            measurements=['param1', 'param2'],
+        )
         assert res is not None
 
     def test_show_users_success(self):
