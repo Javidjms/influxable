@@ -119,6 +119,10 @@ class GenericDBAdminCommand:
     def _generate_duration_clause(duration):
         return 'DURATION {}'.format(duration) if duration else ''
 
+    @staticmethod
+    def _generate_replication_clause(replication):
+        return 'REPLICATION {}'.format(replication) if replication else ''
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
