@@ -363,6 +363,16 @@ class DropAdminCommand:
         InfluxDBAdmin._execute_query(query, options)
         return True
 
+    @staticmethod
+    def drop_retention_policy(policy_name):
+        policy_name = GenericDBAdminCommand._format_with_double_quote(
+            policy_name,
+        )
+        options = {'policy_name': policy_name}
+        query = 'DROP RETENTION POLICY {policy_name} ON {database_name}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
