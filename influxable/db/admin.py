@@ -397,6 +397,16 @@ class DropAdminCommand:
         InfluxDBAdmin._execute_query(query, options)
         return True
 
+    @staticmethod
+    def drop_subscription(subscription_name):
+        subscription_name = GenericDBAdminCommand._format_with_double_quote(
+            subscription_name,
+        )
+        options = {'subscription_name': subscription_name}
+        query = 'DROP SUBSCRIPTION {subscription_name} ON {database_name}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
