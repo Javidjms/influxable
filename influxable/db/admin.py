@@ -115,6 +115,10 @@ class GenericDBAdminCommand:
     def _generate_default_clause(is_default):
         return 'DEFAULT' if is_default is True else ''
 
+    @staticmethod
+    def _generate_duration_clause(duration):
+        return 'DURATION {}'.format(duration) if duration else ''
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
