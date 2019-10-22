@@ -443,6 +443,15 @@ class GrantAdminCommand:
         return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
 
 
+class KillAdminCommand:
+    @staticmethod
+    def kill(query_id):
+        options = {'query_id': query_id}
+        query = 'KILL QUERY {query_id}'
+        parser = serializers.FlatFormattedSerieSerializer
+        return InfluxDBAdmin._execute_query_with_parser(query, parser, options)
+
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
