@@ -57,6 +57,20 @@ class GenericDBAdminCommand:
     def _get_formatted_user_name(user_name):
         return GenericDBAdminCommand._format_with_double_quote(user_name)
 
+    @staticmethod
+    def _generate_from_clause(measurements):
+        if not isinstance(measurements, list):
+            msg = 'measurements type must be <list>'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+        quoted_measurements = ['"{}"'.format(m) for m in measurements]
+        selected_measurements = ', '.join(quoted_measurements)
+
+        from_clause = ''
+        if selected_measurements:
+            from_clause = 'FROM {}'.format(selected_measurements)
+        return from_clause
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
