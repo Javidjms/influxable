@@ -189,6 +189,11 @@ class AlterAdminCommand:
         return True
 
 
+class CreateAdminCommand:
+    @staticmethod
+    def create_continuous_query():
+        raise NotImplementedError
+
         options = {
             'exact': 'EXACT' if exact else '',
         }
