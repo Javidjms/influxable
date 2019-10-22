@@ -343,6 +343,16 @@ class DropAdminCommand:
         InfluxDBAdmin._execute_query(query, options)
         return True
 
+    @staticmethod
+    def drop_database(database_name):
+        database_name = GenericDBAdminCommand._format_with_double_quote(
+            database_name,
+        )
+        options = {'database_name': database_name}
+        query = 'DROP DATABASE {database_name}'
+        InfluxDBAdmin._execute_query(query, options)
+        return True
+
         query = 'SHOW FIELD KEY {exact} CARDINALITY'
         query = query.format(**options)
         parser = serializers.FormattedSerieSerializer
