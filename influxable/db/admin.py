@@ -649,6 +649,15 @@ class RevokeAdminCommand:
 
 
 class InfluxDBAdmin(
+    GenericDBAdminCommand,
+    AlterAdminCommand,
+    CreateAdminCommand,
+    DeleteAdminCommand,
+    DropAdminCommand,
+    ExplainAdminCommand,
+    GrantAdminCommand,
+    KillAdminCommand,
+    RevokeAdminCommand,
     ShowAdminCommand,
 ):
     pass
