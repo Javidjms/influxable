@@ -9,6 +9,13 @@ class TestGenericDBAdminCommand:
         options = admin.GenericDBAdminCommand._add_database_name_to_options({})
         assert 'database_name' in options
 
+    def test_execute_query_success(self):
+        query = 'SHOW DATABASES'
+        influx_response = admin.GenericDBAdminCommand._execute_query(query)
+        assert isinstance(influx_response, InfluxDBResponse)
+        assert influx_response.raw is not None
+        assert influx_response.error is None
+
 
 
 class TestShowAdminCommand:
