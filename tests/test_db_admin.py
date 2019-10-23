@@ -137,6 +137,10 @@ class TestGenericDBAdminCommand:
         instance = admin.GenericDBAdminCommand._get_influxable_instance()
         assert isinstance(instance, Influxable)
 
+    def test_format_with_simple_quote_success(self):
+        string = admin.GenericDBAdminCommand._format_with_simple_quote('test')
+        assert string == '\'test\''
+
 
 
 class TestShowAdminCommand:
