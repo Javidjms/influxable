@@ -356,6 +356,11 @@ class TestDropAdminCommand:
         res = InfluxDBAdmin.drop_shard(1)
         assert res is True
 
+    def test_drop_subscription_success(self):
+        pytest.skip("SKIP")
+        res = InfluxDBAdmin.drop_subscription('test_subscription')
+        assert res is True
+
 
 
 class TestShowAdminCommand:
