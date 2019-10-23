@@ -30,6 +30,12 @@ class TestGenericDBAdminCommand:
         privilege = admin.GenericDBAdminCommand._get_formatted_privilege('all')
         assert privilege == 'ALL'
 
+    def test_get_formatted_privilege_success_2(self):
+        privilege = admin.GenericDBAdminCommand._get_formatted_privilege(
+            admin.Privileges.ALL
+        )
+        assert privilege == 'ALL'
+
 
 
 class TestShowAdminCommand:
