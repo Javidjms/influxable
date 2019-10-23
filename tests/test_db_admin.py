@@ -44,6 +44,10 @@ class TestGenericDBAdminCommand:
         name = admin.GenericDBAdminCommand._get_formatted_user_name('javid')
         assert name == '"javid"'
 
+    def test_generate_from_clause_success(self):
+        clause = admin.GenericDBAdminCommand._generate_from_clause(['param1'])
+        assert clause == 'FROM "param1"'
+
 
 
 class TestShowAdminCommand:
