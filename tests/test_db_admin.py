@@ -1,4 +1,14 @@
-from influxable.db import InfluxDBAdmin, Field
+import pytest
+from influxable import Influxable, exceptions
+from influxable.db import admin, InfluxDBAdmin, Field
+from influxable.response import InfluxDBResponse
+
+
+class TestGenericDBAdminCommand:
+    def test_add_database_name_to_options_success(self):
+        options = admin.GenericDBAdminCommand._add_database_name_to_options({})
+        assert 'database_name' in options
+
 
 
 class TestShowAdminCommand:
