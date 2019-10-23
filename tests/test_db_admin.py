@@ -352,6 +352,10 @@ class TestDropAdminCommand:
         with pytest.raises(exceptions.InfluxDBError):
             InfluxDBAdmin.drop_series()
 
+    def test_drop_shard_success(self):
+        res = InfluxDBAdmin.drop_shard(1)
+        assert res is True
+
 
 
 class TestShowAdminCommand:
