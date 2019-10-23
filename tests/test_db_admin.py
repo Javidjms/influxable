@@ -348,6 +348,10 @@ class TestDropAdminCommand:
         res = InfluxDBAdmin.drop_series(criteria=[Field('phase') == 'moon'])
         assert res is True
 
+    def test_drop_series_failed(self):
+        with pytest.raises(exceptions.InfluxDBError):
+            InfluxDBAdmin.drop_series()
+
 
 
 class TestShowAdminCommand:
