@@ -101,6 +101,10 @@ class TestGenericDBAdminCommand:
         with pytest.raises(exceptions.InfluxDBInvalidTypeError):
             admin.GenericDBAdminCommand._generate_offset_clause("test")
 
+    def test_generate_default_clause_success_1(self):
+        clause = admin.GenericDBAdminCommand._generate_default_clause(True)
+        assert clause == 'DEFAULT'
+
 
 
 class TestShowAdminCommand:
