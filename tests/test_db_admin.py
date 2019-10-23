@@ -146,6 +146,15 @@ class TestGenericDBAdminCommand:
         assert string == '"test"'
 
 
+class TestAlterAdminCommand:
+    @classmethod
+    def setup_class(cls):
+        InfluxDBAdmin.create_retention_policy(
+            'test_policy',
+            duration='1d',
+            replication=3,
+        )
+
 
 
 class TestShowAdminCommand:
