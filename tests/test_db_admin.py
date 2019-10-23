@@ -16,6 +16,11 @@ class TestGenericDBAdminCommand:
         assert influx_response.raw is not None
         assert influx_response.error is None
 
+    def test_execute_query_failed(self):
+        with pytest.raises(exceptions.InfluxDBError):
+            query = 'SHOW MEASUREMENTS WHERE time < 200'
+            admin.GenericDBAdminCommand._execute_query(query)
+
 
 
 class TestShowAdminCommand:
