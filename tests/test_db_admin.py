@@ -68,6 +68,15 @@ class TestGenericDBAdminCommand:
         )
         assert clause == 'WHERE "time" < 20'
 
+    def test_generate_where_clause_with_two_measurement_success(self):
+        clause = admin.GenericDBAdminCommand._generate_where_clause(
+            [
+                Field('time') < 20,
+                Field('phase') == 'MOON',
+            ]
+        )
+        assert clause == 'WHERE "time" < 20 AND "phase" = \'MOON\''
+
 
 
 class TestShowAdminCommand:
