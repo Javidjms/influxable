@@ -328,6 +328,10 @@ class TestDropAdminCommand:
         res = InfluxDBAdmin.drop_continuous_query('test_continuous_query')
         assert res is True
 
+    def test_drop_database_success(self):
+        res = InfluxDBAdmin.drop_database('test_database')
+        assert res is True
+
 
 
 class TestShowAdminCommand:
