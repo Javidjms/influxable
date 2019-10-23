@@ -305,6 +305,24 @@ class TestCreateAdminCommand:
         assert res is True
 
 
+class TestDeleteAdminCommand:
+    def test_delete_success_1(self):
+        res = InfluxDBAdmin.delete(
+            measurements=['mymeas'],
+        )
+        assert res is True
+
+    def test_delete_success_2(self):
+        res = InfluxDBAdmin.delete(
+            criteria=[Field('time') < 10],
+        )
+        assert res is True
+
+    def test_delete_failed(self):
+        with pytest.raises(exceptions.InfluxDBError):
+            InfluxDBAdmin.delete()
+
+
 
 
 class TestShowAdminCommand:
