@@ -93,6 +93,10 @@ class TestGenericDBAdminCommand:
         with pytest.raises(exceptions.InfluxDBInvalidTypeError):
             admin.GenericDBAdminCommand._generate_limit_clause("test")
 
+    def test_generate_offset_clause_success(self):
+        clause = admin.GenericDBAdminCommand._generate_offset_clause(10)
+        assert clause == 'OFFSET 10'
+
 
 
 class TestShowAdminCommand:
