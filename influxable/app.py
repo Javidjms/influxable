@@ -30,3 +30,11 @@ class Influxable:
     @property
     def database_name(self):
         return self.connection.database_name
+
+    @property
+    def full_database_name(self):
+        return self.connection.full_database_name
+
+    @property
+    def policy_name(self):
+        return self.connection.policy_name
