@@ -323,6 +323,11 @@ class TestDeleteAdminCommand:
             InfluxDBAdmin.delete()
 
 
+class TestDropAdminCommand:
+    def test_drop_continuous_query_success(self):
+        res = InfluxDBAdmin.drop_continuous_query('test_continuous_query')
+        assert res is True
+
 
 
 class TestShowAdminCommand:
