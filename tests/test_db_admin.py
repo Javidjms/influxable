@@ -176,6 +176,13 @@ class TestAlterAdminCommand:
         )
         assert res is True
 
+    def test_alter_retention_policy_failed(self):
+        with pytest.raises(exceptions.InfluxDBError):
+            InfluxDBAdmin.alter_retention_policy(
+                'test_policy'
+            )
+
+
 
 
 class TestShowAdminCommand:
