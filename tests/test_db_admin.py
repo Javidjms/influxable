@@ -280,6 +280,15 @@ class TestCreateAdminCommand:
         assert res is True
         InfluxDBAdmin.drop_subscription('test_subscription_1')
 
+    def test_create_subscription_success_2(self):
+        res = InfluxDBAdmin.create_subscription(
+            'test_subscription_2',
+            hosts=["http://localhost:5000", "http://localhost:6000"],
+            any=True,
+        )
+        assert res is True
+        InfluxDBAdmin.drop_subscription('test_subscription_2')
+
 
 
 class TestShowAdminCommand:
