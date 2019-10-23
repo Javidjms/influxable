@@ -218,6 +218,14 @@ class TestCreateAdminCommand:
         )
         assert res is True
 
+    def test_create_retention_policy_success_1(self):
+        res = InfluxDBAdmin.create_retention_policy(
+            'test_policy_1',
+            duration='1d',
+            replication=3,
+        )
+        assert res is True
+
 
 
 class TestShowAdminCommand:
