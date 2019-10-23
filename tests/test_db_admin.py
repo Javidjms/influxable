@@ -85,6 +85,10 @@ class TestGenericDBAdminCommand:
         with pytest.raises(exceptions.InfluxDBInvalidTypeError):
             admin.GenericDBAdminCommand._generate_where_clause(True)
 
+    def test_generate_limit_clause_success(self):
+        clause = admin.GenericDBAdminCommand._generate_limit_clause(10)
+        assert clause == 'LIMIT 10'
+
 
 
 class TestShowAdminCommand:
