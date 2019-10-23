@@ -77,6 +77,10 @@ class TestGenericDBAdminCommand:
         )
         assert clause == 'WHERE "time" < 20 AND "phase" = \'MOON\''
 
+    def test_generate_where_clause_without_measurement_success(self):
+        clause = admin.GenericDBAdminCommand._generate_where_clause([])
+        assert clause == ''
+
 
 
 class TestShowAdminCommand:
