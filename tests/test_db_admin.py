@@ -62,6 +62,12 @@ class TestGenericDBAdminCommand:
         with pytest.raises(exceptions.InfluxDBInvalidTypeError):
             admin.GenericDBAdminCommand._generate_from_clause(True)
 
+    def test_generate_where_clause_success(self):
+        clause = admin.GenericDBAdminCommand._generate_where_clause(
+            [Field('time') < 20]
+        )
+        assert clause == 'WHERE "time" < 20'
+
 
 
 class TestShowAdminCommand:
