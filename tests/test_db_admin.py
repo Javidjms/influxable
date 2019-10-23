@@ -385,6 +385,10 @@ class TestGrantAdminCommand:
         assert res is not None
 
 
+class TestRevokeAdminCommand:
+    def test_revoke_success(self):
+        res = InfluxDBAdmin.revoke(admin.Privileges.ALL, 'user_test_1')
+        assert res is not None
 
 
 class TestShowAdminCommand:
