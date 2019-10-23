@@ -117,6 +117,10 @@ class TestGenericDBAdminCommand:
         clause = admin.GenericDBAdminCommand._generate_duration_clause()
         assert clause == ''
 
+    def test_generate_replication_clause_success_1(self):
+        clause = admin.GenericDBAdminCommand._generate_replication_clause(4)
+        assert clause == 'REPLICATION 4'
+
 
 
 class TestShowAdminCommand:
