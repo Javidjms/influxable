@@ -367,6 +367,18 @@ class TestDropAdminCommand:
         assert res is True
 
 
+class TestExplainAdminCommand:
+    def test_explain_success_1(self):
+        query = 'SELECT * FROM mymeas LIMIT 10'
+        res = InfluxDBAdmin.explain(query)
+        assert res is not None
+
+    def test_explain_success_2(self):
+        query = 'SELECT * FROM mymeas LIMIT 10'
+        res = InfluxDBAdmin.explain(query, analyze=True)
+        assert res is not None
+
+
 
 
 class TestShowAdminCommand:
