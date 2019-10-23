@@ -296,6 +296,15 @@ class TestCreateAdminCommand:
         )
         assert res is True
 
+    def test_create_user_success_2(self):
+        res = InfluxDBAdmin.create_user(
+            user_name='user_test_2',
+            password='password_test_2',
+            with_privileges=True,
+        )
+        assert res is True
+
+
 
 
 class TestShowAdminCommand:
