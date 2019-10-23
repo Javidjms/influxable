@@ -129,6 +129,10 @@ class TestGenericDBAdminCommand:
         clause = admin.GenericDBAdminCommand._generate_shard_duration_clause('4d')
         assert clause == 'SHARD DURATION 4d'
 
+    def test_generate_shard_duration_clause_success_2(self):
+        clause = admin.GenericDBAdminCommand._generate_shard_duration_clause()
+        assert clause == ''
+
 
 
 class TestShowAdminCommand:
