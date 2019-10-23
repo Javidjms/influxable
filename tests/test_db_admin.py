@@ -40,6 +40,10 @@ class TestGenericDBAdminCommand:
         with pytest.raises(exceptions.InfluxDBInvalidChoiceError):
             admin.GenericDBAdminCommand._get_formatted_privilege('none')
 
+    def test_get_formatted_user_name_success(self):
+        name = admin.GenericDBAdminCommand._get_formatted_user_name('javid')
+        assert name == '"javid"'
+
 
 
 class TestShowAdminCommand:
