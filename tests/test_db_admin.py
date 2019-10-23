@@ -21,6 +21,11 @@ class TestGenericDBAdminCommand:
             query = 'SHOW MEASUREMENTS WHERE time < 200'
             admin.GenericDBAdminCommand._execute_query(query)
 
+    def test_execute_query_with_parser_success(self):
+        query = 'SHOW DATABASES'
+        res = admin.GenericDBAdminCommand._execute_query_with_parser(query)
+        assert isinstance(res, list)
+
 
 
 class TestShowAdminCommand:
