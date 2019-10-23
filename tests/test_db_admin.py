@@ -379,6 +379,12 @@ class TestExplainAdminCommand:
         assert res is not None
 
 
+class TestGrantAdminCommand:
+    def test_grant_success(self):
+        res = InfluxDBAdmin.grant(admin.Privileges.ALL, 'user_test_1')
+        assert res is not None
+
+
 
 
 class TestShowAdminCommand:
