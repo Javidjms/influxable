@@ -17,10 +17,14 @@ class GenericDBAdminCommand:
     @staticmethod
     def _add_database_name_to_options(options):
         database_name = GenericDBAdminCommand._get_database_name()
+        full_database_name = GenericDBAdminCommand._get_full_database_name()
         database_name = GenericDBAdminCommand._format_with_double_quote(
             database_name
         )
-        options.update({'database_name': database_name})
+        options.update({
+            'database_name': database_name,
+            'full_database_name': full_database_name,
+        })
         return options
 
     @staticmethod
@@ -134,6 +138,12 @@ class GenericDBAdminCommand:
         return database_name
 
     @staticmethod
+    def _get_full_database_name():
+        instance = GenericDBAdminCommand._get_influxable_instance()
+        full_database_name = instance.full_database_name
+        return full_database_name
+
+    @staticmethod
     def _get_influxable_instance():
         instance = Influxable.get_instance()
         return instance
@@ -196,16 +206,16 @@ class CreateAdminCommand:
 
     @staticmethod
     def create_database(
-        database_name,
+        new_database_name,
         duration=None,
         replication=None,
         shard_duration=None,
         policy_name=None,
     ):
-        database_name = GenericDBAdminCommand._format_with_double_quote(
-            database_name,
+        new_database_name = GenericDBAdminCommand._format_with_double_quote(
+            new_database_name,
         )
-        options = {'database_name': database_name}
+        options = {'new_database_name': new_database_name}
 
         with_clause = ''
         if duration or replication or shard_duration or policy_name:
@@ -234,7 +244,7 @@ class CreateAdminCommand:
                 'policy_clause': policy_clause,
                 'shard_duration_clause': shard_duration_clause,
             })
-        query = 'CREATE DATABASE {database_name}' + with_clause
+        query = 'CREATE DATABASE {new_database_name}' + with_clause
         InfluxDBAdmin._execute_query(query, options)
         return True
 
@@ -290,7 +300,8 @@ class CreateAdminCommand:
             'destination_type': destination_type,
             'subscription_name': subscription_name,
         }
-        query = 'CREATE SUBSCRIPTION {subscription_name} ON {database_name}' +\
+        query = 'CREATE SUBSCRIPTION {subscription_name}' +\
+                ' ON {full_database_name}' +\
                 ' DESTINATIONS {destination_type} {hosts}'
         InfluxDBAdmin._execute_query(query, options)
         return True
@@ -344,12 +355,12 @@ class DropAdminCommand:
         return True
 
     @staticmethod
-    def drop_database(database_name):
-        database_name = GenericDBAdminCommand._format_with_double_quote(
-            database_name,
+    def drop_database(_database_name):
+        _database_name = GenericDBAdminCommand._format_with_double_quote(
+            _database_name,
         )
-        options = {'database_name': database_name}
-        query = 'DROP DATABASE {database_name}'
+        options = {'_database_name': _database_name}
+        query = 'DROP DATABASE {_database_name}'
         InfluxDBAdmin._execute_query(query, options)
         return True
 
@@ -403,7 +414,7 @@ class DropAdminCommand:
             subscription_name,
         )
         options = {'subscription_name': subscription_name}
-        query = 'DROP SUBSCRIPTION {subscription_name} ON {database_name}'
+        query = 'DROP SUBSCRIPTION {subscription_name} ON {full_database_name}'
         InfluxDBAdmin._execute_query(query, options)
         return True
 
