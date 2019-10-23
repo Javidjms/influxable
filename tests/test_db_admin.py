@@ -26,6 +26,10 @@ class TestGenericDBAdminCommand:
         res = admin.GenericDBAdminCommand._execute_query_with_parser(query)
         assert isinstance(res, list)
 
+    def test_get_formatted_privilege_success(self):
+        privilege = admin.GenericDBAdminCommand._get_formatted_privilege('all')
+        assert privilege == 'ALL'
+
 
 
 class TestShowAdminCommand:
