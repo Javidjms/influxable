@@ -109,6 +109,10 @@ class TestGenericDBAdminCommand:
         clause = admin.GenericDBAdminCommand._generate_default_clause(False)
         assert clause == ''
 
+    def test_generate_duration_clause_success_1(self):
+        clause = admin.GenericDBAdminCommand._generate_duration_clause('1d')
+        assert clause == 'DURATION 1d'
+
 
 
 class TestShowAdminCommand:
