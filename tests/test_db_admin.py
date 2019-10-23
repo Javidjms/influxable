@@ -54,6 +54,10 @@ class TestGenericDBAdminCommand:
         )
         assert clause == 'FROM "param1", "param2"'
 
+    def test_generate_from_clause_without_measurement_success(self):
+        clause = admin.GenericDBAdminCommand._generate_from_clause([])
+        assert clause == ''
+
 
 
 class TestShowAdminCommand:
