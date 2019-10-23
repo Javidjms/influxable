@@ -289,6 +289,13 @@ class TestCreateAdminCommand:
         assert res is True
         InfluxDBAdmin.drop_subscription('test_subscription_2')
 
+    def test_create_user_success_1(self):
+        res = InfluxDBAdmin.create_user(
+            user_name='user_test_1',
+            password='password_test_1',
+        )
+        assert res is True
+
 
 
 class TestShowAdminCommand:
