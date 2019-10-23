@@ -48,6 +48,12 @@ class TestGenericDBAdminCommand:
         clause = admin.GenericDBAdminCommand._generate_from_clause(['param1'])
         assert clause == 'FROM "param1"'
 
+    def test_generate_from_clause_with_two_measurement_success(self):
+        clause = admin.GenericDBAdminCommand._generate_from_clause(
+            ['param1', 'param2']
+        )
+        assert clause == 'FROM "param1", "param2"'
+
 
 
 class TestShowAdminCommand:
