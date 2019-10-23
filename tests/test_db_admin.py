@@ -332,6 +332,10 @@ class TestDropAdminCommand:
         res = InfluxDBAdmin.drop_database('test_database')
         assert res is True
 
+    def test_drop_measurement_success(self):
+        res = InfluxDBAdmin.drop_measurement('test_measurement')
+        assert res is True
+
 
 
 class TestShowAdminCommand:
