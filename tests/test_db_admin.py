@@ -211,6 +211,13 @@ class TestCreateAdminCommand:
         )
         assert res is True
 
+    def test_create_database_success_5(self):
+        res = InfluxDBAdmin.create_database(
+            'test_database_5',
+            policy_name='test_policy_2',
+        )
+        assert res is True
+
 
 
 class TestShowAdminCommand:
