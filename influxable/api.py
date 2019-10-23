@@ -2,6 +2,7 @@ class InfluxDBApi:
     @staticmethod
     def get_debug_requests(request, seconds=10):
         url = '/debug/requests'
+        seconds = seconds if isinstance(seconds, int) else 10
         params = {'seconds': seconds}
         res = request.get(url=url, params=params)
         return res.json()
@@ -15,6 +16,7 @@ class InfluxDBApi:
     @staticmethod
     def ping(request, verbose=False):
         url = '/ping'
+        verbose = verbose if isinstance(verbose, bool) else False
         params = {'verbose': verbose} if verbose else {}
         res = request.get(url=url, params=params)
         return res.text or True
@@ -54,5 +56,5 @@ class InfluxDBApi:
             'consistency': consistency,
             'retention_policy_name': retention_policy_name,
         }
-        res = request.post(url, params=params, data=points)
+        request.post(url, params=params, data=points)
         return True

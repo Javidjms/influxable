@@ -29,3 +29,11 @@ class Connection:
     def check_if_connection_reached(self):
         query = 'SHOW DATABASES'
         InfluxDBApi.execute_query(self.request, query)
+
+    @property
+    def policy_name(self):
+        return 'autogen'
+
+    @property
+    def full_database_name(self):
+        return '"{}"."{}"'.format(self.database_name, self.policy_name)

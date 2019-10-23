@@ -1,14 +1,19 @@
 import json
 import itertools
 import pandas as pd
+from .exceptions import InfluxDBInvalidResponseError
+from .response import InfluxDBResponse
 
 
 class BaseSerializer:
     def __init__(self, response):
+        if not isinstance(response, InfluxDBResponse):
+            msg = '\'response\' must be type of InfluxDBResponse'
+            raise InfluxDBInvalidResponseError(msg)
         self.response = response
 
     def convert(self):
-        return self.response
+        return self.response.raw
 
 
 class JsonSerializer(BaseSerializer):
@@ -24,6 +29,8 @@ class FormattedSerieSerializer(BaseSerializer):
             name = serie.name
             columns = serie.columns
             values = serie.values
+            if values is None:
+                values = [[None] * len(serie.columns)]
             formatted_values = [dict(zip(columns, v)) for v in values]
             formatted_series.append({name: formatted_values})
         return formatted_series
@@ -42,9 +49,17 @@ class FlatFormattedSerieSerializer(FormattedSerieSerializer):
 class FlatSimpleResultSerializer(BaseSerializer):
     def convert(self):
         serie = self.response.main_serie
-        values = serie.values
+        values = serie.values if serie else []
         flatten_serie = list(itertools.chain(*values))
         return flatten_serie
+
+
+class FlatSingleValueSerializer(FlatSimpleResultSerializer):
+    def convert(self):
+        simple_result = super().convert()
+        if len(simple_result) == 1:
+            return simple_result[0]
+        return None
 
 
 class PandasSerializer(BaseSerializer):
@@ -58,6 +73,13 @@ class PandasSerializer(BaseSerializer):
 
 class MeasurementPointSerializer(FlatFormattedSerieSerializer):
     def __init__(self, response, measurement):
+        from .measurement import MeasurementMeta
+        if not isinstance(response, InfluxDBResponse):
+            msg = '\'response\' must be type of InfluxDBResponse'
+            raise InfluxDBInvalidResponseError(msg)
+        if not isinstance(measurement, MeasurementMeta):
+            msg = '\'measurement\' must be type of Measurement'
+            raise InfluxDBInvalidResponseError(msg)
         self.response = response
         self.measurement = measurement
 

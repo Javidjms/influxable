@@ -1,6 +1,8 @@
 import arrow
-from decimal import Decimal as D
+from datetime import datetime
+from decimal import Decimal as D, InvalidOperation
 from .helpers.utils import inv
+from .exceptions import InfluxDBAttributeValueError
 
 
 class TimestampPrecision:
@@ -30,6 +32,7 @@ class BaseAttribute:
         self.default = kwargs.get('default', None)
         self.enforce_cast = kwargs.get('enforce_cast', True)
         self.is_nullable = kwargs.get('is_nullable', True)
+        self.validate_options()
 
     def clean(self, value):
         if value is None and self.default is not None:
@@ -59,7 +62,7 @@ class BaseAttribute:
         return str(value)
 
     def to_python(self, value):
-        return str(value)
+        return value
 
     def reset(self):
         self._value = None
@@ -70,7 +73,7 @@ class BaseAttribute:
         if value is not None:
             try:
                 self._value = self.to_python(value)
-            except ValueError as exception:
+            except (InvalidOperation, ValueError) as exception:
                 if self.enforce_cast:
                     raise exception
                 self._value = value
@@ -78,7 +81,10 @@ class BaseAttribute:
 
     def validate(self, value):
         if value is None and self.default is None and not self.is_nullable:
-            raise ValueError('This field cannot be nullable')
+            raise InfluxDBAttributeValueError('The field cannot be nullable')
+
+    def validate_options(self):
+        pass
 
     @property
     def value(self):
@@ -91,9 +97,9 @@ class GenericFieldAttribute(BaseAttribute):
 
 class IntegerFieldAttribute(GenericFieldAttribute):
     def __init__(self, **kwargs):
-        super(IntegerFieldAttribute, self).__init__(**kwargs)
         self.min_value = kwargs.get('min_value', None)
         self.max_value = kwargs.get('max_value', None)
+        super(IntegerFieldAttribute, self).__init__(**kwargs)
 
     def to_influx(self, value):
         str_value = str(value)
@@ -104,16 +110,35 @@ class IntegerFieldAttribute(GenericFieldAttribute):
 
     def validate(self, value):
         super(IntegerFieldAttribute, self).validate(value)
-        if value is not None and self.min_value is not None and int(value) < self.min_value:
-            raise ValueError('The value must be greater than the min_value')
-        if value is not None and self.max_value is not None and int(value) > self.max_value:
-            raise ValueError('The value must be lower than the max_value')
+        if value is not None and self.min_value is not None \
+           and self.to_python(value) < self.min_value:
+            raise InfluxDBAttributeValueError(
+                'The value must be greater than the min_value'
+            )
+        if value is not None and self.max_value is not None \
+           and self.to_python(value) > self.max_value:
+            raise InfluxDBAttributeValueError(
+                'The value must be lower than the max_value'
+            )
+
+    def validate_options(self):
+        super(IntegerFieldAttribute, self).validate_options()
+        if self.min_value is not None \
+           and not isinstance(self.min_value, int):
+            raise InfluxDBAttributeValueError(
+                'min_value must be integer'
+            )
+        if self.max_value is not None \
+           and not isinstance(self.max_value, int):
+            raise InfluxDBAttributeValueError(
+                'max_value must be integer'
+            )
 
 
 class FloatFieldAttribute(IntegerFieldAttribute):
     def __init__(self, **kwargs):
-        super(FloatFieldAttribute, self).__init__(**kwargs)
         self.max_nb_decimals = kwargs.get('max_nb_decimals', None)
+        super(FloatFieldAttribute, self).__init__(**kwargs)
 
     def clean(self, value):
         super(FloatFieldAttribute, self).clean(value)
@@ -128,19 +153,24 @@ class FloatFieldAttribute(IntegerFieldAttribute):
     def to_python(self, value):
         return D(value)
 
-    def validate(self, value):
-        super(FloatFieldAttribute, self).validate(value)
-        if self.max_nb_decimals is not None and not isinstance(self.max_nb_decimals, int):
-            raise ValueError('max_nb_decimals must be integer')
+    def validate_options(self):
+        super(FloatFieldAttribute, self).validate_options()
+        if self.max_nb_decimals is not None \
+           and not isinstance(self.max_nb_decimals, int):
+            raise InfluxDBAttributeValueError(
+                'max_nb_decimals must be integer'
+            )
         if self.max_nb_decimals is not None and self.max_nb_decimals <= 0:
-            raise ValueError('max_nb_decimals must be positive')
+            raise InfluxDBAttributeValueError(
+                'max_nb_decimals must be positive'
+            )
 
 
 class StringFieldAttribute(GenericFieldAttribute):
     def __init__(self, **kwargs):
-        super(StringFieldAttribute, self).__init__(**kwargs)
         self.choices = kwargs.get('choices', None)
         self.max_length = kwargs.get('max_length', None)
+        super(StringFieldAttribute, self).__init__(**kwargs)
 
     def to_influx(self, value):
         str_value = str(value)
@@ -151,20 +181,37 @@ class StringFieldAttribute(GenericFieldAttribute):
 
     def validate(self, value):
         super(StringFieldAttribute, self).validate(value)
+        if self.choices is not None and value not in self.choices:
+            raise InfluxDBAttributeValueError(
+                'The value is not refered in choices'
+            )
+        if self.max_length is not None and len(str(value)) > self.max_length:
+            raise InfluxDBAttributeValueError(
+                'the string length must be lower than the max_length'
+            )
+
+    def validate_options(self):
+        super(StringFieldAttribute, self).validate_options()
         if self.choices is not None and not isinstance(self.choices, list):
-            raise ValueError('choices must be a list')
+            raise InfluxDBAttributeValueError('choices must be a list')
+
         if self.choices is not None and not any(
             [isinstance(c, str) for c in self.choices]
         ):
-            raise ValueError('choices items must be a string')
-        if self.choices is not None and value not in self.choices:
-            raise ValueError('The value is not refered in choices')
-        if self.max_length is not None and not isinstance(self.max_length, int):
-            raise ValueError('max_length must be integer')
+            raise InfluxDBAttributeValueError(
+                'choices items must be a string'
+            )
+
+        if self.max_length is not None and\
+           not isinstance(self.max_length, int):
+            raise InfluxDBAttributeValueError(
+                'max_length must be integer'
+            )
+
         if self.max_length is not None and self.max_length <= 0:
-            raise ValueError('max_length must be positive')
-        if self.max_length is not None and len(str(value)) > self.max_length:
-            raise ValueError('the string length must be lower than the max_length')
+            raise InfluxDBAttributeValueError(
+                'max_length must be positive'
+            )
 
 
 class BooleanFieldAttribute(GenericFieldAttribute):
@@ -182,9 +229,9 @@ class TagFieldAttribute(BaseAttribute):
 
 class TimestampFieldAttribute(BaseAttribute):
     def __init__(self, **kwargs):
-        super(TimestampFieldAttribute, self).__init__(**kwargs)
         self.auto_now = kwargs.get('auto_now', True)
         self.precision = kwargs.get('precision', 'ns')
+        super(TimestampFieldAttribute, self).__init__(**kwargs)
 
     def clean(self, value):
         super(TimestampFieldAttribute, self).clean(value)
@@ -214,24 +261,31 @@ class TimestampFieldAttribute(BaseAttribute):
         timestamp = D(value)
         return self.convert_to_precision(timestamp, self.precision)
 
-    def validate(self, value):
-        super(TimestampFieldAttribute, self).validate(value)
+    def validate_options(self):
+        super(TimestampFieldAttribute, self).validate_options()
         if self.precision not in TIMESTAMP_CONVERT_RATIO:
-            raise ValueError('precision must be one of [ns,u,ms,s,m,h]')
+            raise InfluxDBAttributeValueError(
+                'precision must be one of [ns,u,ms,s,m,h]'
+            )
 
 
 class DateTimeFieldAttribute(TimestampFieldAttribute):
     def __init__(self, **kwargs):
+        self.str_format = kwargs.get('str_format', 'YYYY-MM-DD HH:mm:ss')
         super(DateTimeFieldAttribute, self).__init__(**kwargs)
-        self.str_format = kwargs.get('str_format', 'YYYY-MM-DD HH:mm:ss ZZ')
 
     def clean(self, value):
-        super(DateTimeFieldAttribute, self).clean(value)
         if value is None and self.auto_now:
             timestamp = arrow.now().datetime
             self._value = self.to_python(timestamp)
+        elif value is None and self.default is not None:
+            self._value = self.default
+        elif value is None:
+            self._value = None
 
     def get_internal_value(self):
+        if self._value is None:
+            return None
         return arrow.get(self._value).format(self.str_format)
 
     def to_influx(self, value):
@@ -241,5 +295,7 @@ class DateTimeFieldAttribute(TimestampFieldAttribute):
         return "{}".format(str_value)
 
     def to_python(self, value):
-        datetime = arrow.get(value).datetime
-        return datetime
+        if isinstance(value, datetime):
+            return value
+        dt = arrow.get(value, self.str_format).datetime
+        return dt

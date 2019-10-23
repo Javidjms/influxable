@@ -3,6 +3,9 @@ from .attributes import BaseAttribute, GenericFieldAttribute, \
 from .db.query import Query, BulkInsertQuery
 from .response import InfluxDBResponse
 from .serializers import MeasurementPointSerializer
+from .exceptions import InfluxDBAttributeValueError
+
+EXTENDED_ATTRIBUTE_PREFIX_NAME = '__attribute__'
 
 
 class MeasurementMeta(type):
@@ -27,6 +30,7 @@ class MeasurementMeta(type):
 
                 def evaluate(self, parser_class=cls.parser_class):
                     result = InfluxDBResponse(self.execute())
+                    result.raise_if_error()
                     formatted_result = self.format(result, parser_class)
                     return formatted_result
             return MeasurementQuery().from_measurements(cls.measurement_name)
@@ -65,7 +69,7 @@ class MeasurementMeta(type):
             return getx, setx
 
         for attribute_name in attribute_names:
-            ext_attribute_name = '_extended_' + attribute_name
+            ext_attribute_name = EXTENDED_ATTRIBUTE_PREFIX_NAME + attribute_name
             attribute_field = getattr(cls, attribute_name)
             attribute_field.attribute_name = attribute_name
             attribute_field.ext_attribute_name = ext_attribute_name
@@ -83,8 +87,7 @@ class Measurement(object, metaclass=MeasurementMeta):
     def __init__(self, **kwargs):
         self.check_attribute_values(**kwargs)
         self.clone_attributes()
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        self.fill_values(**kwargs)
 
     def check_attribute_values(self, **kwargs):
         def filter_required_attributes(x):
@@ -101,7 +104,9 @@ class Measurement(object, metaclass=MeasurementMeta):
         ]
         for key in required_attributes_names:
             if key not in kwargs:
-                raise AttributeError('The field {} is not defined'.format(key))
+                raise InfluxDBAttributeValueError(
+                    'The attribute \'{}\' cannot be nullable'.format(key)
+                )
 
     def clone_attributes(self):
         attributes = self._get_attributes()
@@ -177,14 +182,38 @@ class Measurement(object, metaclass=MeasurementMeta):
             str_prep_value_group = ','.join(prep_value_group)
             prep_value_groups.append(str_prep_value_group)
 
-        prep_value_groups[0] = ','.join([self.measurement_name] + [prep_value_groups[0]])
+        if prep_value_groups[0]:
+            prep_value_groups[0] = ','.join(
+                [self.measurement_name] + [prep_value_groups[0]]
+            )
+        else:
+            prep_value_groups[0] = self.measurement_name
         final_prep_value = ' '.join(prep_value_groups)
         return final_prep_value
+
+    def fill_values(self, **kwargs):
+        try:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
+        except Exception as err:
+            print('key', key)
+            msg = '<\'{key}\'> : {msg}'.format(key=key, msg=err)
+            raise InfluxDBAttributeValueError(msg)
 
     def items(self):
         return self.dict().items()
 
     @staticmethod
     def bulk_save(points):
-        str_points = '\n'.join([point.get_prep_value() for point in points])
+        if not isinstance(points, list):
+            raise InfluxDBAttributeValueError('points must be a list')
+        str_points = ''
+        for point in points:
+            if not isinstance(point, Measurement):
+                raise InfluxDBAttributeValueError(
+                    'type of point must be Measurement'
+                )
+            prep_value = point.get_prep_value()
+            str_points += prep_value
+            str_points += '\n'
         return BulkInsertQuery(str_points).execute()
