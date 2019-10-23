@@ -36,6 +36,10 @@ class TestGenericDBAdminCommand:
         )
         assert privilege == 'ALL'
 
+    def test_get_formatted_privilege_failed(self):
+        with pytest.raises(exceptions.InfluxDBInvalidChoiceError):
+            admin.GenericDBAdminCommand._get_formatted_privilege('none')
+
 
 
 class TestShowAdminCommand:
