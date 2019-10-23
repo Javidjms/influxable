@@ -169,6 +169,13 @@ class TestAlterAdminCommand:
         )
         assert res is True
 
+    def test_alter_retention_policy_success_3(self):
+        res = InfluxDBAdmin.alter_retention_policy(
+            'test_policy',
+            shard_duration='1h',
+        )
+        assert res is True
+
 
 
 class TestShowAdminCommand:
