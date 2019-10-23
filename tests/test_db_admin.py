@@ -243,6 +243,12 @@ class TestCreateAdminCommand:
         )
         assert res is True
 
+    def test_create_retention_policy_failed_1(self):
+        with pytest.raises(exceptions.InfluxDBError):
+            InfluxDBAdmin.create_retention_policy(
+                'test_policy'
+            )
+
 
 
 class TestShowAdminCommand:
