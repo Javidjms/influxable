@@ -166,6 +166,12 @@ class AlterAdminCommand:
         shard_duration=None,
         is_default=False,
     ):
+        if not duration and not replication and not shard_duration\
+           and not is_default:
+            msg = '`duration` or `replication` or `shard_duration` ' +\
+                  ' or `is_default` must be not null'
+            raise exceptions.InfluxDBError(msg)
+
         policy_name = GenericDBAdminCommand._format_with_double_quote(
             policy_name,
         )
@@ -256,6 +262,16 @@ class CreateAdminCommand:
         shard_duration=None,
         is_default=False,
     ):
+        if not duration and not replication and not shard_duration\
+           and not is_default:
+            msg = '`duration` or `replication` or `shard_duration` ' +\
+                  ' or `is_default` must be not null'
+            raise exceptions.InfluxDBError(msg)
+
+        if (not duration and replication) or (duration and not replication):
+            msg = '`duration` or `replication` must be not null'
+            raise exceptions.InfluxDBError(msg)
+
         policy_name = GenericDBAdminCommand._format_with_double_quote(
             policy_name,
         )
@@ -326,7 +342,7 @@ class CreateAdminCommand:
 
 class DeleteAdminCommand:
     @staticmethod
-    def delete(measurements, criteria):
+    def delete(measurements=[], criteria=[]):
         from_clause = GenericDBAdminCommand._generate_from_clause(measurements)
         where_clause = GenericDBAdminCommand._generate_where_clause(criteria)
 
@@ -385,7 +401,7 @@ class DropAdminCommand:
         return True
 
     @staticmethod
-    def drop_series(measurements, criteria):
+    def drop_series(measurements=[], criteria=[]):
         from_clause = GenericDBAdminCommand._generate_from_clause(measurements)
         where_clause = GenericDBAdminCommand._generate_where_clause(criteria)
 
