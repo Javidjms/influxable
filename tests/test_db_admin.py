@@ -58,6 +58,10 @@ class TestGenericDBAdminCommand:
         clause = admin.GenericDBAdminCommand._generate_from_clause([])
         assert clause == ''
 
+    def test_generate_from_clause_failed(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            admin.GenericDBAdminCommand._generate_from_clause(True)
+
 
 
 class TestShowAdminCommand:
