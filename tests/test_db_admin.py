@@ -141,6 +141,11 @@ class TestGenericDBAdminCommand:
         string = admin.GenericDBAdminCommand._format_with_simple_quote('test')
         assert string == '\'test\''
 
+    def test_format_with_double_quote_success(self):
+        string = admin.GenericDBAdminCommand._format_with_double_quote('test')
+        assert string == '"test"'
+
+
 
 
 class TestShowAdminCommand:
