@@ -105,6 +105,10 @@ class TestGenericDBAdminCommand:
         clause = admin.GenericDBAdminCommand._generate_default_clause(True)
         assert clause == 'DEFAULT'
 
+    def test_generate_default_clause_success_2(self):
+        clause = admin.GenericDBAdminCommand._generate_default_clause(False)
+        assert clause == ''
+
 
 
 class TestShowAdminCommand:
