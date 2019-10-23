@@ -272,6 +272,14 @@ class TestCreateAdminCommand:
                 replication=4,
             )
 
+    def test_create_subscription_success_1(self):
+        res = InfluxDBAdmin.create_subscription(
+            'test_subscription_1',
+            hosts=["http://localhost:5000"],
+        )
+        assert res is True
+        InfluxDBAdmin.drop_subscription('test_subscription_1')
+
 
 
 class TestShowAdminCommand:
