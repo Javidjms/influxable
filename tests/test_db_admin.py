@@ -340,6 +340,10 @@ class TestDropAdminCommand:
         res = InfluxDBAdmin.drop_retention_policy('test_policy')
         assert res is True
 
+    def test_drop_series_success_1(self):
+        res = InfluxDBAdmin.drop_series(measurements=['mymeas'])
+        assert res is True
+
 
 
 class TestShowAdminCommand:
