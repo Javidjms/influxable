@@ -133,6 +133,10 @@ class TestGenericDBAdminCommand:
         clause = admin.GenericDBAdminCommand._generate_shard_duration_clause()
         assert clause == ''
 
+    def test_get_influxable_instance_success(self):
+        instance = admin.GenericDBAdminCommand._get_influxable_instance()
+        assert isinstance(instance, Influxable)
+
 
 
 class TestShowAdminCommand:
