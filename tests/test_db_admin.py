@@ -249,6 +249,14 @@ class TestCreateAdminCommand:
                 'test_policy'
             )
 
+    def test_create_retention_policy_failed_2(self):
+        with pytest.raises(exceptions.InfluxDBError):
+            InfluxDBAdmin.create_retention_policy(
+                'test_policy',
+                replication=4,
+                shard_duration='1h',
+            )
+
 
 
 class TestShowAdminCommand:
