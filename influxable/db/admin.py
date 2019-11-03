@@ -371,9 +371,9 @@ class DropAdminCommand:
         return True
 
     @staticmethod
-    def drop_database(_database_name):
+    def drop_database(database_name_to_delete):
         _database_name = GenericDBAdminCommand._format_with_double_quote(
-            _database_name,
+            database_name_to_delete,
         )
         options = {'_database_name': _database_name}
         query = 'DROP DATABASE {_database_name}'
