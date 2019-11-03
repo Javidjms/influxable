@@ -6,7 +6,7 @@ from .response import InfluxDBResponse
 
 
 class BaseSerializer:
-    def __init__(self, response):
+    def __init__(self, response, *args, **kwargs):
         if not isinstance(response, InfluxDBResponse):
             msg = '\'response\' must be type of InfluxDBResponse'
             raise InfluxDBInvalidResponseError(msg)
