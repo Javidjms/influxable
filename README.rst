@@ -1942,7 +1942,7 @@ License
 
 `MIT <LICENSE.txt>`__
 
-.. |pypi version| image:: https://img.shields.io/badge/pypi-1.1.0-blue
+.. |pypi version| image:: https://img.shields.io/badge/pypi-1.1.1-blue
    :target: https://pypi.org/project/influxable/
 .. |build status| image:: https://img.shields.io/badge/build-passing-green
 .. |code coverage| image:: https://img.shields.io/badge/coverage-100-green
