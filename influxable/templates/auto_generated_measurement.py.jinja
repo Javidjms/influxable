@@ -1,0 +1,15 @@
+from influxable import attributes
+from influxable.measurement import Measurement
+
+
+{% for measurement_name, fields in measurements_fields.items() %}
+class {{ measurement_name | pascalize }}Measurement(Measurement):
+    measurement_name = '{{ measurement_name }}'
+
+    time = attributes.TimestampFieldAttribute(precision='s')
+{% for field_name, attribute_classname in fields %}
+    {{ field_name }} = attributes.{{ attribute_classname }}()
+{% endfor %}
+
+
+{% endfor %}
