@@ -20,6 +20,11 @@ setup(
     url='https://github.com/Javidjms/influxable',
     download_url='https://github.com/Javidjms/influxable/archive/1.1.1.zip',
     keywords=['python', 'influxdb', 'odm', 'orm', 'driver', 'client'],
+    entry_points={
+        'console_scripts': ['influxable=influxable.command_line:main'],
+    },
+    package_data={'influxable': ['*.jinja']},
+    include_package_data=True,
     install_requires=requirements,
     python_requires='>=3.0.*',
     classifiers=[
