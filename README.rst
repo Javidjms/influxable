@@ -25,6 +25,8 @@ That's why I decided to create this repository in order to deal with InfluxDB in
 Features
 --------
 
+-  Add automation for measurement class generation (command: *autogenerate*)
+
 -  Admin commands allowing to manage the database (ex: *create\_user()*, *show\_series()*).
 
 -  Measurement class allowing to make queries in order to fetch/save points (ex: *Measurement.where()*, *Measurement.bulk\_save()*).
@@ -200,6 +202,33 @@ You can also create data with *BulkInsertQuery*
 
     raw_query = BulkInsertQuery(str_query)
     res = raw_query.execute()
+
+Auto Generation of Measurements
+-------------------------------
+
+You can automatically generate measurement classes file with the bash command *autogenerate*
+
+.. code:: bash
+
+    influxable autogenerate #(default to auto_generate_measurement.py)
+    influxable autogenerate -o measurement.py
+
+Here is the output generated file :
+
+.. code:: python
+
+    # auto_generate_measurement.py
+
+    from influxable import attributes
+    from influxable.measurement import Measurement
+
+
+    class CpuMeasurement(Measurement):
+        measurement_name = 'cpu'
+
+        time = attributes.TimestampFieldAttribute(precision='s')
+        value = attributes.FloatFieldAttribute()
+        host = attributes.TagFieldAttribute()
 
 Influxable API
 --------------
