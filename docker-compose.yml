@@ -9,6 +9,18 @@ services:
     environment:
       - TZ=Europe/Paris
     env_file:
-      - .env
+      - .env.local
     # ports:
       # - "8000:8000"
+  db:
+    # restart: always
+    image: influxdb:1.7.7
+    env_file:
+      - .env.local
+    ports:
+      - 8086:8086 # HTTP API port
+    volumes:
+      - local-influxdb:/var/lib/influxdb
+
+volumes:
+  local-influxdb:
