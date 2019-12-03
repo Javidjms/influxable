@@ -1,3 +1,6 @@
+import os
+from pathlib import Path
+from jinja2 import Environment, FileSystemLoader
 from .attributes import BaseAttribute, GenericFieldAttribute, \
     TagFieldAttribute, TimestampFieldAttribute
 from .db.query import Query, BulkInsertQuery
@@ -6,6 +9,8 @@ from .serializers import MeasurementPointSerializer
 from .exceptions import InfluxDBAttributeValueError
 
 EXTENDED_ATTRIBUTE_PREFIX_NAME = '__attribute__'
+
+TEMPLATE_FILE_NAME = 'simple_measurement.py.jinja'
 
 
 class MeasurementMeta(type):
@@ -217,3 +222,25 @@ class Measurement(object, metaclass=MeasurementMeta):
             str_points += prep_value
             str_points += '\n'
         return BulkInsertQuery(str_points).execute()
+
+
+def SimpleMeasurement(measurement_name, field_names, tag_names=[]):
+    current_dir_path = os.path.dirname(os.path.realpath(__file__))
+    template_folder_path = Path(current_dir_path) / './templates/'
+    template_folder_path = template_folder_path.resolve().as_posix()
+
+    j2_env = Environment(
+        loader=FileSystemLoader(template_folder_path),
+        trim_blocks=True,
+    )
+    rendered_template = j2_env\
+        .get_template(TEMPLATE_FILE_NAME)\
+        .render(
+            measurement_name=measurement_name,
+            field_names=field_names,
+            tag_names=tag_names,
+        )
+
+    exec(rendered_template)
+    anonymous_measurement = locals().get('AnonymousMeasurement')
+    return anonymous_measurement
