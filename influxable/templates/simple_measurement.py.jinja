@@ -10,5 +10,3 @@ class AnonymousMeasurement(Measurement):
 {% for tag_name in tag_names %}
     {{ tag_name }} = influxable.attributes.TagFieldAttribute()
 {% endfor %}
-
-print('AnonymousMeasurement', AnonymousMeasurement)
