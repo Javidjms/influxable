@@ -132,6 +132,15 @@ Parser Classes :
 
 -  PandasSerializer
 
+Simple Measurement
+~~~~~~~~~~~~~~~~~~
+
+.. code:: python
+
+    from influxable.measurement import SimpleMeasurement
+
+    my_measurement = SimpleMeasurement('temperature', ['value'], ['phase'])
+
 Instanciation
 ~~~~~~~~~~~~~
 
@@ -229,6 +238,24 @@ Here is the output generated file :
         time = attributes.TimestampFieldAttribute(precision='s')
         value = attributes.FloatFieldAttribute()
         host = attributes.TagFieldAttribute()
+
+Influxable commands
+-------------------
+
+-  *autogenerate* : automatic generation of measurement classes
+
+.. code:: bash
+
+    influxable autogenerate #(default to auto_generate_measurement.py)
+    influxable autogenerate -o measurement.py
+
+-  *populate* : create a measurement filled with a set of random data
+
+.. code:: bash
+
+    influxable populate
+    influxable populate --min_value 5 --max_value 35 -s 2011-01-01T00:00:00 -id 1
+    influxable populate --help
 
 Influxable API
 --------------
@@ -1971,7 +1998,7 @@ License
 
 `MIT <LICENSE.txt>`__
 
-.. |pypi version| image:: https://img.shields.io/badge/pypi-1.1.2-blue
+.. |pypi version| image:: https://img.shields.io/badge/pypi-1.2.0-blue
    :target: https://pypi.org/project/influxable/
 .. |build status| image:: https://img.shields.io/badge/build-passing-green
 .. |code coverage| image:: https://img.shields.io/badge/coverage-100-green

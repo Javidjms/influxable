@@ -1,0 +1,12 @@
+from influxable.measurement import Measurement
+
+class AnonymousMeasurement(Measurement):
+    import influxable
+    measurement_name = '{{ measurement_name }}'
+    time = influxable.attributes.TimestampFieldAttribute(precision='s')
+{% for field_name in field_names %}
+    {{ field_name }} = influxable.attributes.GenericFieldAttribute()
+{% endfor %}
+{% for tag_name in tag_names %}
+    {{ tag_name }} = influxable.attributes.TagFieldAttribute()
+{% endfor %}
