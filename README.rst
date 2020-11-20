@@ -17,29 +17,33 @@ Table of Contents
 -  `Dependencies <#dependencies>`__
 -  `Installation <#installation>`__
 -  `Getting started <#getting-started>`__
--  `Connection <#connection>`__
--  `Measurement <#measurement>`__
--  `Simple Measurement <#simple-measurement>`__
--  `Instanciation <#instanciation>`__
--  `Query <#query>`__
--  `Saving Data <#saving-data>`__
+
+   -  `Connection <#connection>`__
+   -  `Measurement <#measurement>`__
+   -  `Simple Measurement <#simple-measurement>`__
+   -  `Instanciation <#instanciation>`__
+   -  `Query <#query>`__
+   -  `Saving Data <#saving-data>`__
+
 -  `Auto Generation of Measurements <#auto-generation-of-measurements>`__
 -  `Influxable commands <#influxable-commands>`__
 -  `Influxable API <#influxable-api>`__
--  `Influxable Class <#influxable-class>`__
--  `InfluxDBApi Class <#influxdbapi-class>`__
--  `Connection Class <#connection-class>`__
--  `Measurement Class <#measurement-class>`__
--  `Attributes <#attributes>`__
--  `InfluxDBResponse <#influxdbresponse>`__
--  `Serializers <#serializers>`__
--  `Raw Query <#raw-query>`__
--  `Query Class <#query-class>`__
--  `Query aggregations function <#query-aggregations-function>`__
--  `Query selectors function <#query-selectors-function>`__
--  `Query transformations function <#query-transformations-function>`__
--  `InfluxDBAdmin <#influxdbadmin>`__
--  `Exceptions <#exceptions>`__
+
+   -  `Influxable Class <#influxable-class>`__
+   -  `InfluxDBApi Class <#influxdbapi-class>`__
+   -  `Connection Class <#connection-class>`__
+   -  `Measurement Class <#measurement-class>`__
+   -  `Attributes <#attributes>`__
+   -  `InfluxDBResponse <#influxdbresponse>`__
+   -  `Serializers <#serializers>`__
+   -  `Raw Query <#raw-query>`__
+   -  `Query Class <#query-class>`__
+   -  `Query aggregations function <#query-aggregations-function>`__
+   -  `Query selectors function <#query-selectors-function>`__
+   -  `Query transformations function <#query-transformations-function>`__
+   -  `InfluxDBAdmin <#influxdbadmin>`__
+   -  `Exceptions <#exceptions>`__
+
 -  `Testing <#testing>`__
 -  `Supporting <#supporting>`__
 -  `Versioning <#versioning>`__
