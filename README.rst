@@ -59,8 +59,6 @@ This project is currently in development.
 
 A better documentation and testing scripts will be added in the next release.
 
-And then later, I want to go to the `header <#my-stupendous-header>`__, you create a link, just like any other.
-
 Genesis
 -------
 
