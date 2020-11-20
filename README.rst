@@ -8,12 +8,58 @@ Influxable
 
 A lightweight python ORM / ODM / Client for InfluxDB
 
+Table of Contents
+-----------------
+
+-  `Note <#note>`__
+-  `Genesis <#genesis>`__
+-  `Features <#features>`__
+-  `Dependencies <#dependencies>`__
+-  `Installation <#installation>`__
+-  `Getting started <#getting-started>`__
+
+   -  `Connection <#connection>`__
+   -  `Measurement <#measurement>`__
+   -  `Simple Measurement <#simple-measurement>`__
+   -  `Instanciation <#instanciation>`__
+   -  `Query <#query>`__
+   -  `Saving Data <#saving-data>`__
+
+-  `Auto Generation of Measurements <#auto-generation-of-measurements>`__
+-  `Influxable commands <#influxable-commands>`__
+-  `Influxable API <#influxable-api>`__
+
+   -  `Influxable Class <#influxable-class>`__
+   -  `InfluxDBApi Class <#influxdbapi-class>`__
+   -  `Connection Class <#connection-class>`__
+   -  `Measurement Class <#measurement-class>`__
+   -  `Attributes <#attributes>`__
+   -  `InfluxDBResponse <#influxdbresponse>`__
+   -  `Serializers <#serializers>`__
+   -  `Raw Query <#raw-query>`__
+   -  `Query Class <#query-class>`__
+   -  `Query aggregations function <#query-aggregations-function>`__
+   -  `Query selectors function <#query-selectors-function>`__
+   -  `Query transformations function <#query-transformations-function>`__
+   -  `InfluxDBAdmin <#influxdbadmin>`__
+   -  `Exceptions <#exceptions>`__
+
+-  `Testing <#testing>`__
+-  `Supporting <#supporting>`__
+-  `Versioning <#versioning>`__
+-  `Contributors <#contributors>`__
+-  `Credits <#credits>`__
+-  `References <#references>`__
+-  `License <#license>`__
+
 Note
 ----
 
 This project is currently in development.
 
 A better documentation and testing scripts will be added in the next release.
+
+And then later, I want to go to the `header <#my-stupendous-header>`__, you create a link, just like any other.
 
 Genesis
 -------
@@ -260,8 +306,8 @@ Influxable commands
 Influxable API
 --------------
 
-Influxable
-~~~~~~~~~~
+Influxable Class
+~~~~~~~~~~~~~~~~
 
 The Influxable main app class is a singleton. You can access it via the method *Influxable.get\_instance()*
 
@@ -312,8 +358,8 @@ ex: mymeas,mytag1=1 value=21 1463689680000000000
 -  consistency: sets the write consistency for the point [any,one,quorum,all] (default='all')
 -  retention\_policy\_name: sets the target retention policy for the write (default='DEFAULT')
 
-InfluxDBApi
-~~~~~~~~~~~
+InfluxDBApi Class
+~~~~~~~~~~~~~~~~~
 
 get\_debug\_requests() -> bool:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -355,8 +401,8 @@ ex: mymeas,mytag1=1 value=21 1463689680000000000
 -  consistency: sets the write consistency for the point [any,one,quorum,all] (default='all')
 -  retention\_policy\_name: sets the target retention policy for the write (default='DEFAULT')
 
-Connection
-~~~~~~~~~~
+Connection Class
+~~~~~~~~~~~~~~~~
 
 \_\_init\_\_():
 ^^^^^^^^^^^^^^^
@@ -380,8 +426,8 @@ create() -> Connection:
 
 -  database\_name : name of the database (default = 'default')
 
-Measurement
-~~~~~~~~~~~
+Measurement Class
+~~~~~~~~~~~~~~~~~
 
 fields
 ^^^^^^
@@ -886,8 +932,8 @@ Example :
     str_query = 'SELECT * FROM temperature LIMIT 10'
     res = RawQuery(str_query).execute()
 
-Query
-~~~~~
+Query Class
+~~~~~~~~~~~
 
 You can generate an instance of Query via the initial Query constructor or from a measurement.
 

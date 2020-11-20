@@ -1,6 +1,6 @@
 from .admin import InfluxDBAdmin
 from .criteria import Field
-from .query import Query, RawQuery
+from .query import Query, RawQuery, BulkInsertQuery
 
 
 __all__ = [
@@ -8,4 +8,5 @@ __all__ = [
     'Field',
     'Query',
     'RawQuery',
+    'BulkInsertQuery',
 ]
