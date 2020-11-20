@@ -56,5 +56,6 @@ class InfluxDBApi:
             'consistency': consistency,
             'retention_policy_name': retention_policy_name,
         }
-        request.post(url, params=params, data=points)
+        str_encoded_points = points.encode('utf-8')
+        request.post(url, params=params, data=str_encoded_points)
         return True
