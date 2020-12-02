@@ -676,3 +676,63 @@ class TestTimezoneQuery:
                 .tz('Paris')
 
 
+class TestSelectAggregation:
+    def test_count_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .count()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT COUNT(*) FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_count_with_value_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .count('value')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT COUNT(value) FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_distinct_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .distinct()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT DISTINCT(*) FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_mean_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .mean()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT MEAN(*) FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_sum_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .sum()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT SUM(*) FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_median_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .median()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT MEDIAN(*) FROM "default"'
+        res = query.execute()
+        assert 'results' in res
