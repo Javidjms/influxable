@@ -404,10 +404,25 @@ class SelectAggregation:
     def sum(self, value='*'):
         return self.select(aggregations.Sum(value))
 
-    def _prepare_query(self):
-        select_clause = self.select_clause.format(fields=self.selected_fields)
-        from_clause = self.from_clause.format(measurements=self.selected_measurements)
-        prepared_query = self.initial_query.format(
+
+class GenericQuery(
+    SelectQueryClause,
+    IntoQueryClause,
+    FromQueryClause,
+    WhereQueryClause,
+    LimitQueryClause,
+    SLimitQueryClause,
+    OffsetQueryClause,
+    SOffsetQueryClause,
+    GroupByQueryClause,
+    OrderByQueryClause,
+    TimezoneClause,
+    SelectAggregation,
+):
+    def __init__(self):
+        super(GenericQuery, self).__init__()
+
+
             select_clause=select_clause,
             from_clause=from_clause,
         )
