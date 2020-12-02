@@ -477,3 +477,131 @@ class TestGroupByTagQuery:
                 .group_by(True)
 
 
+class TestGroupByTimeQuery:
+    def test_with_good_interval_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .range_by('12s')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" GROUP BY time(12s)'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_good_shift_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .range_by('12s', shift='1d')
+        prepared_query = query._get_prepared_query()
+        expected_query = 'SELECT * FROM "default" GROUP BY time(12s,1d)'
+        assert prepared_query == expected_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_negative_shift_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .range_by('12s', shift='-1d')
+        prepared_query = query._get_prepared_query()
+        expected_query = 'SELECT * FROM "default" GROUP BY time(12s,-1d)'
+        assert prepared_query == expected_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_one_tag_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .range_by('12s', tags=['tag1'])
+        prepared_query = query._get_prepared_query()
+        expected_query = 'SELECT * FROM "default" GROUP BY time(12s),tag1'
+        assert prepared_query == expected_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_two_tags_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .range_by('12s', tags=['tag1', 'tag2'])
+        prepared_query = query._get_prepared_query()
+        expected_query = 'SELECT * FROM "default" GROUP BY time(12s),tag1,tag2'
+        assert prepared_query == expected_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_fill_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .range_by('12s', fill=3)
+        prepared_query = query._get_prepared_query()
+        expected_query = 'SELECT * FROM "default" GROUP BY time(12s) fill(3)'
+        assert prepared_query == expected_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_shift_and_fill_and_tags_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .range_by('12s', shift='1d', tags=['tag1'], fill=3)
+        prepared_query = query._get_prepared_query()
+        expected_query = 'SELECT * FROM "default" GROUP BY time(12s,1d),tag1 fill(3)'
+        assert prepared_query == expected_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .range_by('12s')\
+            .range_by('5s')
+        prepared_query = query._get_prepared_query()
+        expected_query = 'SELECT * FROM "default" GROUP BY time(5s)'
+        assert prepared_query == expected_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_fill_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .range_by('12s', fill=True)
+
+    def test_with_bad_tags_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .range_by('12s', tags=True)
+
+    def test_with_bad_tags_fail_2(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .range_by('12s', tags=[1, 2])
+
+    def test_with_bad_interval(self):
+        with pytest.raises(exceptions.InfluxDBBadQueryError):
+            query = Query()\
+                .select()\
+                .from_measurements('default')\
+                .range_by('12k')
+            query.execute()
+
+    def test_with_bad_shift(self):
+        with pytest.raises(exceptions.InfluxDBBadQueryError):
+            query = Query()\
+                .select()\
+                .from_measurements('default')\
+                .range_by('12s', shift='12k')
+            query.execute()
+
+
+
