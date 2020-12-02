@@ -23,9 +23,10 @@ def raise_if_error(func):
 
         except requests.exceptions.HTTPError as err:
             if json_res and 'error' in json_res and\
-               json_res['error'].startswith('error parsing query'):
+               json_res['error'].startswith('error parsing query:'):
                 query = params['q']
-                raise exceptions.InfluxDBBadQueryError(query)
+                error = json_res['error'][len('error parsing query:'):]
+                raise exceptions.InfluxDBBadQueryError(query, error)
 
             if json_res and 'error' in json_res and\
                json_res['error'].endswith('invalid number'):
