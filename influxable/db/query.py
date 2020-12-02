@@ -1,16 +1,21 @@
 from functools import lru_cache
+from .criteria import Criteria
 from .function import aggregations
 from ..response import InfluxDBResponse
 from ..serializers import BaseSerializer
-from .. import Influxable
+from .. import Influxable, exceptions
 
 
 class RawQuery:
-    def __init__(self, str_query):
+    def __init__(self, str_query=''):
         self.str_query = str_query
 
     def execute(self):
         return self.raw_response
+
+    @property
+    def query(self):
+        return self.str_query
 
     @property
     def raw_response(self):
