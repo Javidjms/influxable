@@ -226,6 +226,105 @@ class SOffsetQueryClause:
         return soffset_clause
 
 
+class GroupByQueryClause:
+    def __init__(self):
+        super(GroupByQueryClause, self).__init__()
+        self.group_by_clause = 'GROUP BY {}'
+        self.time_subclause = 'time({params})'
+        self.fill_subclause = 'fill({fill})'
+        self.selected_group_by_tags = ['*']
+        self.has_group_by_tags = False
+        self.has_group_by_time = False
+        self.interval_value = None
+        self.shift_value = None
+        self.fill_value = None
+
+    def validate_tags(self, tags):
+        if len(tags) == 0:
+            msg = 'tags should not be empty'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+        for tag in tags:
+            if not isinstance(tag, str):
+                msg = 'tag type must be <str>'
+                raise exceptions.InfluxDBInvalidTypeError(msg)
+
+    def validate_fill(self, value):
+        if type(value) != int:
+            msg = 'fill type must be numeric'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+    def validate_range_by(self, interval, shift, fill, tags):
+        if not isinstance(tags, list) and not isinstance(tags, tuple):
+            msg = 'tags must be a list'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+        if len(tags):
+            self.validate_tags(tags)
+        if fill is not None:
+            self.validate_fill(fill)
+
+    def group_by(self, *tags):
+        if len(tags):
+            self.validate_tags(tags)
+            self.selected_group_by_tags = list(tags)
+        self.has_group_by_time = False
+        self.has_group_by_tags = True
+        return self
+
+    def range_by(self, interval, shift=None, fill=None, tags=[]):
+        self.validate_range_by(interval, shift, fill, tags)
+        if len(tags):
+            self.selected_group_by_tags = tags
+        else:
+            self.selected_group_by_tags = []
+        self.has_group_by_tags = False
+        self.has_group_by_time = True
+        self.interval_value = interval
+        self.shift_value = shift
+        self.fill_value = fill
+        return self
+
+    def _prepare_time_subclause(self):
+        if self.shift_value:
+            params = ','.join([self.interval_value, self.shift_value])
+        else:
+            params = self.interval_value
+        time_subclause = self.time_subclause.format(params=params)
+        return time_subclause
+
+    def _prepare_fill_subclause(self):
+        fill_subclause = ''
+        if self.fill_value:
+            fill_subclause = self.fill_subclause.format(fill=self.fill_value)
+        return fill_subclause
+
+    def _prepare_group_by_tags_clause(self):
+        tags = ', '.join(self.selected_group_by_tags)
+        group_by_clause = self.group_by_clause.format(tags)
+        return group_by_clause
+
+    def _prepare_group_by_time_clause(self):
+        tags = ','.join(self.selected_group_by_tags)
+        time_subclause = self._prepare_time_subclause()
+        fill_subclause = self._prepare_fill_subclause()
+        temp_clause = time_subclause
+        if tags:
+            temp_clause += ','
+            temp_clause += tags
+        if fill_subclause:
+            temp_clause += ' '
+            temp_clause += fill_subclause
+        group_by_clause = self.group_by_clause.format(temp_clause)
+        return group_by_clause
+
+    def _prepare_group_by_clause(self):
+        group_by_clause = ''
+        if self.has_group_by_tags:
+            group_by_clause = self._prepare_group_by_tags_clause()
+        if self.has_group_by_time:
+            group_by_clause = self._prepare_group_by_time_clause()
+        return group_by_clause
+
+
     def count(self, value='*'):
         return self.select(aggregations.Count(value))
 
