@@ -376,3 +376,54 @@ class TestDBOffsetQuery:
                 .offset(10.5)
 
 
+class TestDBSOffsetQuery:
+    def test_with_good_value_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .soffset(10)
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" SOFFSET 10'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .soffset(10)\
+            .soffset(100)
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" SOFFSET 100'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_empty_fail(self):
+        with pytest.raises(TypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .soffset()
+
+    def test_with_negative_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .soffset(-10)
+
+    def test_with_bad_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .soffset(True)
+
+    def test_with_decimal_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .soffset(10.5)
+
+
