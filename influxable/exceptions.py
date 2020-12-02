@@ -38,11 +38,22 @@ class InfluxDBBadRequestError(InfluxDBError):
         super().__init__(self.message)
 
 
-class InfluxDBBadQueryError(InfluxDBError):
-    MESSAGE_PLACEHOLDER = 'Invalid query : {query}'
+class InfluxDBEmptyRequestError(InfluxDBError):
+    MESSAGE_PLACEHOLDER = 'Empty request'
 
-    def __init__(self, query):
-        self.message = self.MESSAGE_PLACEHOLDER.format(query=query)
+    def __init__(self, params):
+        self.message = self.MESSAGE_PLACEHOLDER
+        super().__init__(self.message)
+
+
+class InfluxDBBadQueryError(InfluxDBError):
+    MESSAGE_PLACEHOLDER = 'Invalid query : {query} - {error}'
+
+    def __init__(self, query, error):
+        self.message = self.MESSAGE_PLACEHOLDER.format(
+            query=query,
+            error=error,
+        )
         super().__init__(self.message)
 
 
