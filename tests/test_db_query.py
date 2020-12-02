@@ -152,3 +152,74 @@ class TestDBFromQuery:
                 .from_measurements(True)
 
 
+class TestDBWhereQuery:
+    def test_one_criteria_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .where(
+                Field('value') > 800,
+            )
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" WHERE "value" > 800'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_two_criteria_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .where(
+                Field('value') < 400,
+                Field('value') > 800,
+            )
+        prepared_query = query._get_prepared_query()
+        test_query = 'SELECT * FROM "default" WHERE "value" < 400 AND "value" > 800'
+        assert prepared_query == test_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_function_success(self):
+        pytest.skip()
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .where(
+                Field(Abs('value')) < 400,
+            )
+        prepared_query = query._get_prepared_query()
+        test_query = 'SELECT * FROM "default" WHERE "value" < 400 AND "value" > 800'
+        assert prepared_query == test_query
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .where(
+                Field('value') < 400,
+            )\
+            .where(
+                Field('value') < 500,
+            )
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" WHERE "value" < 500'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_empty_criteria_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .where()
+
+    def test_with_bad_criteria_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .where(True)
+
+
