@@ -138,9 +138,27 @@ class WhereQueryClause:
         return where_clause
 
 
+class LimitQueryClause:
+    def __init__(self):
+        super(LimitQueryClause, self).__init__()
+        self.limit_value = None
+
+    def validate_value(self, value):
+        if type(value) != int or value <= 0:
+            msg = 'value must be a positive integer'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
     def limit(self, value):
+        self.validate_value(value)
         self.limit_value = value
         return self
+
+    def _prepare_limit_clause(self):
+        limit_clause = ''
+        if self.limit_value is not None:
+            limit_clause = 'LIMIT {}'.format(self.limit_value)
+        return limit_clause
+
 
     def slimit(self, value):
         self.slimit_value = value
