@@ -95,6 +95,8 @@ Features
 
 -  Measurement class allowing to make queries in order to fetch/save points (ex: *Measurement.where()*, *Measurement.bulk\_save()*).
 
+-  Group by commands
+
 -  Different serializers for easy data manipulation (ex: *PandasSerializer*).
 
 Dependencies
@@ -1133,6 +1135,123 @@ Render :
 
     SOFFSET 5
 
+into()
+^^^^^^
+
+-  \*measurement
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .into('measurement2')
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 INTO measurement2 FROM measurement1
+
+asc()
+^^^^^
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .asc()
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 ORDER BY ASC
+
+desc()
+^^^^^^
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .desc()
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 ORDER BY DESC
+
+tz()
+^^^^
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .tz('Europe/Paris')
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 tz('Europe/Paris')
+
+group\_by()
+^^^^^^^^^^^
+
+-  \*tags
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .group_by('tag_1')
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 GROUP BY tag_1
+
+range\_by()
+^^^^^^^^^^^
+
+-  \*interval
+-  \*shift
+-  \*fill
+-  \*tags
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .range_by('12s', shift='1d', tags=['tag1'], fill=3)
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 GROUP BY time(12s,1d),tag1 fill(3)'
+
 execute()
 ^^^^^^^^^
 
@@ -2062,7 +2181,7 @@ License
 
 `MIT <LICENSE.txt>`__
 
-.. |pypi version| image:: https://img.shields.io/badge/pypi-1.2.0-blue
+.. |pypi version| image:: https://img.shields.io/badge/pypi-1.2.1-blue
    :target: https://pypi.org/project/influxable/
 .. |build status| image:: https://img.shields.io/badge/build-passing-green
 .. |code coverage| image:: https://img.shields.io/badge/coverage-100-green
