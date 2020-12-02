@@ -39,6 +39,9 @@ def raise_if_error(func):
                 raise exceptions.InfluxDBInvalidTimestampError(points)
 
             if res.status_code == 400:
+                query = params['q']
+                if query == '':
+                    raise exceptions.InfluxDBEmptyRequestError(params)
                 raise exceptions.InfluxDBBadRequestError(params)
             if res.status_code == 401:
                 raise exceptions.InfluxDBUnauthorizedError(err)
