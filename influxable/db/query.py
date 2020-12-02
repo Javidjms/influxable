@@ -59,6 +59,31 @@ class SelectQueryClause:
         return self.select_clause.format(fields=joined_fields)
 
 
+class IntoQueryClause:
+    def __init__(self):
+        super(IntoQueryClause, self).__init__()
+        self.into_clause = 'INTO {measurement}'
+        self.selected_into_measurement = None
+
+    def validate_measurement(self, measurement):
+        if not isinstance(measurement, str):
+            msg = 'measurement type must be <str>'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+    def into(self, measurement):
+        self.validate_measurement(measurement)
+        self.selected_into_measurement = measurement
+        return self
+
+    def _prepare_into_clause(self):
+        into_clause = ''
+        if self.selected_into_measurement is not None:
+            into_clause = self.into_clause.format(
+                measurement=self.selected_into_measurement,
+            )
+        return into_clause
+
+
         self.selected_measurements = 'default'
         self.limit_value = None
         self.slimit_value = None
