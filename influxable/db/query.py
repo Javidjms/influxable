@@ -325,6 +325,27 @@ class GroupByQueryClause:
         return group_by_clause
 
 
+class OrderByQueryClause:
+    def __init__(self):
+        super(OrderByQueryClause, self).__init__()
+        self.is_chronological_sort = None
+
+    def asc(self):
+        self.is_chronological_sort = True
+        return self
+
+    def desc(self):
+        self.is_chronological_sort = False
+        return self
+
+    def _prepare_order_by_clause(self):
+        order_by_clause = ''
+        if self.is_chronological_sort is not None:
+            order_by_value = 'ASC' if self.is_chronological_sort else 'DESC'
+            order_by_clause = 'ORDER BY {}'.format(order_by_value)
+        return order_by_clause
+
+
     def count(self, value='*'):
         return self.select(aggregations.Count(value))
 
