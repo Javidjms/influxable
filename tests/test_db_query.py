@@ -110,3 +110,45 @@ class TestDBIntoQuery:
                 .into(True)
 
 
+class TestDBFromQuery:
+    def test_one_measurement_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_two_measurement_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default', 'default_2')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default","default_2"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .from_measurements('default2')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default2"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_empty_measurement_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements()
+
+    def test_with_bad_measurement_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements(True)
+
+
