@@ -13,6 +13,7 @@ Table of Contents
 
 -  `Note <#note>`__
 -  `Genesis <#genesis>`__
+-  `Changelog <#changelog>`__
 -  `Features <#features>`__
 -  `Dependencies <#dependencies>`__
 -  `Installation <#installation>`__
@@ -65,6 +66,25 @@ Genesis
 I worked on a project with InfluxDB. I needed to build an API for InfluxDB and to plug with Python libraries (scipy, pandas, etc ...).
 
 That's why I decided to create this repository in order to deal with InfluxDB in a smooth way and to manipulate Python object.
+
+Changelog
+---------
+
+1.3.0
+~~~~~
+
+-  Add *group\_by()* method for *GROUP BY tags* instructions
+
+-  Add *range()* method for *GROUP BY time()* instructions
+
+-  Add *into()* method for *INTO* instructions
+
+-  Add *tz()* method
+
+1.2.1
+~~~~~
+
+-  Handle chinese characters.
 
 Features
 --------
