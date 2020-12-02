@@ -80,3 +80,33 @@ class TestDBSelectQuery:
                 .from_measurements('default')
 
 
+class TestDBIntoQuery:
+    def test_one_measurement_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('cpu')\
+            .into('cpu_copy')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * INTO cpu_copy FROM "cpu"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .into('cpu_copy')\
+            .into('cpu_copy_2')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * INTO cpu_copy_2 FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_bad_measurement_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('cpu')\
+                .into(True)
+
+
