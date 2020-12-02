@@ -27,14 +27,38 @@ class RawQuery:
         return instance.execute_query(query=self.str_query, method='post')
 
 
-class Query(RawQuery):
+class SelectQueryClause:
     def __init__(self):
-        self.initial_query = '{select_clause} {from_clause}'
-        self.from_clause = 'FROM {measurements}'
+        super(SelectQueryClause, self).__init__()
         self.select_clause = 'SELECT {fields}'
-        self.where_clause = ' WHERE {criteria}'
-        self.selected_fields = '*'
-        self.selected_criteria = []
+        self.selected_fields = []
+        self.default_selected_fields = '*'
+
+    def validate_field(self, field):
+        if not isinstance(field, str):
+            msg = 'field type must be <str>'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+    def select(self, *fields):
+        selected_fields = []
+        for field in fields:
+            if not hasattr(field, 'evaluate'):
+                self.validate_field(field)
+                evaluated_field = str(field)
+            else:
+                evaluated_field = field.evaluate()
+            selected_fields.append(evaluated_field)
+        self.selected_fields = selected_fields
+        return self
+
+    def _prepare_select_clause(self):
+        if len(self.selected_fields):
+            joined_fields = ','.join(self.selected_fields)
+        else:
+            joined_fields = self.default_selected_fields
+        return self.select_clause.format(fields=joined_fields)
+
+
         self.selected_measurements = 'default'
         self.limit_value = None
         self.slimit_value = None
