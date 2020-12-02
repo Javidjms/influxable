@@ -605,3 +605,37 @@ class TestGroupByTimeQuery:
 
 
 
+class TestOrderByQuery:
+    def test_asc_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .asc()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" ORDER BY ASC'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_desc_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .desc()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" ORDER BY DESC'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .desc()\
+            .asc()\
+            .desc()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" ORDER BY DESC'
+        res = query.execute()
+        assert 'results' in res
+
+
