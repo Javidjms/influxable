@@ -160,9 +160,27 @@ class LimitQueryClause:
         return limit_clause
 
 
+class SLimitQueryClause:
+    def __init__(self):
+        super(SLimitQueryClause, self).__init__()
+        self.slimit_value = None
+
+    def validate_value(self, value):
+        if type(value) != int or value <= 0:
+            msg = 'value must be a positive integer'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
     def slimit(self, value):
+        self.validate_value(value)
         self.slimit_value = value
         return self
+
+    def _prepare_slimit_clause(self):
+        slimit_clause = ''
+        if self.slimit_value is not None:
+            slimit_clause = 'SLIMIT {}'.format(self.slimit_value)
+        return slimit_clause
+
 
     def offset(self, value):
         self.offset_value = value
