@@ -26,3 +26,57 @@ class TestDBRawQuery:
             raw_query.execute()
 
 
+class TestDBSelectQuery:
+    def test_all_fields_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_one_field_success(self):
+        query = Query()\
+            .select('field1')\
+            .from_measurements('default')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT field1 FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_two_field_success(self):
+        query = Query()\
+            .select('field1', 'field2')\
+            .from_measurements('default')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT field1,field2 FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_function_success(self):
+        query = Query()\
+            .select(Abs('field1'))\
+            .from_measurements('default')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT ABS(field1) FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select('field1')\
+            .select('field2')\
+            .from_measurements('default')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT field2 FROM "default"'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_none_field_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select(None)\
+                .from_measurements('default')
+
+
