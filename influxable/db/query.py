@@ -204,9 +204,27 @@ class OffsetQueryClause:
         return offset_clause
 
 
+class SOffsetQueryClause:
+    def __init__(self):
+        super(SOffsetQueryClause, self).__init__()
+        self.soffset_value = None
+
+    def validate_value(self, value):
+        if type(value) != int or value <= 0:
+            msg = 'value must be a positive integer'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
     def soffset(self, value):
+        self.validate_value(value)
         self.soffset_value = value
         return self
+
+    def _prepare_soffset_clause(self):
+        soffset_clause = ''
+        if self.soffset_value is not None:
+            soffset_clause = 'SOFFSET {}'.format(self.soffset_value)
+        return soffset_clause
+
 
     def count(self, value='*'):
         return self.select(aggregations.Count(value))
