@@ -182,9 +182,27 @@ class SLimitQueryClause:
         return slimit_clause
 
 
+class OffsetQueryClause:
+    def __init__(self):
+        super(OffsetQueryClause, self).__init__()
+        self.offset_value = None
+
+    def validate_value(self, value):
+        if type(value) != int or value <= 0:
+            msg = 'value must be a positive integer'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
     def offset(self, value):
+        self.validate_value(value)
         self.offset_value = value
         return self
+
+    def _prepare_offset_clause(self):
+        offset_clause = ''
+        if self.offset_value is not None:
+            offset_clause = 'OFFSET {}'.format(self.offset_value)
+        return offset_clause
+
 
     def soffset(self, value):
         self.soffset_value = value
