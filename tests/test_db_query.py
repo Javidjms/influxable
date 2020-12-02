@@ -274,3 +274,54 @@ class TestDBLimitQuery:
                 .limit(10.5)
 
 
+class TestDBSLimitQuery:
+    def test_with_good_value_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .slimit(10)
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" SLIMIT 10'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .slimit(10)\
+            .slimit(100)
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" SLIMIT 100'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_empty_fail(self):
+        with pytest.raises(TypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .slimit()
+
+    def test_with_negative_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .slimit(-10)
+
+    def test_with_bad_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .slimit(True)
+
+    def test_with_decimal_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .slimit(10.5)
+
+
