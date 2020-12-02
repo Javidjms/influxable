@@ -84,24 +84,31 @@ class IntoQueryClause:
         return into_clause
 
 
+class FromQueryClause:
+    def __init__(self):
+        super(FromQueryClause, self).__init__()
+        self.from_clause = 'FROM {measurements}'
         self.selected_measurements = 'default'
-        self.limit_value = None
-        self.slimit_value = None
-        self.offset_value = None
-        self.soffset_value = None
+
+    def validate_measurements(self, measurements):
+        if len(measurements) == 0:
+            msg = 'measurements should not be empty'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+        for measurement in measurements:
+            if not isinstance(measurement, str):
+                msg = 'measurement type must be <str>'
+                raise exceptions.InfluxDBInvalidTypeError(msg)
 
     def from_measurements(self, *measurements):
+        self.validate_measurements(measurements)
         quoted_measurements = ['"{}"'.format(m) for m in measurements]
-        self.selected_measurements = ', '.join(quoted_measurements)
+        self.selected_measurements = ','.join(quoted_measurements)
         return self
 
-    def select(self, *fields):
-        evaluated_fields = []
-        for f in fields:
-            evaluated_field = f.evaluate() if hasattr(f, 'evaluate') else f
-            evaluated_fields.append(evaluated_field)
-        self.selected_fields = ', '.join(evaluated_fields)
-        return self
+    def _prepare_from_clause(self):
+        return self.from_clause.format(measurements=self.selected_measurements)
+
+
 
     def where(self, *criteria):
         self.selected_criteria = list(criteria)
