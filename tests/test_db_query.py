@@ -639,3 +639,40 @@ class TestOrderByQuery:
         assert 'results' in res
 
 
+class TestTimezoneQuery:
+    def test_with_good_value_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .tz('Europe/Paris')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" tz(\'Europe/Paris\')'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .tz('Europe/London')\
+            .tz('Europe/Paris')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" tz(\'Europe/Paris\')'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_bad_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .tz(True)
+
+    def test_with_bad_timezone_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .tz('Paris')
+
+
