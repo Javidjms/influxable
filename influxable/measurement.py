@@ -30,6 +30,9 @@ class MeasurementMeta(type):
     def _factory_get_query(cls):
         def get_query():
             class MeasurementQuery(Query):
+                def __init__(self):
+                    super(MeasurementQuery, self).__init__()
+
                 def format(self, result, parser_class=cls.parser_class):
                     return parser_class(result, cls).convert()
 

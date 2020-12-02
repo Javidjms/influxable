@@ -13,6 +13,7 @@ Table of Contents
 
 -  `Note <#note>`__
 -  `Genesis <#genesis>`__
+-  `Changelog <#changelog>`__
 -  `Features <#features>`__
 -  `Dependencies <#dependencies>`__
 -  `Installation <#installation>`__
@@ -59,14 +60,31 @@ This project is currently in development.
 
 A better documentation and testing scripts will be added in the next release.
 
-And then later, I want to go to the `header <#my-stupendous-header>`__, you create a link, just like any other.
-
 Genesis
 -------
 
 I worked on a project with InfluxDB. I needed to build an API for InfluxDB and to plug with Python libraries (scipy, pandas, etc ...).
 
 That's why I decided to create this repository in order to deal with InfluxDB in a smooth way and to manipulate Python object.
+
+Changelog
+---------
+
+1.3.0
+~~~~~
+
+-  Add *group\_by()* method for *GROUP BY tags* instructions
+
+-  Add *range()* method for *GROUP BY time()* instructions
+
+-  Add *into()* method for *INTO* instructions
+
+-  Add *tz()* method
+
+1.2.1
+~~~~~
+
+-  Handle chinese characters.
 
 Features
 --------
@@ -76,6 +94,8 @@ Features
 -  Admin commands allowing to manage the database (ex: *create\_user()*, *show\_series()*).
 
 -  Measurement class allowing to make queries in order to fetch/save points (ex: *Measurement.where()*, *Measurement.bulk\_save()*).
+
+-  Group by commands
 
 -  Different serializers for easy data manipulation (ex: *PandasSerializer*).
 
@@ -1115,6 +1135,123 @@ Render :
 
     SOFFSET 5
 
+into()
+^^^^^^
+
+-  \*measurement
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .into('measurement2')
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 INTO measurement2 FROM measurement1
+
+asc()
+^^^^^
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .asc()
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 ORDER BY ASC
+
+desc()
+^^^^^^
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .desc()
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 ORDER BY DESC
+
+tz()
+^^^^
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .tz('Europe/Paris')
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 tz('Europe/Paris')
+
+group\_by()
+^^^^^^^^^^^
+
+-  \*tags
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .group_by('tag_1')
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 GROUP BY tag_1
+
+range\_by()
+^^^^^^^^^^^
+
+-  \*interval
+-  \*shift
+-  \*fill
+-  \*tags
+
+Example :
+
+.. code:: python
+
+    query = Query()\
+      .select('param1')\
+      .from_measurements('measurement1')\
+      .range_by('12s', shift='1d', tags=['tag1'], fill=3)
+
+Render :
+
+.. code:: sql
+
+    SELECT param1 FROM measurement1 GROUP BY time(12s,1d),tag1 fill(3)'
+
 execute()
 ^^^^^^^^^
 
@@ -2044,7 +2181,7 @@ License
 
 `MIT <LICENSE.txt>`__
 
-.. |pypi version| image:: https://img.shields.io/badge/pypi-1.2.0-blue
+.. |pypi version| image:: https://img.shields.io/badge/pypi-1.3.0-blue
    :target: https://pypi.org/project/influxable/
 .. |build status| image:: https://img.shields.io/badge/build-passing-green
 .. |code coverage| image:: https://img.shields.io/badge/coverage-100-green
