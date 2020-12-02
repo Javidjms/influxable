@@ -427,3 +427,53 @@ class TestDBSOffsetQuery:
                 .soffset(10.5)
 
 
+class TestGroupByTagQuery:
+    def test_with_all_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .group_by()
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" GROUP BY *'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_one_tag_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .group_by('tag_1')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" GROUP BY tag_1'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_two_tag_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .group_by('tag_1', 'tag_2')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" GROUP BY tag_1, tag_2'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_chain_success(self):
+        query = Query()\
+            .select()\
+            .from_measurements('default')\
+            .group_by('tag_1', 'tag_2')\
+            .group_by('tag_3')
+        prepared_query = query._get_prepared_query()
+        assert prepared_query == 'SELECT * FROM "default" GROUP BY tag_3'
+        res = query.execute()
+        assert 'results' in res
+
+    def test_with_bad_value_fail(self):
+        with pytest.raises(exceptions.InfluxDBInvalidTypeError):
+            Query()\
+                .select()\
+                .from_measurements('default')\
+                .group_by(True)
+
+
