@@ -423,31 +423,59 @@ class GenericQuery(
         super(GenericQuery, self).__init__()
 
 
+class Query(GenericQuery, RawQuery):
+    def __init__(self):
+        super(Query, self).__init__()
+
+    def _get_initial_query(self):
+        initial_query = ' '.join([
+            '{select_clause}',
+            '{into_clause}',
+            '{from_clause}',
+            '{where_clause}',
+            '{limit_clause}',
+            '{offset_clause}',
+            '{slimit_clause}',
+            '{soffset_clause}',
+            '{group_by_clause}',
+            '{order_by_clause}',
+            '{timezone_clause}',
+        ])
+        return initial_query
+
+    def _get_prepared_query(self):
+        initial_query = self._get_initial_query()
+        select_clause = self._prepare_select_clause()
+        into_clause = self._prepare_into_clause()
+        from_clause = self._prepare_from_clause()
+        where_clause = self._prepare_where_clause()
+        limit_clause = self._prepare_limit_clause()
+        offset_clause = self._prepare_offset_clause()
+        slimit_clause = self._prepare_slimit_clause()
+        soffset_clause = self._prepare_soffset_clause()
+        group_by_clause = self._prepare_group_by_clause()
+        order_by_clause = self._prepare_order_by_clause()
+        timezone_clause = self._prepare_timezone_clause()
+        prepared_query = initial_query.format(
             select_clause=select_clause,
+            into_clause=into_clause,
             from_clause=from_clause,
+            where_clause=where_clause,
+            limit_clause=limit_clause,
+            offset_clause=offset_clause,
+            slimit_clause=slimit_clause,
+            soffset_clause=soffset_clause,
+            group_by_clause=group_by_clause,
+            order_by_clause=order_by_clause,
+            timezone_clause=timezone_clause,
         )
-        if len(self.selected_criteria):
-            criteria = [c.evaluate() for c in self.selected_criteria]
-            eval_criteria = ' AND '.join(criteria)
-            self.where_clause = self.where_clause.format(criteria=eval_criteria)
-            prepared_query += self.where_clause
-        if self.limit_value is not None:
-            self.limit_clause = ' LIMIT {}'.format(self.limit_value)
-            prepared_query += self.limit_clause
-        if self.offset_value is not None:
-            self.offset_clause = ' OFFSET {}'.format(self.offset_value)
-            prepared_query += self.offset_clause
-        if self.slimit_value is not None:
-            self.slimit_clause = ' SLIMIT {}'.format(self.slimit_value)
-            prepared_query += self.slimit_clause
-        if self.soffset_value is not None:
-            self.soffset_clause = ' SOFFSET {}'.format(self.soffset_value)
-            prepared_query += self.soffset_clause
-        print('prepared_query', prepared_query)
+        prepared_query = ' '.join(prepared_query.split())
+        prepared_query = prepared_query.strip()
         return prepared_query
 
     def execute(self):
-        prepared_query = self._prepare_query()
+        prepared_query = self._get_prepared_query()
+        # print('prepared_query', prepared_query)
         self.str_query = prepared_query
         return super().execute()
 
