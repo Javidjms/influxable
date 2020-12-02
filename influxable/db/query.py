@@ -109,10 +109,34 @@ class FromQueryClause:
         return self.from_clause.format(measurements=self.selected_measurements)
 
 
+class WhereQueryClause:
+    def __init__(self):
+        super(WhereQueryClause, self).__init__()
+        self.where_clause = 'WHERE {criteria}'
+        self.selected_criteria = []
+
+    def validate_criteria(self, criteria):
+        if len(criteria) == 0:
+            msg = 'criteria should not be empty'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+        for c in criteria:
+            if not isinstance(c, Criteria):
+                msg = 'Invalid criteria'
+                raise exceptions.InfluxDBInvalidTypeError(msg)
 
     def where(self, *criteria):
+        self.validate_criteria(criteria)
         self.selected_criteria = list(criteria)
         return self
+
+    def _prepare_where_clause(self):
+        where_clause = ''
+        if len(self.selected_criteria):
+            criteria = [c.evaluate() for c in self.selected_criteria]
+            eval_criteria = ' AND '.join(criteria)
+            where_clause = self.where_clause.format(criteria=eval_criteria)
+        return where_clause
+
 
     def limit(self, value):
         self.limit_value = value
