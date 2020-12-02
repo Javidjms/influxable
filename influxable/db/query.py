@@ -346,6 +346,37 @@ class OrderByQueryClause:
         return order_by_clause
 
 
+class TimezoneClause:
+    def __init__(self):
+        super(TimezoneClause, self).__init__()
+        self.timezone_clause = 'tz(\'{timezone}\')'
+        self.timezone_value = None
+
+    def validate_timezone(self, value):
+        import pytz
+        if not isinstance(value, str):
+            msg = 'value must be a timezone string'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+        if value not in pytz.all_timezones:
+            msg = 'value is an invalid timezone'
+            raise exceptions.InfluxDBInvalidTypeError(msg)
+
+    def tz(self, value):
+        self.validate_timezone(value)
+        self.timezone_value = value
+        return self
+
+    def _prepare_timezone_clause(self):
+        timezone_value = ''
+        if self.timezone_value is not None:
+            timezone_value = self.timezone_clause.format(
+                timezone=self.timezone_value,
+            )
+        return timezone_value
+
+
+class SelectAggregation:
     def count(self, value='*'):
         return self.select(aggregations.Count(value))
 
