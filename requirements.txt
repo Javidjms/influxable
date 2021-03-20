@@ -1,6 +1,6 @@
 arrow==0.15.2
 Click==7.0
-Jinja2==2.10.3
+Jinja2==2.11.3
 numpy>=1.17.2
 pandas>=0.25.1
 pathlib==1.0.1
