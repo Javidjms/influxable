@@ -1,6 +1,6 @@
 from setuptools import find_packages, setup
 
-VERSION = '1.3.1'
+VERSION = '1.3.2'
 
 with open('requirements.txt', 'r') as f:
     requirements = [x.strip() for x in f if x.strip()]
