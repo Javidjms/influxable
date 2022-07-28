@@ -180,13 +180,14 @@ class Measurement(object, metaclass=MeasurementMeta):
         for attr_group in attributes_groups:
             prep_value_group = []
             for attr in attr_group:
-                attr_prep_value = attr.get_prep_value()
-                attr_name = attr.name or attr.attribute_name
-                if not isinstance(attr, TimestampFieldAttribute):
-                    prep_value = '{}={}'.format(attr_name, attr_prep_value)
-                else:
-                    prep_value = '{}'.format(attr_prep_value)
-                prep_value_group.append(prep_value)
+                if attr.raw_value is not None:
+                    attr_prep_value = attr.get_prep_value()
+                    attr_name = attr.name or attr.attribute_name
+                    if not isinstance(attr, TimestampFieldAttribute):
+                        prep_value = '{}={}'.format(attr_name, attr_prep_value)
+                    else:
+                        prep_value = '{}'.format(attr_prep_value)
+                    prep_value_group.append(prep_value)
             str_prep_value_group = ','.join(prep_value_group)
             prep_value_groups.append(str_prep_value_group)
 
