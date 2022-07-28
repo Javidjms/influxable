@@ -4,11 +4,19 @@ from .decorators import raise_if_error
 
 
 class InfluxDBRequest(requests.Session):
-    def __init__(self, base_url, database_name, auth):
+    def __init__(self, base_url, database_name, auth=None, token=None):
         super().__init__()
         self.base_url = base_url
         self.database_name = database_name
-        self.auth = auth
+        # Add token integration with Influxdb OSS 2.0
+        if token is not None and token != '':
+            self.headers = {
+                'Authorization': f'Token {token}',
+                'Accept': 'application/json',
+                'Content-type': 'application/json',
+            }
+        elif auth is not None and token != '':
+            self.auth = auth
 
     @raise_if_error
     def request(self, method, url, **kwargs):

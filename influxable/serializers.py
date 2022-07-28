@@ -50,7 +50,9 @@ class FlatSimpleResultSerializer(BaseSerializer):
     def convert(self):
         serie = self.response.main_serie
         values = serie.values if serie else []
-        flatten_serie = list(itertools.chain(*values))
+        flatten_serie = []
+        if values:
+            flatten_serie = list(itertools.chain(*values))
         return flatten_serie
 
 

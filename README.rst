@@ -70,6 +70,11 @@ That's why I decided to create this repository in order to deal with InfluxDB in
 Changelog
 ---------
 
+1.4.0
+~~~~~
+
+-  Add integration with Influxdb OSS 2.0 Authentication (Experimental)
+
 1.3.0
 ~~~~~
 
@@ -277,6 +282,33 @@ You can also create data with *BulkInsertQuery*
 
     raw_query = BulkInsertQuery(str_query)
     res = raw_query.execute()
+
+Integration with OSS 2.0 (Experimental)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code:: bash
+
+
+    # Create the user
+    influx user create --name admin -- password admin
+
+    # Create the auth (in order to retrieve the token)
+    influx auth create --user admin --operator
+
+    # Create the config
+    influx config create --config-name defaut --host-url http://localhost:8086 --token NjIYagimNbX5MaZfisDsvuGGvtULdqIY-Wt8EP4eGk-3P9KftDtZjxXU4GocTMTfM0eglkuFJQyA9uF82ZeEoA== --org MyOrganisation
+
+    # Create the bucket
+    influx bucket create --name default
+
+    # List your bucket
+    influx bucket list
+
+    ID          Name        Retention   Shard group duration    Organization ID     Schema Type
+    4688727b9c388f5f    default     infinite    168h0m0s        b89cbec9670f29f8    implicit
+
+    # Create the dbrp (link database api v1 with bucket api v2)
+    influx v1 dbrp create --db default --rp default --bucket-id  4688727b9c388f5f --default
 
 Auto Generation of Measurements
 -------------------------------
@@ -2181,7 +2213,7 @@ License
 
 `MIT <LICENSE.txt>`__
 
-.. |pypi version| image:: https://img.shields.io/badge/pypi-1.3.3-blue
+.. |pypi version| image:: https://img.shields.io/badge/pypi-1.4.0-blue
    :target: https://pypi.org/project/influxable/
 .. |build status| image:: https://img.shields.io/badge/build-passing-green
 .. |code coverage| image:: https://img.shields.io/badge/coverage-100-green

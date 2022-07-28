@@ -5,6 +5,8 @@ from . import exceptions
 
 def raise_if_error(func):
     def func_wrapper(*args, **kwargs):
+        json_res = {}
+        res = None
         try:
             request = args[0]
             params = kwargs.get('params', {})
@@ -38,12 +40,12 @@ def raise_if_error(func):
                 points = kwargs['data']
                 raise exceptions.InfluxDBInvalidTimestampError(points)
 
-            if res.status_code == 400:
+            if res and res.status_code == 400:
                 query = params['q']
                 if query == '':
                     raise exceptions.InfluxDBEmptyRequestError(params)
                 raise exceptions.InfluxDBBadRequestError(params)
-            if res.status_code == 401:
+            if res and res.status_code == 401:
                 raise exceptions.InfluxDBUnauthorizedError(err)
             raise err
         return res

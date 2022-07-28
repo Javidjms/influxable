@@ -13,11 +13,17 @@ class Connection:
             settings.INFLUXDB_DATABASE_NAME,
         )
 
-        self.auth = (self.user, self.password)
+        self.token = kwargs.get('token', settings.INFLUXDB_AUTH_TOKEN)
+        if self.user and self.password:
+            self.auth = (self.user, self.password)
+        else:
+            self.auth = None
+
         self.request = InfluxDBRequest(
             self.base_url,
             self.database_name,
             auth=self.auth,
+            token=self.token,
         )
         self.stream = False
         self.check_if_connection_reached()
