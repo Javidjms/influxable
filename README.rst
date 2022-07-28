@@ -136,6 +136,10 @@ You can set your environment variable for the connection of InfluxDB in order to
     #Optional
     INFLUXDB_USER=admin
     INFLUXDB_PASSWORD=changme
+    INFLUXDB_PASSWORD=changme
+
+    # OSS 2.0
+    INFLUXDB_AUTH_TOKEN=mytoken
 
 Then you just have to import the influxable package and create an instance of *Influxable* :
 
@@ -163,6 +167,14 @@ You can also set connection variable in *Influxable* constructor :
         database_name='default',
         user='admin',
         password='changeme',
+    )
+
+    # With token authentication
+
+    client = Influxable(
+        base_url='http://localhost:8086',
+        database_name='default',
+        token='my_token',
     )
 
 Measurement
@@ -288,12 +300,17 @@ Integration with OSS 2.0 (Experimental)
 
 .. code:: bash
 
-
     # Create the user
     influx user create --name admin -- password admin
 
     # Create the auth (in order to retrieve the token)
     influx auth create --user admin --operator
+
+    # List yours tokens
+    influx auth list
+
+    # (Optional) export the INFLUXDB_AUTH_TOKEN
+    INFLUXDB_AUTH_TOKEN=my-token
 
     # Create the config
     influx config create --config-name defaut --host-url http://localhost:8086 --token NjIYagimNbX5MaZfisDsvuGGvtULdqIY-Wt8EP4eGk-3P9KftDtZjxXU4GocTMTfM0eglkuFJQyA9uF82ZeEoA== --org MyOrganisation
