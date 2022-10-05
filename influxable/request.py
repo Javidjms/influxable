@@ -9,13 +9,13 @@ class InfluxDBRequest(requests.Session):
         self.base_url = base_url
         self.database_name = database_name
         # Add token integration with Influxdb OSS 2.0
-        if token is not None and token != '':
+        if token:
             self.headers = {
                 'Authorization': f'Token {token}',
                 'Accept': 'application/json',
                 'Content-type': 'application/json',
             }
-        elif auth is not None and token != '':
+        elif auth:
             self.auth = auth
 
     @raise_if_error
