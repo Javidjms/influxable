@@ -430,15 +430,15 @@ class Query(GenericQuery, RawQuery):
     def _get_initial_query(self):
         initial_query = ' '.join([
             '{select_clause}',
-            '{from_clause}',
             '{into_clause}',
+            '{from_clause}',
             '{where_clause}',
-            '{group_by_clause}',
-            '{order_by_clause}',
             '{limit_clause}',
             '{offset_clause}',
             '{slimit_clause}',
             '{soffset_clause}',
+            '{group_by_clause}',
+            '{order_by_clause}',
             '{timezone_clause}',
         ])
         return initial_query
@@ -446,27 +446,27 @@ class Query(GenericQuery, RawQuery):
     def _get_prepared_query(self):
         initial_query = self._get_initial_query()
         select_clause = self._prepare_select_clause()
-        from_clause = self._prepare_from_clause()
         into_clause = self._prepare_into_clause()
+        from_clause = self._prepare_from_clause()
         where_clause = self._prepare_where_clause()
-        group_by_clause = self._prepare_group_by_clause()
-        order_by_clause = self._prepare_order_by_clause()
         limit_clause = self._prepare_limit_clause()
         offset_clause = self._prepare_offset_clause()
         slimit_clause = self._prepare_slimit_clause()
         soffset_clause = self._prepare_soffset_clause()
+        group_by_clause = self._prepare_group_by_clause()
+        order_by_clause = self._prepare_order_by_clause()
         timezone_clause = self._prepare_timezone_clause()
         prepared_query = initial_query.format(
             select_clause=select_clause,
-            from_clause=from_clause,
             into_clause=into_clause,
+            from_clause=from_clause,
             where_clause=where_clause,
-            group_by_clause=group_by_clause,
-            order_by_clause=order_by_clause,
             limit_clause=limit_clause,
             offset_clause=offset_clause,
             slimit_clause=slimit_clause,
             soffset_clause=soffset_clause,
+            group_by_clause=group_by_clause,
+            order_by_clause=order_by_clause,
             timezone_clause=timezone_clause,
         )
         prepared_query = ' '.join(prepared_query.split())
