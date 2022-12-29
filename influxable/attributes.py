@@ -236,7 +236,7 @@ class TimestampFieldAttribute(BaseAttribute):
     def clean(self, value):
         super(TimestampFieldAttribute, self).clean(value)
         if value is None and self.auto_now:
-            timestamp = arrow.now().timestamp
+            timestamp = int(arrow.now().timestamp())
             self._value = self.to_python(timestamp)
             self.formatted_timestamp = self.convert_to_nanoseconds(timestamp)
         elif value:
@@ -289,7 +289,7 @@ class DateTimeFieldAttribute(TimestampFieldAttribute):
         return arrow.get(self._value).format(self.str_format)
 
     def to_influx(self, value):
-        timestamp = arrow.get(value).timestamp
+        timestamp = int(arrow.get(value).timestamp())
         nanoseconds = self.convert_to_nanoseconds(timestamp)
         str_value = str(nanoseconds)
         return "{}".format(str_value)

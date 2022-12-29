@@ -49,7 +49,7 @@ class Populate():
                 points.append(PopulateMeasurement(
                     phase=random.choice(tags),
                     value=random.uniform(*value_range),
-                    time=current_date.timestamp,
+                    time=int(current_date.timestamp()),
                 ))
                 current_date = current_date.shift(minutes=-interval_delay)
                 count += 1
