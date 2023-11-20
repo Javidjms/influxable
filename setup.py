@@ -26,7 +26,7 @@ setup(
     package_data={'influxable': ['*.jinja']},
     include_package_data=True,
     install_requires=requirements,
-    python_requires='>=3.0.*',
+    python_requires='>=3.4',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
