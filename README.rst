@@ -70,6 +70,13 @@ That's why I decided to create this repository in order to deal with InfluxDB in
 Changelog
 ---------
 
+1.4.1
+~~~~~
+
+-  Fix Setup Issue 
+-  Merge PR Bump Security Issues
+
+
 1.4.0
 ~~~~~
 
@@ -2230,7 +2237,7 @@ License
 
 `MIT <LICENSE.txt>`__
 
-.. |pypi version| image:: https://img.shields.io/badge/pypi-1.4.0-blue
+.. |pypi version| image:: https://img.shields.io/badge/pypi-1.4.1-blue
    :target: https://pypi.org/project/influxable/
 .. |build status| image:: https://img.shields.io/badge/build-passing-green
 .. |code coverage| image:: https://img.shields.io/badge/coverage-100-green
