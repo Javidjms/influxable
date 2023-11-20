@@ -6,4 +6,4 @@ pandas>=0.25.1
 pathlib==1.0.1
 pyhumps==1.6.1
 requests>=2.22.0
-wheel==0.33.4
+wheel==0.38.1
